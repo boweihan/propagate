@@ -6,7 +6,9 @@ import { StyleSheet,
          Animated,
          Easing } from 'react-native';
 import Dimensions from 'Dimensions';
-let {width, height} = Dimensions.get('window'); // es6 destructuring
+
+// get device dimensions
+let {width, height} = Dimensions.get('window');
 
 export default class Board extends React.Component {
   constructor(props) {
@@ -18,6 +20,8 @@ export default class Board extends React.Component {
     }
   }
 
+/* ----------------------------- initialization logic ------------------------*/
+  // build board given a board size N (n x n board)
   buildBoard(props) {
     let size = props.size;
     let cell_size = 0.8*width * 1/size;
@@ -35,6 +39,7 @@ export default class Board extends React.Component {
     }
   }
 
+  // tile opacities
   getInitialOpacities(props) {
     let opacities = new Array(props.size * props.size);
     for (let i = 0; i < opacities.length; i++) {
@@ -43,6 +48,7 @@ export default class Board extends React.Component {
     return opacities;
   }
 
+  // tile tilt
   getInitialTilt(props) {
     let tilt = new Array(props.size * props.size);
     for (let i = 0; i < tilt.length; i++) {
@@ -51,16 +57,21 @@ export default class Board extends React.Component {
     return tilt;
   }
 
+/* ----------------------------- board drawing logic -------------------------*/
+  // draw the board based on given board state
   renderBoard() {
     let result = [];
     for (let row = 0; row < this.state.board.size; row++) {
       for (let col = 0; col < this.state.board.size; col++) {
         let key = row * this.state.board.size + col;
+        // autogenerate letters for tile
         let letter = String.fromCharCode(65 + key);
+        // add tilt effect to tile
         let tilt = this.state.tilt[key].interpolate({
           inputRange: [0, 1],
           outputRange: ['0deg', '-30deg']
         });
+        // tile styling
         let position = {
           left: col * this.state.board.cell_size + this.state.board.cell_padding,
           top: row * this.state.board.cell_size + this.state.board.cell_padding,
@@ -84,6 +95,16 @@ export default class Board extends React.Component {
     )
   }
 
+  render() {
+    let dynamicStyles = this.getDynamicStyles();
+    return (
+      <View style={dynamicStyles.container}>
+          {this.renderBoard()}
+      </View>
+    );
+  }
+
+/* ----------------------------- game logic ------------------------*/
   clickTile(id) {
     let opacity = this.state.opacities[id];
     let tilt = this.state.tilt[id];
@@ -102,15 +123,7 @@ export default class Board extends React.Component {
     ]).start();
   }
 
-  render() {
-    let dynamicStyles = this.getDynamicStyles();
-    return (
-      <View style={dynamicStyles.container}>
-          {this.renderBoard()}
-      </View>
-    );
-  }
-
+/* ----------------------------- dynamic styling -----------------------------*/
   getDynamicStyles() {
     return {
       container: {
@@ -137,6 +150,7 @@ export default class Board extends React.Component {
   }
 }
 
+/* ----------------------------- static styling ------------------------------*/
 const styles = StyleSheet.create({
 
 });
