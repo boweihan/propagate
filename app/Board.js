@@ -6,6 +6,7 @@ import { StyleSheet,
          Animated,
          Easing } from 'react-native';
 import Dimensions from 'Dimensions';
+import Tile from './Tile';
 
 // get device dimensions
 let {width, height} = Dimensions.get('window');
@@ -14,10 +15,9 @@ export default class Board extends React.Component {
   constructor(props) {
     super();
     this.state = {
-        opacities : this.getInitialOpacities(props),
-        tilt : this.getInitialTilt(props),
         board : this.buildBoard(props)
     }
+    this.clickTile = this.clickTile.bind(this);
   }
 
 /* ----------------------------- initialization logic ------------------------*/
@@ -28,14 +28,18 @@ export default class Board extends React.Component {
     let cell_padding = cell_size * 0.05;
     let border_radius = cell_padding * 2;
     let title_size = cell_size - cell_padding * 2;
-    let letter_size = title_size * 0.75;
+    let opacities = this.getInitialOpacities(props);
+    let tilts = this.getInitialTilt(props);
+    let tiles = this.getInitialTileState(size, cell_size, cell_padding, opacities, tilts);
     return {
         size : size,
         cell_size : cell_size,
         cell_padding : cell_padding,
         border_radius : border_radius,
         title_size : title_size,
-        letter_size : letter_size
+        opacities : opacities,
+        tilts : tilts,
+        tiles : tiles
     }
   }
 
@@ -57,41 +61,44 @@ export default class Board extends React.Component {
     return tilt;
   }
 
-/* ----------------------------- board drawing logic -------------------------*/
-  // draw the board based on given board state
-  renderBoard() {
-    let result = [];
-    for (let row = 0; row < this.state.board.size; row++) {
-      for (let col = 0; col < this.state.board.size; col++) {
-        let key = row * this.state.board.size + col;
-        // autogenerate letters for tile
-        let letter = String.fromCharCode(65 + key);
+  getInitialTileState(size, cell_size, cell_padding, opacities, tilts) {
+    let tiles = [];
+    for (let row = 0; row < size; row++) {
+      for (let col = 0; col < size; col++) {
+        let key = row * size + col;
         // add tilt effect to tile
-        let tilt = this.state.tilt[key].interpolate({
+        let tilt = tilts[key].interpolate({
           inputRange: [0, 1],
           outputRange: ['0deg', '-30deg']
         });
         // tile styling
         let position = {
-          left: col * this.state.board.cell_size + this.state.board.cell_padding,
-          top: row * this.state.board.cell_size + this.state.board.cell_padding,
-          opacity: this.state.opacities[key],
-          transform: [{perspective: this.state.board.cell_size * 8},
+          left: col * cell_size + cell_padding,
+          top: row * cell_size + cell_padding,
+          opacity: opacities[key],
+          transform: [{perspective: cell_size * 8},
                       {rotateX: tilt}]
         };
-        result.push(this.renderTile(key, position, letter));
+        tiles.push({key : key, position : position});
       }
     }
-    return result;
+    return tiles;
   }
 
-  renderTile(id, position, letter) {
+/* ----------------------------- board drawing logic -------------------------*/
+  // draw the board based on given board state
+  renderBoard() {
+    let renderedBoard = [];
+    for (let x = 0; x < this.state.board.tiles.length; x++) {
+      renderedBoard.push(this.renderTile(this.state.board.tiles[x].key, this.state.board.tiles[x].position));
+    }
+    return renderedBoard;
+  }
+
+  renderTile(id, position) {
     let dynamicStyles = this.getDynamicStyles();
     return (
-      <Animated.View key={id} style={[dynamicStyles.tile, position]}
-             onStartShouldSetResponder={() => this.clickTile(id)}>
-         <Text style={dynamicStyles.letter}>{letter}</Text>
-       </Animated.View>
+      <Tile key={id} id={id} style={[dynamicStyles.tile, position]} clickTile={this.clickTile}/>
     )
   }
 
@@ -104,10 +111,15 @@ export default class Board extends React.Component {
     );
   }
 
-/* ----------------------------- game logic ------------------------*/
+/* ----------------------------- game logic ----------------------------------*/
   clickTile(id) {
-    let opacity = this.state.opacities[id];
-    let tilt = this.state.tilt[id];
+    this.triggerTileAnimation(id);
+  }
+
+/* ----------------------------- animations ----------------------------------*/
+  triggerTileAnimation(id) {
+    let opacity = this.state.board.opacities[id];
+    let tilt = this.state.board.tilts[id];
     opacity.setValue(.5); // half transparent, half opaque
     tilt.setValue(2);
     Animated.parallel([
@@ -139,12 +151,6 @@ export default class Board extends React.Component {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#BEE1D2',
-      },
-      letter: {
-        color: '#333',
-        fontSize: this.state.board.letter_size,
-        backgroundColor: 'transparent',
-        fontFamily: 'NukamisoLite', // <= custom font name
       }
     }
   }

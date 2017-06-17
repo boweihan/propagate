@@ -3,7 +3,7 @@ import { StyleSheet,
          Text,
          View,
          TouchableOpacity } from 'react-native';
-import Board from './app/Board';
+import GameMaster from './app/GameMaster';
 import { Font } from 'expo';
 
 export default class App extends React.Component {
@@ -26,7 +26,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
         {
           this.state.fontLoaded ? (
-            <Board size={4}/>
+            <GameMaster />
           ) : null
         }
        </View>
