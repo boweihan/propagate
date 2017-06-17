@@ -10,7 +10,7 @@ import Tile from './Tile';
 
 // get device dimensions
 let {width, height} = Dimensions.get('window');
-let COLORS = ['#BEE1D2', 'black'];
+let COLORS = ['#403837', '#BE3E2C'];
 
 export default class Board extends React.Component {
   constructor(props) {
@@ -118,7 +118,7 @@ export default class Board extends React.Component {
   didWin() {
       let size = this.state.board.size;
       for (var i = 0; i < (size * size); i++) {
-          if (this.state.board.tiles[i].tileStyle.backgroundColor !== "black") {
+          if (this.state.board.tiles[i].tileStyle.backgroundColor !== "#BE3E2C") {
               return false;
           }
       }
@@ -240,7 +240,7 @@ export default class Board extends React.Component {
         borderRadius: this.state.board.border_radius,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#BEE1D2',
+        backgroundColor: '#403837',
       }
     }
   }

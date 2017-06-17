@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet,
+         View } from 'react-native';
 import Board from './Board';
 
 export default class GameMaster extends React.Component {
@@ -9,10 +10,18 @@ export default class GameMaster extends React.Component {
 
   render() {
     return (
-      <Board size={6}/>
+      <View style={styles.container}>
+        <Board size={6}/>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#CECDCD',
+  }
 });

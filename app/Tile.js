@@ -7,10 +7,6 @@ import { StyleSheet,
          Easing } from 'react-native';
 
 export default class Tile extends React.Component {
-  constructor(props) {
-    super();
-  }
-
   render() {
     return (
       <Animated.View style={this.props.style}
