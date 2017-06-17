@@ -10,26 +10,26 @@ import Tile from './Tile';
 
 // get device dimensions
 let {width, height} = Dimensions.get('window');
+let COLORS = ['#BEE1D2', 'black'];
 
 export default class Board extends React.Component {
   constructor(props) {
     super();
     this.state = {
-        board : this.buildBoard(props)
+        board : this.buildBoard(props.size)
     }
     this.clickTile = this.clickTile.bind(this);
   }
 
 /* ----------------------------- initialization logic ------------------------*/
   // build board given a board size N (n x n board)
-  buildBoard(props) {
-    let size = props.size;
+  buildBoard(size) {
     let cell_size = 0.8*width * 1/size;
     let cell_padding = cell_size * 0.05;
     let border_radius = cell_padding * 2;
     let title_size = cell_size - cell_padding * 2;
-    let opacities = this.getInitialOpacities(props);
-    let tilts = this.getInitialTilt(props);
+    let opacities = this.getInitialOpacities(size);
+    let tilts = this.getInitialTilt(size);
     let tiles = this.getInitialTileState(size, cell_size, cell_padding, opacities, tilts);
     return {
         size : size,
@@ -44,8 +44,8 @@ export default class Board extends React.Component {
   }
 
   // tile opacities
-  getInitialOpacities(props) {
-    let opacities = new Array(props.size * props.size);
+  getInitialOpacities(size) {
+    let opacities = new Array(size * size);
     for (let i = 0; i < opacities.length; i++) {
       opacities[i] = new Animated.Value(1);
     }
@@ -53,8 +53,8 @@ export default class Board extends React.Component {
   }
 
   // tile tilt
-  getInitialTilt(props) {
-    let tilt = new Array(props.size * props.size);
+  getInitialTilt(size) {
+    let tilt = new Array(size * size);
     for (let i = 0; i < tilt.length; i++) {
       tilt[i] = new Animated.Value(0);
     }
@@ -72,52 +72,137 @@ export default class Board extends React.Component {
           outputRange: ['0deg', '-30deg']
         });
         // tile styling
-        let position = {
+        let tileStyle = {
           left: col * cell_size + cell_padding,
           top: row * cell_size + cell_padding,
           opacity: opacities[key],
           transform: [{perspective: cell_size * 8},
-                      {rotateX: tilt}]
+                      {rotateX: tilt}],
+          backgroundColor: COLORS[0] // set initial color to be green;
         };
-        tiles.push({key : key, position : position});
+        tiles.push({key : key, tileStyle : tileStyle});
       }
     }
     return tiles;
   }
 
-/* ----------------------------- board drawing logic -------------------------*/
-  // draw the board based on given board state
-  renderBoard() {
-    let renderedBoard = [];
-    for (let x = 0; x < this.state.board.tiles.length; x++) {
-      renderedBoard.push(this.renderTile(this.state.board.tiles[x].key, this.state.board.tiles[x].position));
+  resetInitialState() {
+    let newState = {
+      board : this.buildBoard(this.state.board.size)
     }
-    return renderedBoard;
+    this.setState(newState);
   }
 
-  renderTile(id, position) {
-    let dynamicStyles = this.getDynamicStyles();
-    return (
-      <Tile key={id} id={id} style={[dynamicStyles.tile, position]} clickTile={this.clickTile}/>
-    )
-  }
-
+/* ----------------------------- board drawing logic -------------------------*/
   render() {
+    let that = this;
     let dynamicStyles = this.getDynamicStyles();
     return (
       <View style={dynamicStyles.container}>
-          {this.renderBoard()}
+        {this.state.board.tiles.map(function(tile, i){
+          return <Tile key={tile.key} id={tile.key} style={[dynamicStyles.tile, tile.tileStyle]} clickTile={that.clickTile}/>
+        })}
       </View>
     );
   }
 
 /* ----------------------------- game logic ----------------------------------*/
   clickTile(id) {
-    this.triggerTileAnimation(id);
+    ids = this.plusModeClickHandler(id)
+    for (let i = 0; i < ids.length; i++) {
+      this.triggerTileAnimation(ids[i]);
+      this.triggerColorChange(ids[i]);
+    }
+  }
+
+  didWin() {
+      let size = this.state.board.size;
+      for (var i = 0; i < (size * size); i++) {
+          if (this.state.board.tiles[i].tileStyle.backgroundColor !== "black") {
+              return false;
+          }
+      }
+      return true;
+  }
+
+  // TODO: refactors all these handlers
+  buildClickHandlerVars(id) {
+    size = this.state.board.size;
+    return [[id], size, id % size, Math.floor(id / size)];
+  }
+
+  plusModeClickHandler(id) {
+    let [ids, size, xPos, yPos] = this.buildClickHandlerVars(id);
+
+    if (yPos === 0) {
+      if (xPos === 0) { ids = ids.concat([id + 1, id + size]); }
+      else if (xPos < size - 1) { ids = ids.concat([id - 1, id + 1, id + size]); }
+      else { ids = ids.concat([id - 1, id + size]); }
+    } else if (yPos < size - 1) {
+      if (xPos === 0) { ids = ids.concat([id + 1, id + size, id - size]); }
+      else if (xPos < size - 1) { ids = ids.concat([id - 1, id + 1, id + size, id - size]); }
+      else { ids = ids.concat([id - 1, id + size, id - size]); }
+    } else {
+      if (xPos === 0) { ids = ids.concat([id + 1, id - size]); }
+      else if (xPos < size - 1) { ids = ids.concat([id - 1, id + 1, id - size]); }
+      else { ids = ids.concat([id - 1, id - size]); }
+    }
+
+    return ids;
+  }
+
+  squareModeClickHandler(id) {
+    let [ids, size, xPos, yPos] = this.buildClickHandlerVars(id);
+
+    if (yPos === 0) {
+      if (xPos === 0) { ids = ids.concat([id + 1, id + size, id + size + 1]); }
+      else if (xPos < size - 1) { ids = ids.concat([id - 1, id + 1, id + size, id + size - 1, id + size + 1]); }
+      else { ids = ids.concat([id - 1, id + size, id + size - 1]); }
+    } else if (yPos < size - 1) {
+      if (xPos === 0) { ids = ids.concat([id + 1, id + size, id - size, id + size + 1, id - size + 1]); }
+      else if (xPos < size - 1) { ids = ids.concat([id - 1, id + 1, id + size, id - size, id + size - 1, id + size + 1, id - size - 1, id - size + 1]); }
+      else { ids = ids.concat([id - 1, id + size, id - size, id - size - 1, id + size - 1]); }
+    } else {
+      if (xPos === 0) { ids = ids.concat([id + 1, id - size, id - size + 1]); }
+      else if (xPos < size - 1) { ids = ids.concat([id - 1, id + 1, id - size, id - size - 1, id - size + 1]); }
+      else { ids = ids.concat([id - 1, id - size, id - size - 1]); }
+    }
+
+    return ids;
+  }
+
+  crossModeClickHandler(id) {
+    let [ids, size, xPos, yPos] = this.buildClickHandlerVars(id);
+
+    if (yPos === 0) {
+      if (xPos === 0) { ids = ids.concat([id + size - 1, id + size + 1]); }
+      else if (xPos < size - 1) { ids = ids.concat([id + size - 1, id + size + 1]); }
+      else { ids = ids.concat([id + size - 1]); }
+    } else if (yPos < size - 1) {
+      if (xPos === 0) { ids = ids.concat([id + size + 1, id - size + 1]); }
+      else if (xPos < size - 1) { ids = ids.concat([id + size - 1, id + size + 1, id - size - 1, id - size + 1]); }
+      else { ids = ids.concat([id - size - 1, id + size - 1]); }
+    } else {
+      if (xPos === 0) { ids = ids.concat([id - size + 1]); }
+      else if (xPos < size - 1) { ids = ids.concat([id - size - 1, id - size + 1]); }
+      else { ids = ids.concat([id - size - 1]); }
+    }
+
+    return ids;
   }
 
 /* ----------------------------- animations ----------------------------------*/
+  triggerColorChange(id) {
+    let currColor = this.state.board.tiles[id].tileStyle.backgroundColor;
+    let currIndex = COLORS.indexOf(currColor);
+    let newIndex = (currIndex === COLORS.length - 1) ? 0 : currIndex + 1;
+    let newState = this.state;
+    newState.board.tiles[id].tileStyle.backgroundColor = COLORS[newIndex];
+    this.setState(newState);
+  }
+
   triggerTileAnimation(id) {
+    var that = this;
     let opacity = this.state.board.opacities[id];
     let tilt = this.state.board.tilts[id];
     opacity.setValue(.5); // half transparent, half opaque
@@ -125,14 +210,19 @@ export default class Board extends React.Component {
     Animated.parallel([
       Animated.timing(opacity, {
         toValue: 1, // fully opaque
-        duration: 350, // milliseconds
+        duration: 250, // milliseconds
       }),
       Animated.timing(tilt, {
         toValue: 0, // mapped to 0 degrees (no tilt)
         duration: 250, // milliseconds
         easing: Easing.quad // quadratic easing function: (t) => t * t
       })
-    ]).start();
+    ]).start(function() {
+      // check win condition in the callback to animation to avoid intermediate states
+      if (that.didWin()) {
+        that.resetInitialState();
+      }
+    });
   }
 
 /* ----------------------------- dynamic styling -----------------------------*/

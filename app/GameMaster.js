@@ -9,7 +9,7 @@ export default class GameMaster extends React.Component {
 
   render() {
     return (
-      <Board size={4}/>
+      <Board size={6}/>
     );
   }
 }
