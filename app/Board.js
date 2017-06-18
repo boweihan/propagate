@@ -120,7 +120,7 @@ export default class Board extends React.Component {
       <View style={styles.game}>
         <View style={styles.boardMenu}>
           <BoardMenu setRoute={this.props.setRoute} movesLeft={this.state.board.movesLeft}
-            level={this.props.level}/>
+            level={this.props.level} score={this.props.score}/>
         </View>
         <View style={styles.board}>
           <View style={dynamicStyles.container}>
@@ -179,7 +179,7 @@ export default class Board extends React.Component {
         this.renderModal('fail');
         // modal handles the fail state
         // if (this.props.level !== 0) {
-        //   this.props.newGame();
+        //   this.props.setRoute('newGame');
         // } else {
         //   // board renders based on key, which is level, if the level is 0 we need to reset the state instead.
         //   this._resetInitialState();
@@ -315,16 +315,17 @@ export default class Board extends React.Component {
 
 /* -------------------------------- Modal ------------------------------------*/
   modal(msg) {
+    let opacity = (this.state.modal.type === "levelup") ? 0.9 : 1
     return (
       <Modal isVisible={this.state.modal.visible} backdropColor={this.state.modal.color}
-        backdropOpacity={1} animationIn={'zoomInDown'} animationOut={'zoomOutUp'}
-        animationInTiming={500} animationOutTiming={500} backdropTransitionInTiming={500}
-        backdropTransitionOutTiming={500}>
+        backdropOpacity={opacity} animationIn={'zoomInDown'} animationOut={'zoomOutUp'}
+        animationInTiming={200} animationOutTiming={200} backdropTransitionInTiming={200}
+        backdropTransitionOutTiming={200}>
         <View>
           <View style={styles.modal}>
             <Text style={[styles.modalMsg, {color:this.state.modal.color}]}>{this.state.modal.msg}</Text>
           </View>
-          <TouchableHighlight onPress={() => {this.hideModal()}}>
+          <TouchableHighlight underlayColor='transparent' onPress={() => {this.hideModal()}}>
             <Ionicons style={styles.modalClose} name="md-arrow-dropright-circle" />
           </TouchableHighlight>
         </View>
@@ -353,7 +354,7 @@ export default class Board extends React.Component {
 
   hideModal() {
     if (this.state.modal.type === 'fail') {
-      this.props.gameOver();
+      this.props.setRoute('gameOver');
     } else {
       // don't need to remove modal because this component is getting reconstructed
       // this.setState({modal:{visible: false}});

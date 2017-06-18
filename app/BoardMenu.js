@@ -30,7 +30,7 @@ export default class BoardMenu extends React.Component {
             <View style={styles.btn3_col1}>
               <View style={styles.score}>
                 <Text style={styles.menuText}>Score</Text>
-                <Text style={styles.menuText}>0</Text>
+                <Text style={styles.menuText}>{this.props.score}</Text>
               </View>
             </View>
             <View style={styles.btn3_col2}>
