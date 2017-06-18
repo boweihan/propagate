@@ -6,19 +6,23 @@ import { StyleSheet,
          Animated,
          Easing } from 'react-native';
 import Dimensions from 'Dimensions';
+import ModeSelector from './ModeSelector';
 import Tile from './Tile';
 
 // get device dimensions
 let {width, height} = Dimensions.get('window');
 let COLORS = ['#403837', '#BE3E2C'];
+let MODES = ['square', 'plus', 'cross'];
 
 export default class Board extends React.Component {
   constructor(props) {
     super();
     this.state = {
-        board : this.buildBoard(props.size)
+        board : this.buildBoard(props.size),
+        mode : MODES[1]
     }
     this.clickTile = this.clickTile.bind(this);
+    this.setMode = this.setMode.bind(this);
   }
 
 /* ----------------------------- initialization logic ------------------------*/
@@ -98,20 +102,52 @@ export default class Board extends React.Component {
     let that = this;
     let dynamicStyles = this.getDynamicStyles();
     return (
-      <View style={dynamicStyles.container}>
-        {this.state.board.tiles.map(function(tile, i){
-          return <Tile key={tile.key} id={tile.key} style={[dynamicStyles.tile, tile.tileStyle]} clickTile={that.clickTile}/>
-        })}
+      <View style={styles.game}>
+        <View style={styles.board}>
+          <View style={dynamicStyles.container}>
+            {this.state.board.tiles.map(function(tile, i){
+              return <Tile key={tile.key} id={tile.key} style={[dynamicStyles.tile, tile.tileStyle]} clickTile={that.clickTile}/>
+            })}
+          </View>
+        </View>
+        <View style={styles.menu}>
+          <ModeSelector style={styles.modeSelector} setMode={this.setMode}/>
+        </View>
       </View>
     );
   }
 
 /* ----------------------------- game logic ----------------------------------*/
   clickTile(id) {
-    ids = this.plusModeClickHandler(id)
+    let ids;
+
+    switch (this.state.mode) {
+      case MODES[0]:
+        ids = this.squareModeClickHandler(id);
+        break;
+      case MODES[1]:
+        ids = this.plusModeClickHandler(id);
+        break;
+      case MODES[2]:
+        ids = this.crossModeClickHandler(id);
+        break;
+      default:
+        alert('that mode is unsupported');
+        break;
+    }
+
     for (let i = 0; i < ids.length; i++) {
       this.triggerTileAnimation(ids[i]);
       this.triggerColorChange(ids[i]);
+    }
+  }
+
+  setMode(mode) {
+    let modeIndex = MODES.indexOf(mode);
+    if (modeIndex !== -1) {
+      this.setState({
+        mode : MODES[modeIndex]
+      });
     }
   }
 
@@ -248,5 +284,18 @@ export default class Board extends React.Component {
 
 /* ----------------------------- static styling ------------------------------*/
 const styles = StyleSheet.create({
-
+  board: {
+    flex: 2,
+    justifyContent: 'flex-end'
+  },
+  menu: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  game: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#CECDCD',
+  }
 });

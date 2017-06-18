@@ -8,20 +8,12 @@ export default class GameMaster extends React.Component {
     super();
   }
 
+  _setMode
   render() {
     return (
-      <View style={styles.container}>
-        <Board size={6}/>
-      </View>
+      <Board size={6} />
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#CECDCD',
-  }
-});
+const styles = StyleSheet.create({});
