@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   modes: {
     flex: 3,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'flex-start'
   },
   square: {
     width: BUTTONSIZE,
@@ -106,10 +106,10 @@ const styles = StyleSheet.create({
   },
   selectedMode: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center'
   },
   selectedModeText: {
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   }
 });

@@ -12,10 +12,11 @@ export default class GameMaster extends React.Component {
         menu : true,
         game : false
       },
-      level : 0
+      level : 0,
+      firstLoad : true
     }
     this.levelUp = this.levelUp.bind(this);
-    this.startGame = this.startGame.bind(this);
+    this.setRoute = this.setRoute.bind(this);
   }
 
   levelUp() {
@@ -39,21 +40,23 @@ export default class GameMaster extends React.Component {
     return size;
   }
 
-  startGame() {
-    this.setState({
-      route : {
-        menu : false,
-        game : true
-      }
-    })
+  setRoute(route) {
+    switch (route) {
+      case 'game':
+        // set firstLoad to false as soon as you get into the game
+        this.setState({ route : { menu : false, game : true }, firstLoad : false}); break;
+      case 'menu':
+        this.setState({ route : { menu : true, game : false }}); break;
+    }
   }
 
   render() {
     let menu = this.state.route.menu ?
-      <Menu startGame={this.startGame}/> : null;
+      <Menu setRoute={this.setRoute} firstLoad={this.state.firstLoad}/> : null;
     let board = this.state.route.game ?
       <Board size={this.getSizeForLevel()} key={this.state.level}
-        level={this.state.level} levelUp={this.levelUp}/> : null
+        level={this.state.level} levelUp={this.levelUp}
+        setRoute={this.setRoute} /> : null
 
     return (
       <View style={styles.gameMaster}>

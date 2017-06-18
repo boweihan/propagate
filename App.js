@@ -7,7 +7,7 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-        fontLoaded : false
+      fontLoaded : false
     }
   }
 
@@ -20,9 +20,9 @@ export default class App extends React.Component {
 
   render() {
     if (this.state.fontLoaded) {
-        return <GameMaster />
+      return <GameMaster />
     } else {
-        return null;
+      return null;
     }
   }
 }

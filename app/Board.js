@@ -8,6 +8,7 @@ import { StyleSheet,
 import Dimensions from 'Dimensions';
 import ModeSelector from './ModeSelector';
 import Tile from './Tile';
+import BoardMenu from './BoardMenu';
 
 // get device dimensions
 let {width, height} = Dimensions.get('window');
@@ -103,6 +104,9 @@ export default class Board extends React.Component {
     let dynamicStyles = this.getDynamicStyles();
     return (
       <View style={styles.game}>
+        <View style={styles.boardMenu}>
+          <BoardMenu setRoute={this.props.setRoute}/>
+        </View>
         <View style={styles.board}>
           <Text style={styles.levelNumber}>Level : {this.props.level}</Text>
           <View style={dynamicStyles.container}>
@@ -111,7 +115,7 @@ export default class Board extends React.Component {
             })}
           </View>
         </View>
-        <View style={styles.menu}>
+        <View style={styles.selector}>
           <ModeSelector style={styles.modeSelector} setMode={this.setMode}/>
         </View>
       </View>
@@ -291,12 +295,15 @@ export default class Board extends React.Component {
 
 /* ----------------------------- static styling ------------------------------*/
 const styles = StyleSheet.create({
+  boardMenu: {
+    flex: 0.5
+  },
   board: {
     flex: 2,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center'
   },
-  menu: {
+  selector: {
     flex: 1
   },
   game: {
@@ -307,6 +314,6 @@ const styles = StyleSheet.create({
   levelNumber: {
     fontWeight: 'bold',
     fontSize: 30,
-    paddingBottom: 20
+    paddingBottom: 10
   }
 });
