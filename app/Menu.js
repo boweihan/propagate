@@ -25,7 +25,7 @@ export default class Menu extends React.Component {
           </TouchableHighlight>
         : null}
         <TouchableHighlight underlayColor='white' activeOpacity={0.5}
-          onPress={() => this.props.setRoute('game')}>
+          onPress={() => this.props.newGame()}>
           <View style={styles.startButton}>
             <Text style={styles.startText}>NEW GAME</Text>
           </View>

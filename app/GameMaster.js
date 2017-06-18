@@ -17,6 +17,7 @@ export default class GameMaster extends React.Component {
     }
     this.levelUp = this.levelUp.bind(this);
     this.setRoute = this.setRoute.bind(this);
+    this.newGame = this.newGame.bind(this);
   }
 
   levelUp() {
@@ -24,6 +25,24 @@ export default class GameMaster extends React.Component {
     this.setState({
       level : newLevel
     });
+  }
+
+  newGame() {
+    this.setState({
+      route : { menu : false, game : true },
+      level : 0,
+      firstLoad : false
+    });
+  }
+
+  setRoute(route) {
+    switch (route) {
+      case 'game':
+        // set firstLoad to false as soon as you get into the game
+        this.setState({ route : { menu : false, game : true }, firstLoad : false}); break;
+      case 'menu':
+        this.setState({ route : { menu : true, game : false }}); break;
+    }
   }
 
   getSizeForLevel() {
@@ -40,19 +59,10 @@ export default class GameMaster extends React.Component {
     return size;
   }
 
-  setRoute(route) {
-    switch (route) {
-      case 'game':
-        // set firstLoad to false as soon as you get into the game
-        this.setState({ route : { menu : false, game : true }, firstLoad : false}); break;
-      case 'menu':
-        this.setState({ route : { menu : true, game : false }}); break;
-    }
-  }
-
   render() {
     let menu = this.state.route.menu ?
-      <Menu setRoute={this.setRoute} firstLoad={this.state.firstLoad}/> : null;
+      <Menu setRoute={this.setRoute} newGame={this.newGame}
+        firstLoad={this.state.firstLoad}/> : null;
     let board = this.state.route.game ?
       <Board size={this.getSizeForLevel()} key={this.state.level}
         level={this.state.level} levelUp={this.levelUp}
