@@ -14,8 +14,6 @@ import Tile from './Tile';
 import BoardMenu from './BoardMenu';
 import Modal from 'react-native-modal'
 import { Ionicons } from '@expo/vector-icons';
-
-// get device dimensions
 let {width, height} = Dimensions.get('window');
 let COLORS = ['#403837', '#BE3E2C'];
 let MODES = ['square', 'plus', 'cross'];
@@ -34,11 +32,23 @@ export default class Board extends React.Component {
           type : null
         }
     }
+    this.mutateBoard(props);
     this.clickTile = this.clickTile.bind(this);
     this.setMode = this.setMode.bind(this);
   }
 
 /* ----------------------------- initialization logic ------------------------*/
+  mutateBoard(props) {
+    if (props.level % 5 !== 1) {
+      let numTilesToMutate = (props.level % 5) * (props.level / 5);
+      if (numTilesToMutate < 1) { numTilesToMutate = 1; }
+      for (let i = 0; i < numTilesToMutate; i++) {
+        let tileId = Math.floor(Math.random()*this.state.board.size);
+        this.state.board.tiles[tileId].tileStyle.backgroundColor = COLORS[1];
+      }
+    }
+  }
+
   // build board given a board size N (n x n board)
   buildBoard(size, movesLeft) {
     let cell_size = 0.8*width * 1/size;
@@ -174,8 +184,7 @@ export default class Board extends React.Component {
   checkWinOrLose(newState) {
       if (this._didWin()) {
         this.renderModal('levelup');
-      }
-      if (newState.board.movesLeft === 0) {
+      } else if (newState.board.movesLeft === 0) {
         this.renderModal('fail');
         // modal handles the fail state
         // if (this.props.level !== 0) {
@@ -189,7 +198,7 @@ export default class Board extends React.Component {
 
   _didWin() {
     let size = this.state.board.size;
-    for (var i = 0; i < (size * size); i++) {
+    for (let i = 0; i < (size * size); i++) {
         if (this.state.board.tiles[i].tileStyle.backgroundColor !== "#BE3E2C") {
             return false;
         }
@@ -247,7 +256,7 @@ export default class Board extends React.Component {
     let [ids, size, xPos, yPos] = this.buildClickHandlerVars(id);
 
     if (yPos === 0) {
-      if (xPos === 0) { ids = ids.concat([id + size - 1, id + size + 1]); }
+      if (xPos === 0) { ids = ids.concat([id + size + 1]); }
       else if (xPos < size - 1) { ids = ids.concat([id + size - 1, id + size + 1]); }
       else { ids = ids.concat([id + size - 1]); }
     } else if (yPos < size - 1) {

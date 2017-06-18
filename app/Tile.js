@@ -17,6 +17,4 @@ export default class Tile extends React.Component {
 }
 
 /* ----------------------------- static styling ------------------------------*/
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
