@@ -2,25 +2,30 @@ import React from 'react';
 import { StyleSheet,
          View } from 'react-native';
 import Board from './Board';
+import Menu from './Menu';
 
 export default class GameMaster extends React.Component {
   constructor() {
     super();
     this.state = {
+      route : {
+        menu : true,
+        game : false
+      },
       level : 0
     }
     this.levelUp = this.levelUp.bind(this);
+    this.startGame = this.startGame.bind(this);
   }
 
   levelUp() {
-    console.log('leveling up');
     let newLevel = this.state.level + 1;
     this.setState({
       level : newLevel
     });
   }
 
-  render() {
+  getSizeForLevel() {
     let size;
     if (this.state.level < 1) {
       size = 3;
@@ -31,10 +36,36 @@ export default class GameMaster extends React.Component {
     } else {
       size = 6;
     }
+    return size;
+  }
+
+  startGame() {
+    this.setState({
+      route : {
+        menu : false,
+        game : true
+      }
+    })
+  }
+
+  render() {
+    let menu = this.state.route.menu ?
+      <Menu startGame={this.startGame}/> : null;
+    let board = this.state.route.game ?
+      <Board size={this.getSizeForLevel()} key={this.state.level}
+        level={this.state.level} levelUp={this.levelUp}/> : null
+
     return (
-      <Board size={size} key={this.state.level} level={this.state.level} levelUp={this.levelUp}/>
+      <View style={styles.gameMaster}>
+        {menu}
+        {board}
+      </View>
     );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  gameMaster: {
+    flex: 1
+  }
+});
