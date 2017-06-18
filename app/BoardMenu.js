@@ -14,12 +14,32 @@ export default class BoardMenu extends React.Component {
     return (
       <View style={styles.boardMenu}>
         <View style={styles.innerMainMenu}>
-          <TouchableHighlight underlayColor='white' activeOpacity={0.5}
+          <TouchableHighlight style={styles.btn1} underlayColor='white' activeOpacity={0.5}
             onPress={() => this.props.setRoute('menu')}>
             <View style={styles.backToMenu}>
-              <Text style={styles.backToMenuText}>Menu</Text>
+              <Text style={styles.menuText}>Menu</Text>
             </View>
           </TouchableHighlight>
+          <View style={styles.btn2}>
+            <View style={styles.movesLeft}>
+              <Text style={styles.menuText}>Moves Left</Text>
+              <Text style={[styles.menuText, {fontSize:30}]}>{this.props.movesLeft}</Text>
+            </View>
+          </View>
+          <View style={styles.btn3}>
+            <View style={styles.btn3_col1}>
+              <View style={styles.score}>
+                <Text style={styles.menuText}>Score</Text>
+                <Text style={styles.menuText}>0</Text>
+              </View>
+            </View>
+            <View style={styles.btn3_col2}>
+              <View style={styles.level}>
+                <Text style={styles.menuText}>Level</Text>
+                <Text style={styles.menuText}>{this.props.level}</Text>
+              </View>
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -31,23 +51,68 @@ const styles = StyleSheet.create({
   boardMenu: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 30
   },
   innerMainMenu: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     width: width*0.9
   },
   backToMenu: {
     backgroundColor: '#BE3E2C',
-    padding: 3,
-    paddingLeft: 5,
-    paddingRight: 5,
-    borderRadius: 3
+    padding: 5,
+    paddingLeft: 8,
+    paddingRight: 8,
+    borderRadius: 5,
   },
-  backToMenuText: {
+  movesLeft: {
+    backgroundColor: '#1E6576',
+    padding: 5,
+    paddingLeft: 8,
+    paddingRight: 8,
+    borderRadius: 5,
+    width: '100%'
+  },
+  score: {
+    backgroundColor: '#7AAF29',
+    padding: 5,
+    paddingLeft: 8,
+    paddingRight: 8,
+    borderRadius: 5,
+  },
+  level: {
+    backgroundColor: 'gray',
+    padding: 5,
+    paddingLeft: 8,
+    paddingRight: 8,
+    borderRadius: 5,
+  },
+  btn1: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  btn2: {
+    flex: 1.8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  btn3: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  },
+  btn3_col2: {
+    marginTop: 5
+  },
+  menuText: {
+    textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 15,
     color: 'white'

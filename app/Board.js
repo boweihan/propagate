@@ -19,8 +19,9 @@ export default class Board extends React.Component {
   constructor(props) {
     super();
     this.state = {
-        board : this.buildBoard(props.size),
-        mode : MODES[0]
+        board : this.buildBoard(props.size, props.moves),
+        mode : MODES[0],
+        originalProps : props
     }
     this.clickTile = this.clickTile.bind(this);
     this.setMode = this.setMode.bind(this);
@@ -28,7 +29,7 @@ export default class Board extends React.Component {
 
 /* ----------------------------- initialization logic ------------------------*/
   // build board given a board size N (n x n board)
-  buildBoard(size) {
+  buildBoard(size, movesLeft) {
     let cell_size = 0.8*width * 1/size;
     let cell_padding = cell_size * 0.05;
     let border_radius = cell_padding * 2;
@@ -44,7 +45,8 @@ export default class Board extends React.Component {
         title_size : title_size,
         opacities : opacities,
         tilts : tilts,
-        tiles : tiles
+        tiles : tiles,
+        movesLeft : movesLeft,
     }
   }
 
@@ -91,9 +93,9 @@ export default class Board extends React.Component {
     return tiles;
   }
 
-  resetInitialState() {
+  _resetInitialState() {
     let newState = {
-      board : this.buildBoard(this.state.board.size)
+      board : this.buildBoard(this.state.originalProps.size, this.state.originalProps.moves)
     }
     this.setState(newState);
   }
@@ -105,10 +107,10 @@ export default class Board extends React.Component {
     return (
       <View style={styles.game}>
         <View style={styles.boardMenu}>
-          <BoardMenu setRoute={this.props.setRoute}/>
+          <BoardMenu setRoute={this.props.setRoute} movesLeft={this.state.board.movesLeft}
+            level={this.props.level}/>
         </View>
         <View style={styles.board}>
-          <Text style={styles.levelNumber}>Level : {this.props.level}</Text>
           <View style={dynamicStyles.container}>
             {this.state.board.tiles.map(function(tile, i){
               return <Tile key={tile.key} id={tile.key} style={[dynamicStyles.tile, tile.tileStyle]} clickTile={that.clickTile}/>
@@ -124,39 +126,32 @@ export default class Board extends React.Component {
 
 /* ----------------------------- game logic ----------------------------------*/
   clickTile(id) {
+    let newState = this.state; // ensure that we decrement moves before checking win TODO: refactor
     let ids;
+
+    // decrement moves before we setState later on
+    newState.board.movesLeft--
 
     switch (this.state.mode) {
       case MODES[0]:
-        ids = this.squareModeClickHandler(id);
-        break;
+        ids = this._squareModeClickHandler(id); break;
       case MODES[1]:
-        ids = this.plusModeClickHandler(id);
-        break;
+        ids = this._plusModeClickHandler(id); break;
       case MODES[2]:
-        ids = this.crossModeClickHandler(id);
-        break;
+        ids = this._crossModeClickHandler(id); break;
       default:
-        alert('that mode is unsupported');
-        break;
+        console.log('that mode is unsupported'); break;
     }
 
     for (let i = 0; i < ids.length; i++) {
       if (i === ids.length - 1) {
         var that = this;
-        this.triggerTileAnimation(ids[i]).start(function(evt) {
-          // check win condition in the callback to animation to avoid intermediate states
-          // need evt.finished because there's a parallel animation? being cancelled that causes double calling
-          if (that.didWin() && evt.finished) {
-            that.props.levelUp();
-          }
-        });
-        this.triggerColorChange(ids[i]);
+        this._triggerTileAnimation(ids[i]).start()
       } else {
-        this.triggerTileAnimation(ids[i]).start();
-        this.triggerColorChange(ids[i]);
+        this._triggerTileAnimation(ids[i]).start();
       }
     }
+    this._triggerColorChange(ids, newState);
   }
 
   setMode(mode) {
@@ -168,14 +163,26 @@ export default class Board extends React.Component {
     }
   }
 
-  didWin() {
-      let size = this.state.board.size;
-      for (var i = 0; i < (size * size); i++) {
-          if (this.state.board.tiles[i].tileStyle.backgroundColor !== "#BE3E2C") {
-              return false;
-          }
+  checkWinOrLose(newState) {
+      if (this._didWin()) { this.props.levelUp(); }
+      if (newState.board.movesLeft === 0) {
+        if (this.props.level !== 0) {
+          this.props.newGame();
+        } else {
+          // board renders based on key, which is level, if the level is 0 we need to reset the state instead.
+          this._resetInitialState();
+        }
       }
-      return true;
+  }
+
+  _didWin() {
+    let size = this.state.board.size;
+    for (var i = 0; i < (size * size); i++) {
+        if (this.state.board.tiles[i].tileStyle.backgroundColor !== "#BE3E2C") {
+            return false;
+        }
+    }
+    return true;
   }
 
   // TODO: refactors all these handlers
@@ -184,7 +191,7 @@ export default class Board extends React.Component {
     return [[id], size, id % size, Math.floor(id / size)];
   }
 
-  plusModeClickHandler(id) {
+  _plusModeClickHandler(id) {
     let [ids, size, xPos, yPos] = this.buildClickHandlerVars(id);
 
     if (yPos === 0) {
@@ -204,7 +211,7 @@ export default class Board extends React.Component {
     return ids;
   }
 
-  squareModeClickHandler(id) {
+  _squareModeClickHandler(id) {
     let [ids, size, xPos, yPos] = this.buildClickHandlerVars(id);
 
     if (yPos === 0) {
@@ -224,7 +231,7 @@ export default class Board extends React.Component {
     return ids;
   }
 
-  crossModeClickHandler(id) {
+  _crossModeClickHandler(id) {
     let [ids, size, xPos, yPos] = this.buildClickHandlerVars(id);
 
     if (yPos === 0) {
@@ -245,16 +252,18 @@ export default class Board extends React.Component {
   }
 
 /* ----------------------------- animations ----------------------------------*/
-  triggerColorChange(id) {
-    let currColor = this.state.board.tiles[id].tileStyle.backgroundColor;
-    let currIndex = COLORS.indexOf(currColor);
-    let newIndex = (currIndex === COLORS.length - 1) ? 0 : currIndex + 1;
-    let newState = this.state;
-    newState.board.tiles[id].tileStyle.backgroundColor = COLORS[newIndex];
+  _triggerColorChange(ids, newState) {
+    for (let i = 0; i < ids.length; i++) {
+      let currColor = this.state.board.tiles[ids[i]].tileStyle.backgroundColor;
+      let currIndex = COLORS.indexOf(currColor);
+      let newIndex = (currIndex === COLORS.length - 1) ? 0 : currIndex + 1;
+      newState.board.tiles[ids[i]].tileStyle.backgroundColor = COLORS[newIndex];
+    }
     this.setState(newState);
+    this.checkWinOrLose(newState);
   }
 
-  triggerTileAnimation(id) {
+  _triggerTileAnimation(id) {
     let opacity = this.state.board.opacities[id];
     let tilt = this.state.board.tilts[id];
     opacity.setValue(.5); // half transparent, half opaque
@@ -296,7 +305,7 @@ export default class Board extends React.Component {
 /* ----------------------------- static styling ------------------------------*/
 const styles = StyleSheet.create({
   boardMenu: {
-    flex: 0.5
+    flex: 1
   },
   board: {
     flex: 2,
@@ -310,10 +319,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#CECDCD',
-  },
-  levelNumber: {
-    fontWeight: 'bold',
-    fontSize: 30,
-    paddingBottom: 10
   }
 });

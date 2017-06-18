@@ -92,17 +92,17 @@ const styles = StyleSheet.create({
     width: BUTTONSIZE,
     height: BUTTONSIZE,
     margin: BUTTONSIZE*0.1,
-    backgroundColor: 'gray'
+    backgroundColor: 'gray',
   },
   cross: {
     width: BUTTONSIZE,
     height: BUTTONSIZE,
     margin: BUTTONSIZE*0.1,
-    backgroundColor: 'gray'
+    backgroundColor: 'gray',
   },
   image: {
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
   selectedMode: {
     flex: 1,

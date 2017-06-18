@@ -56,11 +56,13 @@ const styles = StyleSheet.create({
   },
   startButton : {
     marginTop: 15,
-    borderBottomWidth: 3,
+    borderBottomWidth: 1,
     borderBottomColor: '#e6e6e6'
   },
   startText : {
     fontWeight: 'bold',
-    fontSize: 15
+    fontSize: 15,
+    color: "#7c6c6a",
+    fontFamily: "NukamisoLite"
   }
 });
