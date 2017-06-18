@@ -45,13 +45,13 @@ export default class GameMaster extends React.Component {
 
   getStateForLevel() {
     let state = {};
-    if (this.state.level < 5) {
+    if (this.state.level < 6) {
       state.size = 3; state.moves = 15
     }
-    else if (this.state.level >= 5 && this.state.level < 10) {
+    else if (this.state.level >= 6 && this.state.level < 11) {
       state.size = 4; state.moves = 20
     }
-    else if (this.state.level >= 10 && this.state.level < 15) {
+    else if (this.state.level >= 11 && this.state.level < 16) {
       state.size = 5; state.moves = 25
     }
     else {
