@@ -4,11 +4,16 @@ import { StyleSheet,
          View,
          TouchableOpacity,
          Animated,
-         Easing } from 'react-native';
+         Easing,
+         Alert,
+         Button,
+         TouchableHighlight } from 'react-native';
 import Dimensions from 'Dimensions';
 import ModeSelector from './ModeSelector';
 import Tile from './Tile';
 import BoardMenu from './BoardMenu';
+import Modal from 'react-native-modal'
+import { Ionicons } from '@expo/vector-icons';
 
 // get device dimensions
 let {width, height} = Dimensions.get('window');
@@ -21,7 +26,13 @@ export default class Board extends React.Component {
     this.state = {
         board : this.buildBoard(props.size, props.moves),
         mode : MODES[0],
-        originalProps : props
+        originalProps : props,
+        modal : {
+          visible : false,
+          msg : null,
+          color : null,
+          type : null
+        }
     }
     this.clickTile = this.clickTile.bind(this);
     this.setMode = this.setMode.bind(this);
@@ -104,6 +115,7 @@ export default class Board extends React.Component {
   render() {
     let that = this;
     let dynamicStyles = this.getDynamicStyles();
+
     return (
       <View style={styles.game}>
         <View style={styles.boardMenu}>
@@ -120,6 +132,7 @@ export default class Board extends React.Component {
         <View style={styles.selector}>
           <ModeSelector style={styles.modeSelector} setMode={this.setMode}/>
         </View>
+        {this.modal()}
       </View>
     );
   }
@@ -144,12 +157,7 @@ export default class Board extends React.Component {
     }
 
     for (let i = 0; i < ids.length; i++) {
-      if (i === ids.length - 1) {
-        var that = this;
-        this._triggerTileAnimation(ids[i]).start()
-      } else {
         this._triggerTileAnimation(ids[i]).start();
-      }
     }
     this._triggerColorChange(ids, newState);
   }
@@ -164,14 +172,18 @@ export default class Board extends React.Component {
   }
 
   checkWinOrLose(newState) {
-      if (this._didWin()) { this.props.levelUp(); }
+      if (this._didWin()) {
+        this.renderModal('levelup');
+      }
       if (newState.board.movesLeft === 0) {
-        if (this.props.level !== 0) {
-          this.props.newGame();
-        } else {
-          // board renders based on key, which is level, if the level is 0 we need to reset the state instead.
-          this._resetInitialState();
-        }
+        this.renderModal('fail');
+        // modal handles the fail state
+        // if (this.props.level !== 0) {
+        //   this.props.newGame();
+        // } else {
+        //   // board renders based on key, which is level, if the level is 0 we need to reset the state instead.
+        //   this._resetInitialState();
+        // }
       }
   }
 
@@ -300,6 +312,54 @@ export default class Board extends React.Component {
       }
     }
   }
+
+/* -------------------------------- Modal ------------------------------------*/
+  modal(msg) {
+    return (
+      <Modal isVisible={this.state.modal.visible} backdropColor={this.state.modal.color}
+        backdropOpacity={1} animationIn={'zoomInDown'} animationOut={'zoomOutUp'}
+        animationInTiming={500} animationOutTiming={500} backdropTransitionInTiming={500}
+        backdropTransitionOutTiming={500}>
+        <View>
+          <View style={styles.modal}>
+            <Text style={[styles.modalMsg, {color:this.state.modal.color}]}>{this.state.modal.msg}</Text>
+          </View>
+          <TouchableHighlight onPress={() => {this.hideModal()}}>
+            <Ionicons style={styles.modalClose} name="md-arrow-dropright-circle" />
+          </TouchableHighlight>
+        </View>
+      </Modal>
+    )
+  }
+
+  renderModal(type) {
+    switch (type) {
+      case 'fail':
+        this.setState({modal:{
+          visible: true,
+          msg: "SORRY. OUT OF MOVES.",
+          color: '#dd7b6e',
+          type: 'fail'
+        }}); break;
+      case 'levelup':
+        this.setState({modal:{
+          visible: true,
+          msg: "LEVEL UP",
+          color: '#7AAF29',
+          type: 'levelup'
+        }}); break;
+    }
+  }
+
+  hideModal() {
+    if (this.state.modal.type === 'fail') {
+      this.props.gameOver();
+    } else {
+      // don't need to remove modal because this component is getting reconstructed
+      // this.setState({modal:{visible: false}});
+      this.props.levelUp();
+    }
+  }
 }
 
 /* ----------------------------- static styling ------------------------------*/
@@ -319,5 +379,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#CECDCD',
+  },
+  modal: {
+    backgroundColor: '#b3b3b3',
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  modalMsg: {
+    fontSize: 30,
+    fontFamily: 'NukamisoLite',
+    textAlign: 'center'
+  },
+  modalClose: {
+    textAlign: 'center',
+    fontSize: 60,
+    marginTop: 20,
+    color: '#b3b3b3'
   }
 });

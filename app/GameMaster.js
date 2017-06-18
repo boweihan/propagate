@@ -18,6 +18,7 @@ export default class GameMaster extends React.Component {
     this.levelUp = this.levelUp.bind(this);
     this.setRoute = this.setRoute.bind(this);
     this.newGame = this.newGame.bind(this);
+    this.handleGameOver = this.handleGameOver.bind(this);
   }
 
   levelUp() {
@@ -32,6 +33,13 @@ export default class GameMaster extends React.Component {
       route : { menu : false, game : true },
       level : 0,
       firstLoad : false
+    });
+  }
+
+  handleGameOver() {
+    this.setState({
+      route : { menu : true, game : false },
+      firstLoad : true
     });
   }
 
@@ -62,7 +70,7 @@ export default class GameMaster extends React.Component {
     let board = this.state.route.game ?
       <Board size={levelState.size} moves={levelState.moves} newGame={this.newGame}
         key={this.state.level} level={this.state.level} levelUp={this.levelUp}
-        setRoute={this.setRoute} /> : null
+        gameOver={this.handleGameOver} setRoute={this.setRoute} /> : null
 
     return (
       <View style={styles.gameMaster}>
