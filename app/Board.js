@@ -104,6 +104,7 @@ export default class Board extends React.Component {
     return (
       <View style={styles.game}>
         <View style={styles.board}>
+          <Text style={styles.levelNumber}>Level : {this.props.level}</Text>
           <View style={dynamicStyles.container}>
             {this.state.board.tiles.map(function(tile, i){
               return <Tile key={tile.key} id={tile.key} style={[dynamicStyles.tile, tile.tileStyle]} clickTile={that.clickTile}/>
@@ -137,8 +138,20 @@ export default class Board extends React.Component {
     }
 
     for (let i = 0; i < ids.length; i++) {
-      this.triggerTileAnimation(ids[i]);
-      this.triggerColorChange(ids[i]);
+      if (i === ids.length - 1) {
+        var that = this;
+        this.triggerTileAnimation(ids[i]).start(function(evt) {
+          // check win condition in the callback to animation to avoid intermediate states
+          // need evt.finished because there's a parallel animation? being cancelled that causes double calling
+          if (that.didWin() && evt.finished) {
+            that.props.levelUp();
+          }
+        });
+        this.triggerColorChange(ids[i]);
+      } else {
+        this.triggerTileAnimation(ids[i]).start();
+        this.triggerColorChange(ids[i]);
+      }
     }
   }
 
@@ -238,12 +251,11 @@ export default class Board extends React.Component {
   }
 
   triggerTileAnimation(id) {
-    var that = this;
     let opacity = this.state.board.opacities[id];
     let tilt = this.state.board.tilts[id];
     opacity.setValue(.5); // half transparent, half opaque
     tilt.setValue(2);
-    Animated.parallel([
+    return Animated.parallel([
       Animated.timing(opacity, {
         toValue: 1, // fully opaque
         duration: 450, // milliseconds
@@ -253,12 +265,7 @@ export default class Board extends React.Component {
         duration: 450, // milliseconds
         easing: Easing.quad // quadratic easing function: (t) => t * t
       })
-    ]).start(function() {
-      // check win condition in the callback to animation to avoid intermediate states
-      if (that.didWin()) {
-        that.resetInitialState();
-      }
-    });
+    ]);
   }
 
 /* ----------------------------- dynamic styling -----------------------------*/
@@ -286,16 +293,20 @@ export default class Board extends React.Component {
 const styles = StyleSheet.create({
   board: {
     flex: 2,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    alignItems: 'center'
   },
   menu: {
-    flex: 1,
-    justifyContent: 'center'
+    flex: 1
   },
   game: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#CECDCD',
+  },
+  levelNumber: {
+    fontWeight: 'bold',
+    fontSize: 30,
+    paddingBottom: 20
   }
 });
