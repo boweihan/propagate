@@ -19,7 +19,7 @@ export default class Board extends React.Component {
     super();
     this.state = {
         board : this.buildBoard(props.size),
-        mode : MODES[1]
+        mode : MODES[0]
     }
     this.clickTile = this.clickTile.bind(this);
     this.setMode = this.setMode.bind(this);
@@ -246,11 +246,11 @@ export default class Board extends React.Component {
     Animated.parallel([
       Animated.timing(opacity, {
         toValue: 1, // fully opaque
-        duration: 250, // milliseconds
+        duration: 450, // milliseconds
       }),
       Animated.timing(tilt, {
         toValue: 0, // mapped to 0 degrees (no tilt)
-        duration: 250, // milliseconds
+        duration: 450, // milliseconds
         easing: Easing.quad // quadratic easing function: (t) => t * t
       })
     ]).start(function() {
