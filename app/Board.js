@@ -12,7 +12,8 @@ import Dimensions from 'Dimensions';
 import ModeSelector from './ModeSelector';
 import Tile from './Tile';
 import BoardMenu from './BoardMenu';
-import Modal from 'react-native-modal'
+import Modal from 'react-native-modal';
+import { Audio } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 let {width, height} = Dimensions.get('window');
 let COLORS = ['#403837', '#BE3E2C'];
@@ -149,6 +150,8 @@ export default class Board extends React.Component {
 
 /* ----------------------------- game logic ----------------------------------*/
   clickTile(id) {
+    this.playFlip();
+
     let newState = this.state; // ensure that we decrement moves before checking win TODO: refactor
     let ids;
 
@@ -300,6 +303,14 @@ export default class Board extends React.Component {
         easing: Easing.quad // quadratic easing function: (t) => t * t
       })
     ]);
+  }
+
+/* ----------------------------- sound effects -------------------------------*/
+  async playFlip() {
+    await Audio.setIsEnabledAsync(true);
+    const sound = new Audio.Sound();
+    await sound.loadAsync(require('./assets/sounds/flipSoft.mp3'));
+    await sound.playAsync();
   }
 
 /* ----------------------------- dynamic styling -----------------------------*/

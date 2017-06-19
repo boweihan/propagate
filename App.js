@@ -1,6 +1,6 @@
 import React from 'react';
 import GameMaster from './app/GameMaster';
-import { Font } from 'expo';
+import { Audio, Font } from 'expo';
 
 export default class App extends React.Component {
   constructor() {

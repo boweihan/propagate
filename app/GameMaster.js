@@ -47,14 +47,11 @@ export default class GameMaster extends React.Component {
     let state = {};
     if (this.state.level < 6) {
       state.size = 3; state.moves = 15
-    }
-    else if (this.state.level >= 6 && this.state.level < 11) {
+    } else if (this.state.level >= 6 && this.state.level < 11) {
       state.size = 4; state.moves = 20
-    }
-    else if (this.state.level >= 11 && this.state.level < 16) {
+    } else if (this.state.level >= 11 && this.state.level < 16) {
       state.size = 5; state.moves = 25
-    }
-    else {
+    } else {
       state.size = 6; state.moves = 30
     }
     return state;
@@ -63,7 +60,7 @@ export default class GameMaster extends React.Component {
   render() {
     let levelState = this.getStateForLevel();
     let menu = this.state.route.menu ?
-      <Menu setRoute={this.setRoute} firstLoad={this.state.firstLoad}/> : null;
+      <Menu setRoute={this.setRoute} firstLoad={this.state.firstLoad} /> : null;
     let board = this.state.route.game ?
       <Board size={levelState.size} moves={levelState.moves}
         key={this.state.level} level={this.state.level} levelUp={this.levelUp}
