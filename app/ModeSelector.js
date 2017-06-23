@@ -25,18 +25,18 @@ export default class ModeSelector extends React.Component {
     return (
       <View>
         <View style={styles.selectedMode}>
-          <Text style={styles.selectedModeText}>MODE: {this.state.mode}</Text>
+          <Text style={styles.selectedModeText}>SELECTED MODE: {this.state.mode}</Text>
         </View>
         <View style={styles.modes}>
-          <Animated.View style={[styles.square, this.state.squareStyle]}
+          <Animated.View style={[styles.square, styles.selectors, this.state.squareStyle]}
             onStartShouldSetResponder={() => this.selectMode('square')}>
             <Image style={styles.image} source={require('./assets/images/square.png')} />
           </Animated.View>
-          <Animated.View style={[styles.plus, this.state.plusStyle]}
+          <Animated.View style={[styles.plus, styles.selectors, this.state.plusStyle]}
             onStartShouldSetResponder={() => this.selectMode('plus')}>
             <Image style={styles.image} source={require('./assets/images/plus.png')} />
           </Animated.View>
-          <Animated.View style={[styles.cross, this.state.crossStyle]}
+          <Animated.View style={[styles.cross, styles.selectors, this.state.crossStyle]}
             onStartShouldSetResponder={() => this.selectMode('cross')}>
             <Image style={styles.image} source={require('./assets/images/cross.png')} />
           </Animated.View>
@@ -74,6 +74,11 @@ export default class ModeSelector extends React.Component {
 /* ----------------------------- static styling ------------------------------*/
 const styles = StyleSheet.create({
   active: {
+    borderWidth: 10,
+    borderRadius: 4,
+    borderColor: '#7AAF29'
+  },
+  selectors: {
     borderWidth: 10,
     borderRadius: 4,
     borderColor: '#d6d7da'

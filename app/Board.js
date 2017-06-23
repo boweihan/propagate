@@ -17,22 +17,24 @@ import { Audio } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 let {width, height} = Dimensions.get('window');
 let COLORS = ['#403837', '#BE3E2C'];
+let AUXCOLORS = ["gray"];
 let MODES = ['square', 'plus', 'cross'];
 
 export default class Board extends React.Component {
   constructor(props) {
     super();
     this.state = {
-        board : this.buildBoard(props.size, props.moves),
-        mode : MODES[0],
-        originalProps : props,
-        modal : {
-          visible : false,
-          msg : null,
-          color : null,
-          type : null
-        }
+      board : this.buildBoard(props.size, props.moves),
+      mode : MODES[0],
+      originalProps : props,
+      modal : {
+        visible : false,
+        msg : null,
+        color : null,
+        type : null
+      }
     }
+    this.removeTiles(props);
     this.mutateBoard(props);
     this.clickTile = this.clickTile.bind(this);
     this.setMode = this.setMode.bind(this);
@@ -43,17 +45,36 @@ export default class Board extends React.Component {
     if (props.level % 5 !== 1) {
       let numTilesToMutate = (props.level % 5) * (props.level / 5);
       if (numTilesToMutate < 1) { numTilesToMutate = 1; }
-      for (let i = 0; i < numTilesToMutate; i++) {
-        let tileId = Math.floor(Math.random()*this.state.board.size);
-        this.state.board.tiles[tileId].tileStyle.backgroundColor = COLORS[1];
+      while (numTilesToMutate > 0) {
+        let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
+        let tile = this.state.board.tiles[tileId];
+        if (tile.tileStyle.backgroundColor !== AUXCOLORS[0]) {
+          tile.tileStyle.backgroundColor = COLORS[1];
+          numTilesToMutate--;
+        }
       }
+    }
+  }
+
+  removeTiles(props) {
+    let numTilesToRemove;
+    if (props.level % 5 == 4) {
+      numTilesToRemove = props.level / 5;
+    }
+    if (props.level % 5 == 0) {
+      numTilesToRemove = (props.level / 5) * 2;
+    }
+    for (let i = 0; i < numTilesToRemove; i++) {
+      let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
+      let tile = this.state.board.tiles[tileId];
+      tile.tileStyle.backgroundColor = AUXCOLORS[0];
     }
   }
 
   // build board given a board size N (n x n board)
   buildBoard(size, movesLeft) {
     let cell_size = 0.8*width * 1/size;
-    let cell_padding = cell_size * 0.05;
+    let cell_padding = cell_size * 0.01;
     let border_radius = cell_padding * 2;
     let title_size = cell_size - cell_padding * 2;
     let opacities = this.getInitialOpacities(size);
@@ -98,16 +119,17 @@ export default class Board extends React.Component {
         // add tilt effect to tile
         let tilt = tilts[key].interpolate({
           inputRange: [0, 1],
-          outputRange: ['0deg', '-30deg']
+          outputRange: ['0deg', '-90deg']
         });
         // tile styling
         let tileStyle = {
           left: col * cell_size + cell_padding,
           top: row * cell_size + cell_padding,
           opacity: opacities[key],
-          transform: [{perspective: cell_size * 8},
+          transform: [{perspective: cell_size * 100},
                       {rotateX: tilt}],
-          backgroundColor: COLORS[0] // set initial color to be green;
+          backgroundColor: COLORS[0], // set initial color to be green;
+          // display: "inherit"
         };
         tiles.push({key : key, tileStyle : tileStyle});
       }
@@ -150,6 +172,9 @@ export default class Board extends React.Component {
 
 /* ----------------------------- game logic ----------------------------------*/
   clickTile(id) {
+    if (COLORS.indexOf(this.state.board.tiles[id].tileStyle.backgroundColor) === -1) { // if it isn't red or black, return
+      return;
+    }
     this.playFlip();
 
     let newState = this.state; // ensure that we decrement moves before checking win TODO: refactor
@@ -170,7 +195,10 @@ export default class Board extends React.Component {
     }
 
     for (let i = 0; i < ids.length; i++) {
-        this._triggerTileAnimation(ids[i]).start();
+        let tile = this.state.board.tiles[ids[i]];
+        if (tile.tileStyle.backgroundColor !== AUXCOLORS[0]) { // don't change color if it's gray
+          this._triggerTileAnimation(ids[i]).start();
+        }
     }
     this._triggerColorChange(ids, newState);
   }
@@ -189,20 +217,14 @@ export default class Board extends React.Component {
         this.renderModal('levelup');
       } else if (newState.board.movesLeft === 0) {
         this.renderModal('fail');
-        // modal handles the fail state
-        // if (this.props.level !== 0) {
-        //   this.props.setRoute('newGame');
-        // } else {
-        //   // board renders based on key, which is level, if the level is 0 we need to reset the state instead.
-        //   this._resetInitialState();
-        // }
       }
   }
 
   _didWin() {
     let size = this.state.board.size;
     for (let i = 0; i < (size * size); i++) {
-        if (this.state.board.tiles[i].tileStyle.backgroundColor !== "#BE3E2C") {
+        if (this.state.board.tiles[i].tileStyle.backgroundColor !== COLORS[1] &&
+            this.state.board.tiles[i].tileStyle.backgroundColor !== AUXCOLORS[0]) {
             return false;
         }
     }
@@ -278,10 +300,13 @@ export default class Board extends React.Component {
 /* ----------------------------- animations ----------------------------------*/
   _triggerColorChange(ids, newState) {
     for (let i = 0; i < ids.length; i++) {
-      let currColor = this.state.board.tiles[ids[i]].tileStyle.backgroundColor;
-      let currIndex = COLORS.indexOf(currColor);
-      let newIndex = (currIndex === COLORS.length - 1) ? 0 : currIndex + 1;
-      newState.board.tiles[ids[i]].tileStyle.backgroundColor = COLORS[newIndex];
+      let tile = this.state.board.tiles[ids[i]];
+      let currColor = tile.tileStyle.backgroundColor;
+      if (currColor !== AUXCOLORS[0]) { // don't change color if it's gray
+        let currIndex = COLORS.indexOf(currColor);
+        let newIndex = (currIndex === COLORS.length - 1) ? 0 : currIndex + 1;
+        newState.board.tiles[ids[i]].tileStyle.backgroundColor = COLORS[newIndex];
+      }
     }
     this.setState(newState);
     this.checkWinOrLose(newState);
@@ -325,7 +350,8 @@ export default class Board extends React.Component {
         position: 'absolute',
         width: this.state.board.title_size,
         height: this.state.board.title_size,
-        borderRadius: this.state.board.border_radius,
+        // borderRadius: this.state.board.border_radius,
+        borderRadius: 0,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#403837',
