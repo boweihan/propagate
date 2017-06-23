@@ -1,13 +1,6 @@
 import React from 'react';
-import { StyleSheet,
-         Text,
-         View,
-         TouchableOpacity,
-         Animated,
-         Easing,
-         Alert,
-         Button,
-         TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Animated,
+         Easing, Alert, Button, TouchableHighlight } from 'react-native';
 import Dimensions from 'Dimensions';
 import ModeSelector from './ModeSelector';
 import Tile from './Tile';
@@ -15,9 +8,11 @@ import BoardMenu from './BoardMenu';
 import Modal from 'react-native-modal';
 import { Audio } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
+
 let {width, height} = Dimensions.get('window');
 let COLORS = ['#403837', '#BE3E2C'];
-let AUXCOLORS = ["gray"];
+let AUXCOLORS = ['gray'];
+let MODS = ["grayBlock"];
 let MODES = ['square', 'plus', 'cross'];
 
 export default class Board extends React.Component {
@@ -34,21 +29,47 @@ export default class Board extends React.Component {
         type : null
       }
     }
-    this.removeTiles(props);
-    this.mutateBoard(props);
+    this.setDisabledTiles(props);
+    this.setFlippedTiles(props);
     this.clickTile = this.clickTile.bind(this);
     this.setMode = this.setMode.bind(this);
   }
 
-/* ----------------------------- initialization logic ------------------------*/
-  mutateBoard(props) {
+/******************************************************************************/
+/**************************** Initialization Logic ****************************/
+/******************************************************************************/
+
+  /**
+  * Set disabled tiles on initialization
+  * @param {object} props
+  */
+  setDisabledTiles(props) {
+    let numTilesToRemove;
+    if (props.level % 5 == 4) {
+      numTilesToRemove = props.level / 5;
+    } else if (props.level % 5 == 0) {
+      numTilesToRemove = (props.level / 5) * 2;
+    }
+    for (let i = 0; i < numTilesToRemove; i++) {
+      let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
+      let tile = this.state.board.tiles[tileId];
+      tile.mods.push(MODS[0]);
+      tile.tileStyle.backgroundColor = AUXCOLORS[0];
+    }
+  }
+
+  /**
+  * Set flipped tiles on initialization
+  * @param {object} props - react props
+  */
+  setFlippedTiles(props) {
     if (props.level % 5 !== 1) {
       let numTilesToMutate = (props.level % 5) * (props.level / 5);
       if (numTilesToMutate < 1) { numTilesToMutate = 1; }
       while (numTilesToMutate > 0) {
         let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
         let tile = this.state.board.tiles[tileId];
-        if (tile.tileStyle.backgroundColor !== AUXCOLORS[0]) {
+        if (tile.mods.indexOf(MODS[0]) === -1) { // not disabled, so flip
           tile.tileStyle.backgroundColor = COLORS[1];
           numTilesToMutate--;
         }
@@ -56,95 +77,77 @@ export default class Board extends React.Component {
     }
   }
 
-  removeTiles(props) {
-    let numTilesToRemove;
-    if (props.level % 5 == 4) {
-      numTilesToRemove = props.level / 5;
-    }
-    if (props.level % 5 == 0) {
-      numTilesToRemove = (props.level / 5) * 2;
-    }
-    for (let i = 0; i < numTilesToRemove; i++) {
-      let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
-      let tile = this.state.board.tiles[tileId];
-      tile.tileStyle.backgroundColor = AUXCOLORS[0];
-    }
-  }
-
-  // build board given a board size N (n x n board)
+  /**
+  * Build board on initialization
+  * @param {Int} size - width/height of cubic board
+  * @param {Int} movesLeft - moves allowed for level
+  */
   buildBoard(size, movesLeft) {
-    let cell_size = 0.8*width * 1/size;
-    let cell_padding = cell_size * 0.01;
-    let border_radius = cell_padding * 2;
-    let title_size = cell_size - cell_padding * 2;
+    let cellSize = 0.8*width * 1/size;
+    let cellPadding = cellSize * 0.01;
+    let title_size = cellSize - cellPadding * 2;
     let opacities = this.getInitialOpacities(size);
     let tilts = this.getInitialTilt(size);
-    let tiles = this.getInitialTileState(size, cell_size, cell_padding, opacities, tilts);
+    let tiles = this.getInitialTileState(size, cellSize, cellPadding, opacities, tilts);
     return {
-        size : size,
-        cell_size : cell_size,
-        cell_padding : cell_padding,
-        border_radius : border_radius,
-        title_size : title_size,
-        opacities : opacities,
-        tilts : tilts,
-        tiles : tiles,
-        movesLeft : movesLeft,
+        size : size, cellSize : cellSize, cellPadding : cellPadding,
+        title_size : title_size, opacities : opacities, tilts : tilts,
+        tiles : tiles, movesLeft : movesLeft,
     }
   }
 
-  // tile opacities
+  /**
+  * Create an array of Animated() values to use for opacity
+  * @param {Int} size - width/height of cubic board
+  */
   getInitialOpacities(size) {
     let opacities = new Array(size * size);
-    for (let i = 0; i < opacities.length; i++) {
-      opacities[i] = new Animated.Value(1);
-    }
+    for (let i = 0; i < opacities.length; i++) { opacities[i] = new Animated.Value(1); }
     return opacities;
   }
 
-  // tile tilt
+  /**
+  * Create an array of Animated() values to use for tilt
+  * @param {Int} size - width/height of cubic board
+  */
   getInitialTilt(size) {
     let tilt = new Array(size * size);
-    for (let i = 0; i < tilt.length; i++) {
-      tilt[i] = new Animated.Value(0);
-    }
+    for (let i = 0; i < tilt.length; i++) { tilt[i] = new Animated.Value(0); }
     return tilt;
   }
 
-  getInitialTileState(size, cell_size, cell_padding, opacities, tilts) {
+  /**
+  * Set the initial state of a Tile
+  * @param {Int} size - width/height of cubic board
+  * @param {float} cellSize - Tile cell size
+  * @param {float} cellPadding - Tile padding
+  * @param {Array<Animated>} opacities - Array of Animated() opacity values
+  * @param {Array<Animated>} tilts - Array of Animated() tilt values
+  */
+  getInitialTileState(size, cellSize, cellPadding, opacities, tilts) {
     let tiles = [];
     for (let row = 0; row < size; row++) {
       for (let col = 0; col < size; col++) {
         let key = row * size + col;
-        // add tilt effect to tile
-        let tilt = tilts[key].interpolate({
-          inputRange: [0, 1],
-          outputRange: ['0deg', '-90deg']
-        });
-        // tile styling
-        let tileStyle = {
-          left: col * cell_size + cell_padding,
-          top: row * cell_size + cell_padding,
+        let tileStyle = { // tile styling
+          left: col * cellSize + cellPadding,
+          top: row * cellSize + cellPadding,
           opacity: opacities[key],
-          transform: [{perspective: cell_size * 100},
-                      {rotateX: tilt}],
-          backgroundColor: COLORS[0], // set initial color to be green;
-          // display: "inherit"
+          transform: [{perspective: cellSize * 100}, {rotateX: tilts[key].interpolate({
+                          inputRange: [0, 1], outputRange: ['0deg', '-90deg'] })}],
+          backgroundColor: COLORS[0]
         };
-        tiles.push({key : key, tileStyle : tileStyle});
+        let mods = [] // extra classes for additional behaviour
+        tiles.push({key : key, tileStyle : tileStyle, mods: mods});
       }
     }
     return tiles;
   }
 
-  _resetInitialState() {
-    let newState = {
-      board : this.buildBoard(this.state.originalProps.size, this.state.originalProps.moves)
-    }
-    this.setState(newState);
-  }
+/******************************************************************************/
+/**************************** Board Drawing Logic *****************************/
+/******************************************************************************/
 
-/* ----------------------------- board drawing logic -------------------------*/
   render() {
     let that = this;
     let dynamicStyles = this.getDynamicStyles();
@@ -170,19 +173,68 @@ export default class Board extends React.Component {
     );
   }
 
-/* ----------------------------- game logic ----------------------------------*/
+/******************************************************************************/
+/********************************* Game Logic *********************************/
+/******************************************************************************/
+
+  /**
+  * Handler for Tile click event
+  * @param {Int} id - index of the clicked Tile
+  */
   clickTile(id) {
-    if (COLORS.indexOf(this.state.board.tiles[id].tileStyle.backgroundColor) === -1) { // if it isn't red or black, return
-      return;
-    }
+    if (this.state.board.tiles[id].mods.indexOf(MODS[0]) !== -1) { return; } // return if disabled
     this.playFlip();
 
     let newState = this.state; // ensure that we decrement moves before checking win TODO: refactor
+    newState.board.movesLeft--; // decrement moves before we setState later on
+
+    let ids = this.getIdsForMode(id);
+    for (let i = 0; i < ids.length; i++) {
+        let tile = this.state.board.tiles[ids[i]];
+        if (tile.mods.indexOf(MODS[0]) === -1) { // don't change color if there's a gray mod
+          this._triggerTileAnimation(ids[i]).start();
+        }
+    }
+    this._triggerColorChange(ids, newState);
+  }
+
+  /**
+  * Handler for ModeSelector click event
+  * @param {String} mode - mode type
+  */
+  setMode(mode) {
+    let modeIndex = MODES.indexOf(mode);
+    if (modeIndex !== -1) {
+      this.setState({
+        mode : MODES[modeIndex]
+      });
+    }
+  }
+
+  /**
+  * Check win conditions
+  * @param {Object} newState - copied state object
+  */
+  _didWin(newState) {
+    let won = true;
+    let size = this.state.board.size;
+    for (let i = 0; i < (size * size); i++) {
+        let tile = this.state.board.tiles[i];
+        if (tile.tileStyle.backgroundColor !== COLORS[1] &&
+          tile.mods.indexOf(MODS[0]) === -1) { // not black or disabled, you don't win
+            won = false;
+        }
+    }
+    if (won) { this.renderModal('levelup'); }
+    else if (newState.board.movesLeft === 0) { this.renderModal('fail'); }
+  }
+
+  /**
+  * Helper to get ids of Tiles to change after clickTile event
+  * @param {Int} id - index of the clicked Tile
+  */
+  getIdsForMode(id) {
     let ids;
-
-    // decrement moves before we setState later on
-    newState.board.movesLeft--
-
     switch (this.state.mode) {
       case MODES[0]:
         ids = this._squareModeClickHandler(id); break;
@@ -193,50 +245,24 @@ export default class Board extends React.Component {
       default:
         console.log('that mode is unsupported'); break;
     }
-
-    for (let i = 0; i < ids.length; i++) {
-        let tile = this.state.board.tiles[ids[i]];
-        if (tile.tileStyle.backgroundColor !== AUXCOLORS[0]) { // don't change color if it's gray
-          this._triggerTileAnimation(ids[i]).start();
-        }
-    }
-    this._triggerColorChange(ids, newState);
+    return ids;
   }
 
-  setMode(mode) {
-    let modeIndex = MODES.indexOf(mode);
-    if (modeIndex !== -1) {
-      this.setState({
-        mode : MODES[modeIndex]
-      });
-    }
-  }
-
-  checkWinOrLose(newState) {
-      if (this._didWin()) {
-        this.renderModal('levelup');
-      } else if (newState.board.movesLeft === 0) {
-        this.renderModal('fail');
-      }
-  }
-
-  _didWin() {
-    let size = this.state.board.size;
-    for (let i = 0; i < (size * size); i++) {
-        if (this.state.board.tiles[i].tileStyle.backgroundColor !== COLORS[1] &&
-            this.state.board.tiles[i].tileStyle.backgroundColor !== AUXCOLORS[0]) {
-            return false;
-        }
-    }
-    return true;
-  }
-
-  // TODO: refactors all these handlers
+  /**
+  * TODO: refactor
+  * Helper to build local variables for click handler
+  * @param {Int} id - index of the clicked Tile
+  */
   buildClickHandlerVars(id) {
     size = this.state.board.size;
     return [[id], size, id % size, Math.floor(id / size)];
   }
 
+  /**
+  * TODO: refactor
+  * Click handler for plus mode
+  * @param {Int} id - index of the clicked Tile
+  */
   _plusModeClickHandler(id) {
     let [ids, size, xPos, yPos] = this.buildClickHandlerVars(id);
 
@@ -257,6 +283,11 @@ export default class Board extends React.Component {
     return ids;
   }
 
+  /**
+  * TODO: refactor
+  * Click handler for square mode
+  * @param {Int} id - index of the clicked Tile
+  */
   _squareModeClickHandler(id) {
     let [ids, size, xPos, yPos] = this.buildClickHandlerVars(id);
 
@@ -277,6 +308,11 @@ export default class Board extends React.Component {
     return ids;
   }
 
+  /**
+  * TODO: refactor
+  * Click handler for cross mode
+  * @param {Int} id - index of the clicked Tile
+  */
   _crossModeClickHandler(id) {
     let [ids, size, xPos, yPos] = this.buildClickHandlerVars(id);
 
@@ -297,21 +333,33 @@ export default class Board extends React.Component {
     return ids;
   }
 
-/* ----------------------------- animations ----------------------------------*/
+/******************************************************************************/
+/********************************* Animations *********************************/
+/******************************************************************************/
+
+  /**
+  * Method to trigger color change for a set of Tiles
+  * @param {Array<Int>} ids - list of Tile indexes
+  * @param {Object} newState - copied state object
+  */
   _triggerColorChange(ids, newState) {
     for (let i = 0; i < ids.length; i++) {
       let tile = this.state.board.tiles[ids[i]];
-      let currColor = tile.tileStyle.backgroundColor;
-      if (currColor !== AUXCOLORS[0]) { // don't change color if it's gray
+      if (tile.mods.indexOf(MODS[0]) === -1) { // not disabled, trigger color change
+        let currColor = tile.tileStyle.backgroundColor;
         let currIndex = COLORS.indexOf(currColor);
         let newIndex = (currIndex === COLORS.length - 1) ? 0 : currIndex + 1;
         newState.board.tiles[ids[i]].tileStyle.backgroundColor = COLORS[newIndex];
       }
     }
     this.setState(newState);
-    this.checkWinOrLose(newState);
+    this._didWin(newState);
   }
 
+  /**
+  * Method to trigger animation for a single Tile
+  * @param {Int} id - Tile Index
+  */
   _triggerTileAnimation(id) {
     let opacity = this.state.board.opacities[id];
     let tilt = this.state.board.tilts[id];
@@ -330,7 +378,13 @@ export default class Board extends React.Component {
     ]);
   }
 
-/* ----------------------------- sound effects -------------------------------*/
+/******************************************************************************/
+/******************************** Sound Effects *******************************/
+/******************************************************************************/
+
+  /**
+  * Play the flip sound
+  */
   async playFlip() {
     await Audio.setIsEnabledAsync(true);
     const sound = new Audio.Sound();
@@ -338,19 +392,24 @@ export default class Board extends React.Component {
     await sound.playAsync();
   }
 
-/* ----------------------------- dynamic styling -----------------------------*/
+/******************************************************************************/
+/****************************** Dynamic Styling *******************************/
+/******************************************************************************/
+
+  /**
+  * Get Dynamic sizes that adjust with screen dimensions
+  */
   getDynamicStyles() {
     return {
       container: {
-        width: this.state.board.cell_size * this.state.board.size,
-        height: this.state.board.cell_size * this.state.board.size,
+        width: this.state.board.cellSize * this.state.board.size,
+        height: this.state.board.cellSize * this.state.board.size,
         backgroundColor: 'transparent',
       },
       tile: {
         position: 'absolute',
         width: this.state.board.title_size,
         height: this.state.board.title_size,
-        // borderRadius: this.state.board.border_radius,
         borderRadius: 0,
         justifyContent: 'center',
         alignItems: 'center',
@@ -359,7 +418,14 @@ export default class Board extends React.Component {
     }
   }
 
-/* -------------------------------- Modal ------------------------------------*/
+/******************************************************************************/
+/************************** Modal Rendering Logic *****************************/
+/******************************************************************************/
+
+  /**
+  * Return a modal object to be rendered
+  * @param {String} msg - modal message
+  */
   modal(msg) {
     let opacity = (this.state.modal.type === "levelup") ? 0.9 : 1
     return (
@@ -379,6 +445,11 @@ export default class Board extends React.Component {
     )
   }
 
+  /**
+  * TODO: use enum
+  * Render the modal based on type
+  * @param {String} type - string indicated which type of modal to render
+  */
   renderModal(type) {
     switch (type) {
       case 'fail':
@@ -398,18 +469,22 @@ export default class Board extends React.Component {
     }
   }
 
+  /**
+  * hide modal on click
+  */
   hideModal() {
     if (this.state.modal.type === 'fail') {
       this.props.setRoute('gameOver');
-    } else {
-      // don't need to remove modal because this component is getting reconstructed
-      // this.setState({modal:{visible: false}});
+    } else { // NOTE: don't need to set modal visible:false because component is reconstructed
       this.props.levelUp();
     }
   }
 }
 
-/* ----------------------------- static styling ------------------------------*/
+/******************************************************************************/
+/******************************* Static Styling *******************************/
+/******************************************************************************/
+
 const styles = StyleSheet.create({
   boardMenu: {
     flex: 1
