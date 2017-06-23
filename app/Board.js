@@ -19,9 +19,7 @@ export default class Board extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      board : this.buildBoard(props.size, props.moves),
-      mode : MODES[0],
-      originalProps : props,
+      board : props.boardStateCache ? props.boardStateCache : this.buildBoard(props.size, props.moves),
       modal : {
         visible : false,
         msg : null,
@@ -85,14 +83,14 @@ export default class Board extends React.Component {
   buildBoard(size, movesLeft) {
     let cellSize = 0.8*width * 1/size;
     let cellPadding = cellSize * 0.01;
-    let title_size = cellSize - cellPadding * 2;
+    let tile_size = cellSize - cellPadding * 2;
     let opacities = this.getInitialOpacities(size);
     let tilts = this.getInitialTilt(size);
     let tiles = this.getInitialTileState(size, cellSize, cellPadding, opacities, tilts);
     return {
         size : size, cellSize : cellSize, cellPadding : cellPadding,
-        title_size : title_size, opacities : opacities, tilts : tilts,
-        tiles : tiles, movesLeft : movesLeft,
+        tile_size : tile_size, opacities : opacities, tilts : tilts,
+        tiles : tiles, movesLeft : movesLeft, mode : MODES[0]
     }
   }
 
@@ -156,7 +154,7 @@ export default class Board extends React.Component {
       <View style={styles.game}>
         <View style={styles.boardMenu}>
           <BoardMenu setRoute={this.props.setRoute} movesLeft={this.state.board.movesLeft}
-            level={this.props.level} score={this.props.score}/>
+            level={this.props.level} score={this.props.score} board={this.state.board}/>
         </View>
         <View style={styles.board}>
           <View style={dynamicStyles.container}>
@@ -205,9 +203,9 @@ export default class Board extends React.Component {
   setMode(mode) {
     let modeIndex = MODES.indexOf(mode);
     if (modeIndex !== -1) {
-      this.setState({
-        mode : MODES[modeIndex]
-      });
+      let newState = this.state;
+      newState.board.mode = MODES[modeIndex];
+      this.setState(newState);
     }
   }
 
@@ -235,7 +233,7 @@ export default class Board extends React.Component {
   */
   getIdsForMode(id) {
     let ids;
-    switch (this.state.mode) {
+    switch (this.state.board.mode) {
       case MODES[0]:
         ids = this._squareModeClickHandler(id); break;
       case MODES[1]:
@@ -368,11 +366,11 @@ export default class Board extends React.Component {
     return Animated.parallel([
       Animated.timing(opacity, {
         toValue: 1, // fully opaque
-        duration: 450, // milliseconds
+        duration: 350, // milliseconds
       }),
       Animated.timing(tilt, {
         toValue: 0, // mapped to 0 degrees (no tilt)
-        duration: 450, // milliseconds
+        duration: 350, // milliseconds
         easing: Easing.quad // quadratic easing function: (t) => t * t
       })
     ]);
@@ -408,8 +406,8 @@ export default class Board extends React.Component {
       },
       tile: {
         position: 'absolute',
-        width: this.state.board.title_size,
-        height: this.state.board.title_size,
+        width: this.state.board.tile_size,
+        height: this.state.board.tile_size,
         borderRadius: 0,
         justifyContent: 'center',
         alignItems: 'center',

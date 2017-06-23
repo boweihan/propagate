@@ -15,7 +15,7 @@ export default class BoardMenu extends React.Component {
       <View style={styles.boardMenu}>
         <View style={styles.innerMainMenu}>
           <TouchableHighlight style={styles.btn1} underlayColor='white' activeOpacity={0.5}
-            onPress={() => this.props.setRoute('menu')}>
+            onPress={() => this.props.setRoute('menu', this.props.board)}>
             <View style={styles.backToMenu}>
               <Text style={styles.menuText}>Menu</Text>
             </View>

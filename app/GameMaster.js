@@ -14,7 +14,8 @@ export default class GameMaster extends React.Component {
       },
       level : 1,
       score : 0,
-      firstLoad : true
+      firstLoad : true,
+      boardStateCache : null
     }
     this.levelUp = this.levelUp.bind(this);
     this.setRoute = this.setRoute.bind(this);
@@ -29,17 +30,22 @@ export default class GameMaster extends React.Component {
     });
   }
 
-  setRoute(route) {
+  /**
+  * Poor man's router
+  * @param {String} route - route name
+  * @param {Object} boardState - boardState if cached (OPTIONAL)
+  */
+  setRoute(route, boardState) {
     switch (route) {
       case 'game':
-        // set firstLoad to false as soon as you get into the game
         this.setState({ route : { menu : false, game : true }, firstLoad : false}); break;
       case 'menu':
-        this.setState({ route : { menu : true, game : false }}); break;
+        let boardStateCache = boardState ? boardState : null;
+        this.setState({ route : { menu : true, game : false }, boardStateCache : boardStateCache }); break;
       case 'gameOver':
-        this.setState({ route : { menu : true, game : false }, level : 1, score : 0, firstLoad : true }); break;
+        this.setState({ route : { menu : true, game : false }, level : 1, score : 0, firstLoad : true, boardStateCache : null }); break;
       case 'newGame':
-        this.setState({ route : { menu : false, game : true }, level : 1, score : 0, firstLoad : false }); break;
+        this.setState({ route : { menu : false, game : true }, level : 1, score : 0, firstLoad : false, boardStateCache : null }); break;
     }
   }
 
@@ -64,7 +70,8 @@ export default class GameMaster extends React.Component {
     let board = this.state.route.game ?
       <Board size={levelState.size} moves={levelState.moves}
         key={this.state.level} level={this.state.level} levelUp={this.levelUp}
-        score={this.state.score} setRoute={this.setRoute} /> : null
+        score={this.state.score} setRoute={this.setRoute}
+        boardStateCache={this.state.boardStateCache} /> : null
 
     return (
       <View style={styles.gameMaster}>

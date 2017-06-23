@@ -16,29 +16,63 @@ export default class ModeSelector extends React.Component {
     super()
     this.state = {
       mode : 'SQUARE',
+      modeTiles : {
+        squareTiles : this.getModeTiles(3, (BUTTONSIZE-20)/3, [0, 1, 2, 3, 4, 5, 6, 7, 8]),
+        plusTiles : this.getModeTiles(3, (BUTTONSIZE-20)/3, [1, 3, 4, 5, 7]),
+        crossTiles : this.getModeTiles(3, (BUTTONSIZE-20)/3, [0, 2, 4, 6, 8])
+      },
       squareStyle : styles.active,
       plusStyle : null,
       crossStyle : null
     }
   }
+
+  getModeTiles(size, cellSize, tilesToFlip) {
+    let tiles = [];
+    for (let row = 0; row < size; row++) {
+      for (let col = 0; col < size; col++) {
+        let key = row * size + col;
+        let tileColor = '#403837';
+        if (tilesToFlip && tilesToFlip.indexOf(key) !== -1) {
+          tileColor = "#BE3E2C";
+        }
+        let tileStyle = {
+          left: col * cellSize + 1.5,
+          top: row * cellSize + 1.5,
+          backgroundColor: tileColor,
+          position: 'absolute',
+          width: cellSize-3,
+          height: cellSize-3
+        };
+        tiles.push({key : key, tileStyle : tileStyle});
+      }
+    }
+    return tiles;
+  }
   render() {
     return (
       <View>
         <View style={styles.selectedMode}>
-          <Text style={styles.selectedModeText}>SELECTED MODE: {this.state.mode}</Text>
+          <Text style={styles.selectedModeText}>FLIP PATTERN: {this.state.mode}</Text>
         </View>
         <View style={styles.modes}>
           <Animated.View style={[styles.square, styles.selectors, this.state.squareStyle]}
             onStartShouldSetResponder={() => this.selectMode('square')}>
-            <Image style={styles.image} source={require('./assets/images/square.png')} />
+            {this.state.modeTiles.squareTiles.map(function(tile, i){
+              return <View key={tile.key} style={tile.tileStyle}></View>
+            })}
           </Animated.View>
           <Animated.View style={[styles.plus, styles.selectors, this.state.plusStyle]}
             onStartShouldSetResponder={() => this.selectMode('plus')}>
-            <Image style={styles.image} source={require('./assets/images/plus.png')} />
+            {this.state.modeTiles.plusTiles.map(function(tile, i){
+              return <View key={tile.key} style={tile.tileStyle}></View>
+            })}
           </Animated.View>
           <Animated.View style={[styles.cross, styles.selectors, this.state.crossStyle]}
             onStartShouldSetResponder={() => this.selectMode('cross')}>
-            <Image style={styles.image} source={require('./assets/images/cross.png')} />
+            {this.state.modeTiles.crossTiles.map(function(tile, i){
+              return <View key={tile.key} style={tile.tileStyle}></View>
+            })}
           </Animated.View>
         </View>
       </View>
@@ -76,12 +110,15 @@ const styles = StyleSheet.create({
   active: {
     borderWidth: 10,
     borderRadius: 4,
-    borderColor: '#7AAF29'
+    borderColor: 'white',
+    backgroundColor: 'white',
+    opacity: 1
   },
   selectors: {
     borderWidth: 10,
     borderRadius: 4,
-    borderColor: '#d6d7da'
+    borderColor: '#d6d7da',
+    opacity: 0.7
   },
   modes: {
     flex: 3,
@@ -91,19 +128,17 @@ const styles = StyleSheet.create({
   square: {
     width: BUTTONSIZE,
     height: BUTTONSIZE,
-    margin: BUTTONSIZE*0.1,
+    margin: BUTTONSIZE*0.1
   },
   plus: {
     width: BUTTONSIZE,
     height: BUTTONSIZE,
-    margin: BUTTONSIZE*0.1,
-    backgroundColor: 'gray',
+    margin: BUTTONSIZE*0.1
   },
   cross: {
     width: BUTTONSIZE,
     height: BUTTONSIZE,
-    margin: BUTTONSIZE*0.1,
-    backgroundColor: 'gray',
+    margin: BUTTONSIZE*0.1
   },
   image: {
     width: '100%',
