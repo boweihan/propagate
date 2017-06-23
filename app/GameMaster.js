@@ -39,7 +39,7 @@ export default class GameMaster extends React.Component {
       case 'gameOver':
         this.setState({ route : { menu : true, game : false }, level : 1, score : 0, firstLoad : true }); break;
       case 'newGame':
-        this.setState({ route : { menu : false, game : true }, level : 4, score : 0, firstLoad : false }); break;
+        this.setState({ route : { menu : false, game : true }, level : 1, score : 0, firstLoad : false }); break;
     }
   }
 
