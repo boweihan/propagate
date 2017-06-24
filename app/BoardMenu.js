@@ -16,11 +16,12 @@ export default class BoardMenu extends React.Component {
                 <Text style={styles.menuText}>Menu</Text>
               </View>
             </TouchableHighlight>
-            <View style={styles.btn3_col2}>
+            <TouchableHighlight style={styles.btn3_col2} underlayColor='#CECDCD' activeOpacity={0.5}
+              onPress={() => this.props.setRoute('leaderboard', this.props.board)}>
               <View style={styles.backToLeaderboard}>
                 <Text style={[styles.menuText, {fontSize:12}]}>Top{'\n'}Scores</Text>
               </View>
-            </View>
+            </TouchableHighlight>
           </View>
           <View style={styles.btn2}>
             <View style={styles.movesLeft}>

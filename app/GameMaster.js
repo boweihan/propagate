@@ -38,6 +38,8 @@ export default class GameMaster extends React.Component {
   * @param {Object} boardState - boardState if cached (OPTIONAL)
   */
   setRoute(route, boardState) {
+    boardState = boardState || this.state.boardStateCache;
+    let boardStateCache = boardState ? boardState : null;
     switch (route) {
       case 'game':
         this.setState({
@@ -45,14 +47,14 @@ export default class GameMaster extends React.Component {
           firstLoad : false
         }); break;
       case 'menu':
-        let boardStateCache = boardState ? boardState : null;
         this.setState({
           route : { menu : true, game : false, leaderboard : false },
           boardStateCache : boardStateCache
         }); break;
       case 'leaderboard':
         this.setState({
-          route : { menu : false, game: false, leaderboard : true }
+          route : { menu : false, game: false, leaderboard : true },
+          boardStateCache: boardStateCache
         }); break;
       case 'gameOver':
         this.setState({
