@@ -474,7 +474,7 @@ export default class Board extends React.Component {
     if (this.state.modal.type === 'fail') {
       this.props.setRoute('gameOver');
     } else { // NOTE: don't need to set modal visible:false because component is reconstructed
-      this.props.levelUp();
+      this.props.levelUp(this.state.board.movesLeft);
     }
   }
 }

@@ -23,9 +23,14 @@ export default class GameMaster extends React.Component {
     this.setRoute = this.setRoute.bind(this);
   }
 
-  levelUp() {
+  /**
+  * Level-up handler
+  * @param {Int} movesLeft - number of moves left, used to calculate score
+  */
+  levelUp(movesLeft) {
     let newLevel = this.state.level + 1;
     let newScore = (this.state.score + 10) + this.state.level;
+    newScore += movesLeft * 10;
     this.setState({
       level : newLevel,
       score : newScore
