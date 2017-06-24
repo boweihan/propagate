@@ -1,15 +1,9 @@
 import React from 'react';
-import { StyleSheet,
-         Text,
-         View,
-         TouchableOpacity,
-         Animated,
-         Easing,
-         Image } from 'react-native';
+import { StyleSheet, Text, View, Animated} from 'react-native';
 import Dimensions from 'Dimensions';
 let {width, height} = Dimensions.get('window');
-// buttonsize math works because menu takes up 33% of height and there are 3 buttons
-let BUTTONSIZE = width > height ? 0.8*(height/3) : 0.8*(width/3);
+let BUTTONSIZE = width > height ? 0.8*(height/3) : 0.8*(width/3)
+let COLORS = ['#403837', '#BE3E2C'];
 
 export default class ModeSelector extends React.Component {
   constructor() {
@@ -32,9 +26,9 @@ export default class ModeSelector extends React.Component {
     for (let row = 0; row < size; row++) {
       for (let col = 0; col < size; col++) {
         let key = row * size + col;
-        let tileColor = '#403837';
+        let tileColor = COLORS[0];
         if (tilesToFlip && tilesToFlip.indexOf(key) !== -1) {
-          tileColor = "#BE3E2C";
+          tileColor = COLORS[1];
         }
         let tileStyle = {
           left: col * cellSize + 1.5,
@@ -56,19 +50,19 @@ export default class ModeSelector extends React.Component {
           <Text style={styles.selectedModeText}>FLIP PATTERN: {this.state.mode}</Text>
         </View>
         <View style={styles.modes}>
-          <Animated.View style={[styles.square, styles.selectors, this.state.squareStyle]}
+          <Animated.View style={[styles.selectors, this.state.squareStyle]}
             onStartShouldSetResponder={() => this.selectMode('square')}>
             {this.state.modeTiles.squareTiles.map(function(tile, i){
               return <View key={tile.key} style={tile.tileStyle}></View>
             })}
           </Animated.View>
-          <Animated.View style={[styles.plus, styles.selectors, this.state.plusStyle]}
+          <Animated.View style={[styles.selectors, this.state.plusStyle]}
             onStartShouldSetResponder={() => this.selectMode('plus')}>
             {this.state.modeTiles.plusTiles.map(function(tile, i){
               return <View key={tile.key} style={tile.tileStyle}></View>
             })}
           </Animated.View>
-          <Animated.View style={[styles.cross, styles.selectors, this.state.crossStyle]}
+          <Animated.View style={[styles.selectors, this.state.crossStyle]}
             onStartShouldSetResponder={() => this.selectMode('cross')}>
             {this.state.modeTiles.crossTiles.map(function(tile, i){
               return <View key={tile.key} style={tile.tileStyle}></View>
@@ -118,31 +112,15 @@ const styles = StyleSheet.create({
     borderWidth: 10,
     borderRadius: 4,
     borderColor: '#d6d7da',
-    opacity: 0.7
+    opacity: 0.7,
+    width: BUTTONSIZE,
+    height: BUTTONSIZE,
+    margin: BUTTONSIZE*0.1
   },
   modes: {
     flex: 3,
     flexDirection: 'row',
     alignItems: 'flex-start'
-  },
-  square: {
-    width: BUTTONSIZE,
-    height: BUTTONSIZE,
-    margin: BUTTONSIZE*0.1
-  },
-  plus: {
-    width: BUTTONSIZE,
-    height: BUTTONSIZE,
-    margin: BUTTONSIZE*0.1
-  },
-  cross: {
-    width: BUTTONSIZE,
-    height: BUTTONSIZE,
-    margin: BUTTONSIZE*0.1
-  },
-  image: {
-    width: '100%',
-    height: '100%',
   },
   selectedMode: {
     flex: 1,
