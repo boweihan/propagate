@@ -4,6 +4,7 @@ import { StyleSheet,
 import Board from './Board';
 import Menu from './Menu';
 import LeaderBoard from './LeaderBoard';
+import Store from 'react-native-simple-store';
 
 export default class GameMaster extends React.Component {
   constructor() {
@@ -37,6 +38,13 @@ export default class GameMaster extends React.Component {
     });
   }
 
+  _saveScoreToStorage() {
+    Store.push("leaderboard", {
+      "playerName":"Obama",
+      "score":this.state.score
+    });
+  }
+
   /**
   * Poor man's router
   * @param {String} route - route name
@@ -62,6 +70,7 @@ export default class GameMaster extends React.Component {
           boardStateCache: boardStateCache
         }); break;
       case 'gameOver':
+        this._saveScoreToStorage();
         this.setState({
           route : { menu : true, game : false, leaderboard : false },
           level : 1,

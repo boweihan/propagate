@@ -1,6 +1,7 @@
 import React from 'react';
 import GameMaster from './app/GameMaster';
 import { Audio, Font } from 'expo';
+import Store from 'react-native-simple-store';
 
 export default class App extends React.Component {
   constructor() {
@@ -8,6 +9,12 @@ export default class App extends React.Component {
     this.state = {
       fontLoaded : false
     }
+    Store.get("leaderboard").then( //initialize store to array if need be
+      leaderboard => {
+        if (!leaderboard) {
+          Store.save("leaderboard", []);
+        };
+      });
   }
 
   async componentDidMount() {
