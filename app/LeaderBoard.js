@@ -36,7 +36,7 @@ export default class LeaderBoard extends React.Component {
           <View style={styles.scoreElement}>
             <View style={styles.scoreBox}>
               <Text style={[styles.menuText, styles.scoreText]}>
-                Leaderboard
+                High{'\n'}Scores
               </Text>
             </View>
           </View>
@@ -144,17 +144,17 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   scoreElement: {
-    flex: 2.5,
+    flex: 2.2,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
   },
   scoreBox: {
-    backgroundColor: '#ff9933',
-    padding: 8,
-    paddingLeft: 12,
-    paddingRight: 12,
-    borderRadius: 8,
-    width: '100%'
+    backgroundColor: '#ff9900',
+    padding: 5,
+    paddingLeft: 8,
+    paddingRight: 8,
+    borderRadius: 5,
+    width: '90%',
   }
 });

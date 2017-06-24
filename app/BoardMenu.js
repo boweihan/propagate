@@ -9,12 +9,19 @@ export default class BoardMenu extends React.Component {
     return (
       <View style={styles.boardMenu}>
         <View style={styles.innerMainMenu}>
-          <TouchableHighlight style={styles.menuButton} underlayColor='#CECDCD' activeOpacity={0.5}
-            onPress={() => this.props.setRoute('menu', this.props.board)}>
-            <View style={styles.backToMenu}>
-              <Text style={styles.menuText}>Menu</Text>
+          <View style={styles.btn1}>
+            <TouchableHighlight underlayColor='#CECDCD' activeOpacity={0.5}
+              onPress={() => this.props.setRoute('menu', this.props.board)}>
+              <View style={styles.backToMenu}>
+                <Text style={styles.menuText}>Menu</Text>
+              </View>
+            </TouchableHighlight>
+            <View style={styles.btn3_col2}>
+              <View style={styles.backToLeaderboard}>
+                <Text style={[styles.menuText, {fontSize:12}]}>Top{'\n'}Scores</Text>
+              </View>
             </View>
-          </TouchableHighlight>
+          </View>
           <View style={styles.btn2}>
             <View style={styles.movesLeft}>
               <Text style={styles.menuText}>Moves Left</Text>
@@ -63,13 +70,20 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     borderRadius: 5,
   },
+  backToLeaderboard: {
+    backgroundColor: '#ff9900',
+    padding: 5,
+    paddingLeft: 8,
+    paddingRight: 8,
+    borderRadius: 5,
+  },
   movesLeft: {
     backgroundColor: '#1E6576',
     padding: 5,
     paddingLeft: 8,
     paddingRight: 8,
     borderRadius: 5,
-    width: '100%'
+    width: '90%'
   },
   score: {
     backgroundColor: '#7AAF29',
@@ -85,14 +99,14 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     borderRadius: 5,
   },
-  menuButton: {
+  btn1: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
     alignItems: 'center'
   },
   btn2: {
-    flex: 2.5,
+    flex: 2.2,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
