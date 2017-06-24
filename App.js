@@ -7,24 +7,28 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      fontLoaded : false
+      leaderboard : null
     }
-    Store.get("leaderboard").then( //initialize store to array if need be
-      leaderboard => {
-        if (!leaderboard) {
-          Store.save("leaderboard", []);
-        };
-      });
   }
 
   async componentDidMount() {
+    // todo: make a loading screen
+    let leaderboard;
     await Font.loadAsync({
       'NukamisoLite': require('./app/assets/fonts/NukamisoLite.ttf'),
     });
-    this.setState({ fontLoaded : true });
+    await Store.get("leaderboard").then( //initialize store to array if need be
+      scores => {
+        leaderboard = scores;
+        if (!leaderboard) {
+          leaderboard = [];
+          Store.save("leaderboard", leaderboard);
+        };
+      });
+    this.setState({ leaderboard : leaderboard });
   }
 
   render() {
-    return this.state.fontLoaded ? <GameMaster /> : null;
+    return this.state.leaderboard ? <GameMaster leaderboard={this.state.leaderboard} /> : null;
   }
 }

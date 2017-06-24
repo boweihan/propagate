@@ -7,7 +7,7 @@ import LeaderBoard from './LeaderBoard';
 import Store from 'react-native-simple-store';
 
 export default class GameMaster extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
       route : {
@@ -18,7 +18,8 @@ export default class GameMaster extends React.Component {
       level : 1,
       score : 0,
       firstLoad : true,
-      boardStateCache : null
+      boardStateCache : null,
+      leaderboard : props.leaderboard
     }
     this.levelUp = this.levelUp.bind(this);
     this.setRoute = this.setRoute.bind(this);
@@ -39,10 +40,13 @@ export default class GameMaster extends React.Component {
   }
 
   _saveScoreToStorage() {
-    Store.push("leaderboard", {
-      "playerName":"Obama",
+    let date = new Date();
+    let newScore = {
+      "date":date.toLocaleDateString(),
       "score":this.state.score
-    });
+    }
+    Store.push("leaderboard", newScore);
+    this.state.leaderboard.push(newScore);
   }
 
   /**
@@ -113,7 +117,7 @@ export default class GameMaster extends React.Component {
         score={this.state.score} setRoute={this.setRoute}
         boardStateCache={this.state.boardStateCache} /> : null
     let leaderboard = this.state.route.leaderboard ?
-      <LeaderBoard setRoute={this.setRoute} /> : null
+      <LeaderBoard setRoute={this.setRoute} leaderboard={this.state.leaderboard} /> : null
 
     return (
       <View style={styles.gameMaster}>

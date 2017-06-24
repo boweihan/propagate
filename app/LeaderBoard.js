@@ -1,25 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Animated, Easing, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Animated, Easing, TouchableHighlight, ScrollView } from 'react-native';
 import Dimensions from 'Dimensions';
 let {width, height} = Dimensions.get('window');
 
 export default class LeaderBoard extends React.Component {
-  constructor() {
+  constructor(props) {
+    console.log(props);
     super()
     this.state = {
-      // NOTE: restrict this to 10
-      scores : [
-        {name:"JOHN", score:"10"},
-        {name:"RYAN", score:"20"},
-        {name:"JOE", score:"5"},
-        {name:"JOE", score:"5"},
-        {name:"JOE", score:"5"},
-        {name:"JOE", score:"5"},
-        {name:"JOE", score:"5"},
-        {name:"JOE", score:"5"},
-        {name:"JOE", score:"5"},
-        {name:"JOE", score:"5"}
-      ]
+      leaderboard: props.leaderboard
     };
   }
 
@@ -42,17 +31,19 @@ export default class LeaderBoard extends React.Component {
           </View>
           <View style={styles.emptyElement}></View>
         </View>
-        <View style={styles.leaderboard_main}>
-          {this.state.scores.map(function(score, key){
-            return (
-              <View key={key} style={styles.leaderboard_score}>
-                <View style={styles.leaderboard_score_flex}>
-                  <Text style={styles.leaderboard_score_text_1}>{score.name}</Text>
-                  <Text style={styles.leaderboard_score_text_2}>{score.score}</Text>
+        <View style={{flex:5, marginBottom: 30}}>
+          <ScrollView>
+            {this.state.leaderboard.map(function(score, key){
+              return (
+                <View key={key} style={styles.leaderboard_score}>
+                  <View style={styles.leaderboard_score_flex}>
+                    <Text style={styles.leaderboard_score_text_1}>{score.date}</Text>
+                    <Text style={styles.leaderboard_score_text_2}>{score.score}</Text>
+                  </View>
                 </View>
-              </View>
-            )
-          })}
+              )
+            })}
+          </ScrollView>
         </View>
       </View>
     );
@@ -73,11 +64,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     width: width*0.9,
     marginTop: 30
-  },
-  leaderboard_main: {
-    flex: 5,
-    justifyContent: 'flex-start',
-    alignItems: 'center'
   },
   leaderboard_score: {
     width: width*0.8,
@@ -100,7 +86,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'left',
     marginLeft: 30,
-    fontFamily: 'NukamisoLite'
+    fontStyle: 'italic'
+    // fontFamily: 'NukamisoLite'
   },
   leaderboard_score_text_2: {
     flex: 1,
@@ -109,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'right',
     marginRight: 30,
-    fontFamily: 'NukamisoLite',
+    // fontFamily: 'NukamisoLite',
     fontSize: 18
   },
   menuButton: {
