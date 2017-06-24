@@ -9,7 +9,7 @@ export default class BoardMenu extends React.Component {
     return (
       <View style={styles.boardMenu}>
         <View style={styles.innerMainMenu}>
-          <TouchableHighlight style={styles.btn1} underlayColor='#CECDCD' activeOpacity={0.5}
+          <TouchableHighlight style={styles.menuButton} underlayColor='#CECDCD' activeOpacity={0.5}
             onPress={() => this.props.setRoute('menu', this.props.board)}>
             <View style={styles.backToMenu}>
               <Text style={styles.menuText}>Menu</Text>
@@ -85,14 +85,14 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     borderRadius: 5,
   },
-  btn1: {
+  menuButton: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
   },
   btn2: {
-    flex: 1.8,
+    flex: 2.5,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'

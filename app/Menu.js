@@ -65,6 +65,12 @@ export default class Menu extends React.Component {
             <Text style={styles.startText}>NEW GAME</Text>
           </View>
         </TouchableHighlight>
+        <TouchableHighlight underlayColor='white' activeOpacity={0.5}
+          onPress={() => this.props.setRoute('leaderboard')}>
+          <View style={styles.startButton}>
+            <Text style={styles.startText}>SCORES</Text>
+          </View>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -89,13 +95,11 @@ const styles = StyleSheet.create({
     fontFamily: "NukamisoLite"
   },
   startButton : {
-    marginTop: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e6e6e6',
+    marginTop: 20
   },
   startText : {
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 13,
     color: "#7c6c6a",
     fontFamily: "NukamisoLite"
   }

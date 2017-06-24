@@ -3,6 +3,7 @@ import { StyleSheet,
          View } from 'react-native';
 import Board from './Board';
 import Menu from './Menu';
+import LeaderBoard from './LeaderBoard';
 
 export default class GameMaster extends React.Component {
   constructor() {
@@ -10,7 +11,8 @@ export default class GameMaster extends React.Component {
     this.state = {
       route : {
         menu : true,
-        game : false
+        game : false,
+        leaderboard : false
       },
       level : 1,
       score : 0,
@@ -38,14 +40,36 @@ export default class GameMaster extends React.Component {
   setRoute(route, boardState) {
     switch (route) {
       case 'game':
-        this.setState({ route : { menu : false, game : true }, firstLoad : false}); break;
+        this.setState({
+          route: { menu : false, game : true, leaderboard : false },
+          firstLoad : false
+        }); break;
       case 'menu':
         let boardStateCache = boardState ? boardState : null;
-        this.setState({ route : { menu : true, game : false }, boardStateCache : boardStateCache }); break;
+        this.setState({
+          route : { menu : true, game : false, leaderboard : false },
+          boardStateCache : boardStateCache
+        }); break;
+      case 'leaderboard':
+        this.setState({
+          route : { menu : false, game: false, leaderboard : true }
+        }); break;
       case 'gameOver':
-        this.setState({ route : { menu : true, game : false }, level : 1, score : 0, firstLoad : true, boardStateCache : null }); break;
+        this.setState({
+          route : { menu : true, game : false, leaderboard : false },
+          level : 1,
+          score : 0,
+          firstLoad : true,
+          boardStateCache : null
+        }); break;
       case 'newGame':
-        this.setState({ route : { menu : false, game : true }, level : 1, score : 0, firstLoad : false, boardStateCache : null }); break;
+        this.setState({
+          route : { menu : false, game : true, leaderboard : false },
+          level : 1,
+          score : 0,
+          firstLoad : false,
+          boardStateCache : null
+        }); break;
     }
   }
 
@@ -72,11 +96,14 @@ export default class GameMaster extends React.Component {
         key={this.state.level} level={this.state.level} levelUp={this.levelUp}
         score={this.state.score} setRoute={this.setRoute}
         boardStateCache={this.state.boardStateCache} /> : null
+    let leaderboard = this.state.route.leaderboard ?
+      <LeaderBoard setRoute={this.setRoute} /> : null
 
     return (
       <View style={styles.gameMaster}>
         {menu}
         {board}
+        {leaderboard}
       </View>
     );
   }
