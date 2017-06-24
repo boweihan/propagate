@@ -1,11 +1,6 @@
 import React from 'react';
-import { StyleSheet,
-         Text,
-         View,
-         TouchableOpacity,
-         Animated,
-         Easing,
-         TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Animated,
+         Easing, TouchableHighlight } from 'react-native';
 import Dimensions from 'Dimensions';
 let {width, height} = Dimensions.get('window');
 

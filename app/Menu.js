@@ -15,19 +15,19 @@ export default class Menu extends React.Component {
   }
 
   _redStart() {
-    Animated.timing(this.state.pulseRed, { toValue: 0, duration: 1000 }).start(this._redEnd);
+    Animated.timing(this.state.pulseRed, { toValue: 1, duration: 1000 }).start(this._redEnd);
   }
 
   _redEnd() {
-    Animated.timing(this.state.pulseRed, { toValue: 1, duration: 1000 }).start(this._redStart);
+    Animated.timing(this.state.pulseRed, { toValue: 0, duration: 1000 }).start(this._redStart);
   }
 
   _blackStart() {
-    Animated.timing(this.state.pulseBlack, { toValue: 0, duration: 1000 }).start(this._blackEnd);
+    Animated.timing(this.state.pulseBlack, { toValue: 1, duration: 1000 }).start(this._blackEnd);
   }
 
   _blackEnd() {
-    Animated.timing(this.state.pulseBlack, { toValue: 1, duration: 1000 }).start(this._blackStart);
+    Animated.timing(this.state.pulseBlack, { toValue: 0, duration: 1000 }).start(this._blackStart);
   }
 
   _initRedAnimation() {
@@ -70,7 +70,6 @@ export default class Menu extends React.Component {
   }
 }
 
-/* ----------------------------- static styling ------------------------------*/
 const styles = StyleSheet.create({
   menu: {
     flex: 1,

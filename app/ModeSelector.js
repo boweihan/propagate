@@ -99,7 +99,6 @@ export default class ModeSelector extends React.Component {
   }
 }
 
-/* ----------------------------- static styling ------------------------------*/
 const styles = StyleSheet.create({
   active: {
     borderWidth: 10,
