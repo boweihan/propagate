@@ -39,14 +39,29 @@ export default class GameMaster extends React.Component {
     });
   }
 
+  /**
+  * TODO: this should be more efficient, ie balanced search trees
+  * Save the new score into AsyncStorage and state, after sorting and truncating the leaderboard
+  */
   _saveScoreToStorage() {
     let date = new Date();
     let newScore = {
       "date":date.toLocaleDateString(),
       "score":this.state.score
     }
-    Store.push("leaderboard", newScore);
     this.state.leaderboard.push(newScore);
+    let sortedLeaderboard = this.state.leaderboard.sort(this._compare).slice(0, 20);
+    this.state.leaderboard = sortedLeaderboard;
+    Store.save("leaderboard", sortedLeaderboard);
+  }
+
+  // temporary compare function for sorting leaderboard on push, better to use a tree
+  _compare(a,b) {
+    if (a.score < b.score)
+      return 1;
+    if (a.score > b.score)
+      return -1;
+    return 0;
   }
 
   /**
