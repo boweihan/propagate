@@ -5,7 +5,6 @@ let {width, height} = Dimensions.get('window');
 
 export default class LeaderBoard extends React.Component {
   constructor(props) {
-    console.log(props);
     super()
     this.state = {
       leaderboard: props.leaderboard

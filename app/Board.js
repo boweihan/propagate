@@ -29,6 +29,7 @@ export default class Board extends React.Component {
     }
     this.setDisabledTiles(props);
     this.setFlippedTiles(props);
+    this.setTriColorTiles(props);
     this.clickTile = this.clickTile.bind(this);
     this.setMode = this.setMode.bind(this);
   }
@@ -39,16 +40,16 @@ export default class Board extends React.Component {
 
   /**
   * Set disabled tiles on initialization
-  * @param {object} props
+  * @param {object} props - react props
   */
   setDisabledTiles(props) {
-    let numTilesToRemove;
+    let numTilesToDisable;
     if (props.level % 5 == 4) {
-      numTilesToRemove = props.level / 5;
+      numTilesToDisable = props.level / 5;
     } else if (props.level % 5 == 0) {
-      numTilesToRemove = (props.level / 5) * 2;
+      numTilesToDisable = (props.level / 5) * 2;
     }
-    for (let i = 0; i < numTilesToRemove; i++) {
+    for (let i = 0; i < numTilesToDisable; i++) {
       let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
       let tile = this.state.board.tiles[tileId];
       tile.mods.push(MODS[0]);
@@ -71,6 +72,24 @@ export default class Board extends React.Component {
           tile.tileStyle.backgroundColor = COLORS[1];
           numTilesToMutate--;
         }
+      }
+    }
+  }
+
+  /**
+  * Set tiles with an extra color
+  * @param {object} props - react props
+  */
+  setTriColorTiles(props) {
+    let numTilesToEnhance = 2;
+    while (numTilesToEnhance > 0) {
+      let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
+      let tile = this.state.board.tiles[tileId];
+      if (tile.mods.indexOf(MODS[0]) === -1) { // not disabled, so enhance
+        tile.colorsOverride = ['#403837', '#7F3B32' ,'#BE3E2C', '#7F3B32'];
+        tile.tileStyle.borderWidth = 6;
+        tile.tileStyle.borderColor = 'gray';
+        numTilesToEnhance--;
       }
     }
   }
@@ -136,7 +155,7 @@ export default class Board extends React.Component {
           backgroundColor: COLORS[0]
         };
         let mods = [] // extra classes for additional behaviour
-        tiles.push({key : key, tileStyle : tileStyle, mods: mods});
+        tiles.push({key : key, tileStyle : tileStyle, mods: mods, colorsOverride: null});
       }
     }
     return tiles;
@@ -345,9 +364,10 @@ export default class Board extends React.Component {
       let tile = this.state.board.tiles[ids[i]];
       if (tile.mods.indexOf(MODS[0]) === -1) { // not disabled, trigger color change
         let currColor = tile.tileStyle.backgroundColor;
-        let currIndex = COLORS.indexOf(currColor);
-        let newIndex = (currIndex === COLORS.length - 1) ? 0 : currIndex + 1;
-        newState.board.tiles[ids[i]].tileStyle.backgroundColor = COLORS[newIndex];
+        let colors = tile.colorsOverride ? tile.colorsOverride : COLORS;
+        let currIndex = colors.indexOf(currColor);
+        let newIndex = (currIndex === colors.length - 1) ? 0 : currIndex + 1;
+        newState.board.tiles[ids[i]].tileStyle.backgroundColor = colors[newIndex];
       }
     }
     this.setState(newState);
