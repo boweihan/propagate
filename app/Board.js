@@ -44,10 +44,10 @@ export default class Board extends React.Component {
   */
   setDisabledTiles(props) {
     let numTilesToDisable;
-    if (props.level % 5 == 4) {
+    if (props.level % 8 === 4) {
       numTilesToDisable = props.level / 5;
-    } else if (props.level % 5 == 0) {
-      numTilesToDisable = (props.level / 5) * 2;
+    } else if (props.level % 8 > 4 || props.level % 8 === 0) {
+      numTilesToDisable = (Math.floor(props.level / 5)) * 2;
     }
     for (let i = 0; i < numTilesToDisable; i++) {
       let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
@@ -62,9 +62,10 @@ export default class Board extends React.Component {
   * @param {object} props - react props
   */
   setFlippedTiles(props) {
-    if (props.level % 5 !== 1) {
-      let numTilesToMutate = (props.level % 5) * (props.level / 5);
+    if (props.level % 8 !== 1) {
+      let numTilesToMutate = (props.level % 8) * (props.level / 8) * 0.5;
       if (numTilesToMutate < 1) { numTilesToMutate = 1; }
+      if (props.level % 8 === 0) { numTilesToMutate = 1 * props.level / 8; } // custom logic for levels with multiples of 8, fixme
       while (numTilesToMutate > 0) {
         let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
         let tile = this.state.board.tiles[tileId];
@@ -81,7 +82,12 @@ export default class Board extends React.Component {
   * @param {object} props - react props
   */
   setTriColorTiles(props) {
-    let numTilesToEnhance = 2;
+    let numTilesToEnhance;
+    if (props.level % 8 === 6) {
+      numTilesToEnhance = Math.floor(props.level / 6);
+    } else if (props.level % 8 > 6 || props.level * 8 === 0) {
+      numTilesToEnhance = (Math.floor(props.level / 7)) * 2;
+    }
     while (numTilesToEnhance > 0) {
       let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
       let tile = this.state.board.tiles[tileId];
