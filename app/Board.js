@@ -395,11 +395,11 @@ export default class Board extends React.Component {
     return Animated.parallel([
       Animated.timing(opacity, {
         toValue: 1, // fully opaque
-        duration: 0, // milliseconds
+        duration: 350, // milliseconds
       }),
       Animated.timing(tilt, {
         toValue: 0, // mapped to 0 degrees (no tilt)
-        duration: 0, // milliseconds
+        duration: 350, // milliseconds
         easing: Easing.quad // quadratic easing function: (t) => t * t
       })
     ]);
