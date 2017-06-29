@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     height: 45,
     padding: 10,
     margin: 2,
-    backgroundColor: '#d9d9d9',
+    backgroundColor: '#403837',
     borderRadius: 5,
   },
   leaderboard_score_flex: {
@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'left',
     marginLeft: 30,
-    fontStyle: 'italic'
+    // fontStyle: 'italic',
+    color: 'white'
     // fontFamily: 'NukamisoLite'
   },
   leaderboard_score_text_2: {
@@ -95,6 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'right',
     marginRight: 30,
+    color: 'white',
     // fontFamily: 'NukamisoLite',
     fontSize: 18
   },

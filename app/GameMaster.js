@@ -47,7 +47,7 @@ export default class GameMaster extends React.Component {
   _saveScoreToStorage() {
     let date = new Date();
     let newScore = {
-      "date":date.toLocaleDateString(),
+      "date":date.toLocaleString(),
       "score":this.state.score
     }
     this.state.leaderboard.push(newScore);
