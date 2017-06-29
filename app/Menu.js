@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Animated, Easing, TouchableHighlight } from 're
 
 export default class Menu extends React.Component {
   constructor() {
-    super()
+    super();
     this.state = {
       pulseRed : new Animated.Value(0),
       pulseBlack : new Animated.Value(0)

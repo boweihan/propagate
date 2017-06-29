@@ -20,7 +20,7 @@ export default class GameMaster extends React.Component {
       firstLoad : true,
       boardStateCache : null,
       leaderboard : props.leaderboard
-    }
+    };
     this.levelUp = this.levelUp.bind(this);
     this.setRoute = this.setRoute.bind(this);
   }
@@ -129,28 +129,19 @@ export default class GameMaster extends React.Component {
 
   render() {
     let levelState = this.getStateForLevel();
-    let menu = this.state.route.menu ?
-      <Menu setRoute={this.setRoute} firstLoad={this.state.firstLoad} /> : null;
-    let board = this.state.route.game ?
-      <Board size={levelState.size} moves={levelState.moves}
-        key={this.state.level} level={this.state.level} levelUp={this.levelUp}
-        score={this.state.score} setRoute={this.setRoute}
-        boardStateCache={this.state.boardStateCache} /> : null
-    let leaderboard = this.state.route.leaderboard ?
-      <LeaderBoard setRoute={this.setRoute} leaderboard={this.state.leaderboard} /> : null
 
     return (
-      <View style={styles.gameMaster}>
-        {menu}
-        {board}
-        {leaderboard}
+      <View style={{flex:1}}>
+        {this.state.route.menu ?
+          <Menu setRoute={this.setRoute} firstLoad={this.state.firstLoad} /> : null}
+        {this.state.route.game ?
+          <Board size={levelState.size} moves={levelState.moves}
+            key={this.state.level} level={this.state.level} levelUp={this.levelUp}
+            score={this.state.score} setRoute={this.setRoute}
+            boardStateCache={this.state.boardStateCache} /> : null}
+        {this.state.route.leaderboard ?
+          <LeaderBoard setRoute={this.setRoute} leaderboard={this.state.leaderboard} /> : null}
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  gameMaster: {
-    flex: 1
-  }
-});

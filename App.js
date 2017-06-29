@@ -9,6 +9,7 @@ export default class App extends React.Component {
     this.state = {
       leaderboard : null
     }
+        console.log('constructed');
   }
 
   async componentDidMount() {

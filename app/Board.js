@@ -9,15 +9,16 @@ import Modal from 'react-native-modal';
 import { Audio } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
-let {width, height} = Dimensions.get('window');
-let COLORS = ['#403837', '#BE3E2C'];
-let AUXCOLORS = ['gray'];
-let MODS = ["grayBlock"];
-let MODES = ['square', 'plus', 'cross'];
-
 export default class Board extends React.Component {
   constructor(props) {
     super();
+    // "global" vars
+    this.screenWidth = Dimensions.get('window').width;
+    this.regularTileColors = ['#403837', '#BE3E2C'];
+    this.auxColors = ['gray'];
+    this.mods = ["grayBlock"];
+    this.modes = ['square', 'plus', 'cross'];
+
     this.state = {
       board : props.boardStateCache ? props.boardStateCache : this.buildBoard(props.size, props.moves),
       modal : {
@@ -54,8 +55,8 @@ export default class Board extends React.Component {
     for (let i = 0; i < numTilesToDisable; i++) {
       let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
       let tile = this.state.board.tiles[tileId];
-      tile.mods.push(MODS[0]);
-      tile.tileStyle.backgroundColor = AUXCOLORS[0];
+      tile.mods.push(this.mods[0]);
+      tile.tileStyle.backgroundColor = this.auxColors[0];
     }
   }
 
@@ -71,8 +72,8 @@ export default class Board extends React.Component {
       while (numTilesToMutate > 0) {
         let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
         let tile = this.state.board.tiles[tileId];
-        if (tile.mods.indexOf(MODS[0]) === -1) { // not disabled, so flip
-          tile.tileStyle.backgroundColor = COLORS[1];
+        if (tile.mods.indexOf(this.mods[0]) === -1) { // not disabled, so flip
+          tile.tileStyle.backgroundColor = this.regularTileColors[1];
           numTilesToMutate--;
         }
       }
@@ -93,7 +94,7 @@ export default class Board extends React.Component {
     while (numTilesToEnhance > 0) {
       let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
       let tile = this.state.board.tiles[tileId];
-      if (tile.mods.indexOf(MODS[0]) === -1) { // not disabled, so enhance
+      if (tile.mods.indexOf(this.mods[0]) === -1) { // not disabled, so enhance
         tile.colorsOverride = ['#403837', '#7F3B32' ,'#BE3E2C'];
         tile.tileStyle.borderWidth = 6;
         tile.tileStyle.borderColor = 'gray';
@@ -108,7 +109,7 @@ export default class Board extends React.Component {
   * @param {Int} movesLeft - moves allowed for level
   */
   buildBoard(size, movesLeft) {
-    let cellSize = 0.8*width * 1/size;
+    let cellSize = 0.8*this.screenWidth * 1/size;
     let cellPadding = cellSize * 0.01;
     let tile_size = cellSize - cellPadding * 2;
     let opacities = this.getInitialOpacities(size);
@@ -117,7 +118,7 @@ export default class Board extends React.Component {
     return {
         size : size, cellSize : cellSize, cellPadding : cellPadding,
         tile_size : tile_size, opacities : opacities, tilts : tilts,
-        tiles : tiles, movesLeft : movesLeft, mode : MODES[0]
+        tiles : tiles, movesLeft : movesLeft, mode : this.modes[0]
     }
   }
 
@@ -160,7 +161,7 @@ export default class Board extends React.Component {
           opacity: opacities[key],
           transform: [{perspective: cellSize * 100}, {rotateX: tilts[key].interpolate({
                           inputRange: [0, 1], outputRange: ['0deg', '-90deg'] })}],
-          backgroundColor: COLORS[0]
+          backgroundColor: this.regularTileColors[0]
         };
         let mods = [] // extra classes for additional behaviour
         tiles.push({key : key, tileStyle : tileStyle, mods: mods, colorsOverride: null});
@@ -178,20 +179,20 @@ export default class Board extends React.Component {
     let dynamicStyles = this.getDynamicStyles();
 
     return (
-      <View style={styles.game}>
-        <View style={styles.boardMenu}>
+      <View style={dynamicStyles.game}>
+        <View style={dynamicStyles.boardMenu}>
           <BoardMenu setRoute={this.props.setRoute} movesLeft={this.state.board.movesLeft}
             level={this.props.level} score={this.props.score} board={this.state.board}/>
         </View>
-        <View style={styles.board}>
+        <View style={dynamicStyles.board}>
           <View style={dynamicStyles.container}>
             {this.state.board.tiles.map(function(tile, i){
               return <Tile key={tile.key} id={tile.key} style={[dynamicStyles.tile, tile.tileStyle]} clickTile={that.clickTile}/>
             })}
           </View>
         </View>
-        <View style={styles.selector}>
-          <ModeSelector style={styles.modeSelector} setMode={this.setMode}/>
+        <View style={dynamicStyles.selector}>
+          <ModeSelector style={dynamicStyles.modeSelector} setMode={this.setMode}/>
         </View>
         {this.modal()}
       </View>
@@ -207,7 +208,7 @@ export default class Board extends React.Component {
   * @param {Int} id - index of the clicked Tile
   */
   clickTile(id) {
-    if (this.state.board.tiles[id].mods.indexOf(MODS[0]) !== -1) { return; } // return if disabled
+    if (this.state.board.tiles[id].mods.indexOf(this.mods[0]) !== -1) { return; } // return if disabled
     this.playFlip();
 
     let newState = this.state; // ensure that we decrement moves before checking win TODO: refactor
@@ -216,7 +217,7 @@ export default class Board extends React.Component {
     let ids = this.getIdsForMode(id);
     for (let i = 0; i < ids.length; i++) {
         let tile = this.state.board.tiles[ids[i]];
-        if (tile.mods.indexOf(MODS[0]) === -1) { // don't change color if there's a gray mod
+        if (tile.mods.indexOf(this.mods[0]) === -1) { // don't change color if there's a gray mod
           this._triggerTileAnimation(ids[i]).start();
         }
     }
@@ -228,10 +229,10 @@ export default class Board extends React.Component {
   * @param {String} mode - mode type
   */
   setMode(mode) {
-    let modeIndex = MODES.indexOf(mode);
+    let modeIndex = this.modes.indexOf(mode);
     if (modeIndex !== -1) {
       let newState = this.state;
-      newState.board.mode = MODES[modeIndex];
+      newState.board.mode = this.modes[modeIndex];
       this.setState(newState);
     }
   }
@@ -245,8 +246,8 @@ export default class Board extends React.Component {
     let size = this.state.board.size;
     for (let i = 0; i < (size * size); i++) {
         let tile = this.state.board.tiles[i];
-        if (tile.tileStyle.backgroundColor !== COLORS[1] &&
-          tile.mods.indexOf(MODS[0]) === -1) { // not black or disabled, you don't win
+        if (tile.tileStyle.backgroundColor !== this.regularTileColors[1] &&
+          tile.mods.indexOf(this.mods[0]) === -1) { // not black or disabled, you don't win
             won = false;
         }
     }
@@ -261,11 +262,11 @@ export default class Board extends React.Component {
   getIdsForMode(id) {
     let ids;
     switch (this.state.board.mode) {
-      case MODES[0]:
+      case this.modes[0]:
         ids = this._squareModeClickHandler(id); break;
-      case MODES[1]:
+      case this.modes[1]:
         ids = this._plusModeClickHandler(id); break;
-      case MODES[2]:
+      case this.modes[2]:
         ids = this._crossModeClickHandler(id); break;
       default:
         console.log('that mode is unsupported'); break;
@@ -370,9 +371,9 @@ export default class Board extends React.Component {
   _triggerColorChange(ids, newState) {
     for (let i = 0; i < ids.length; i++) {
       let tile = this.state.board.tiles[ids[i]];
-      if (tile.mods.indexOf(MODS[0]) === -1) { // not disabled, trigger color change
+      if (tile.mods.indexOf(this.mods[0]) === -1) { // not disabled, trigger color change
         let currColor = tile.tileStyle.backgroundColor;
-        let colors = tile.colorsOverride ? tile.colorsOverride : COLORS;
+        let colors = tile.colorsOverride ? tile.colorsOverride : this.regularTileColors;
         let currIndex = colors.indexOf(currColor);
         let newIndex = (currIndex === colors.length - 1) ? 0 : currIndex + 1;
         newState.board.tiles[ids[i]].tileStyle.backgroundColor = colors[newIndex];
@@ -394,11 +395,11 @@ export default class Board extends React.Component {
     return Animated.parallel([
       Animated.timing(opacity, {
         toValue: 1, // fully opaque
-        duration: 350, // milliseconds
+        duration: 0, // milliseconds
       }),
       Animated.timing(tilt, {
         toValue: 0, // mapped to 0 degrees (no tilt)
-        duration: 350, // milliseconds
+        duration: 0, // milliseconds
         easing: Easing.quad // quadratic easing function: (t) => t * t
       })
     ]);
@@ -413,7 +414,7 @@ export default class Board extends React.Component {
   */
   async playFlip() {
     await Audio.setIsEnabledAsync(true);
-    const sound = new Audio.Sound();
+    let sound = new Audio.Sound();
     await sound.loadAsync(require('./assets/sounds/flipSoft.mp3'));
     await sound.playAsync();
   }
@@ -440,6 +441,41 @@ export default class Board extends React.Component {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#403837',
+      },
+      boardMenu: {
+        flex: 1
+      },
+      board: {
+        flex: 2,
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      selector: {
+        flex: 1
+      },
+      game: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: '#CECDCD',
+      },
+      modal: {
+        backgroundColor: '#b3b3b3',
+        padding: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+      },
+      modalMsg: {
+        fontSize: 30,
+        fontFamily: 'NukamisoLite',
+        textAlign: 'center'
+      },
+      modalClose: {
+        textAlign: 'center',
+        fontSize: 60,
+        marginTop: 20,
+        color: '#b3b3b3'
       }
     }
   }
@@ -454,17 +490,18 @@ export default class Board extends React.Component {
   */
   modal(msg) {
     let opacity = (this.state.modal.type === "levelup") ? 0.9 : 1
+    let dynamicStyles = this.getDynamicStyles();
     return (
       <Modal isVisible={this.state.modal.visible} backdropColor={this.state.modal.color}
         backdropOpacity={opacity} animationIn={'zoomInDown'} animationOut={'zoomOutUp'}
         animationInTiming={200} animationOutTiming={200} backdropTransitionInTiming={200}
         backdropTransitionOutTiming={200}>
         <View>
-          <View style={styles.modal}>
-            <Text style={[styles.modalMsg, {color:this.state.modal.color}]}>{this.state.modal.msg}</Text>
+          <View style={dynamicStyles.modal}>
+            <Text style={[dynamicStyles.modalMsg, {color:this.state.modal.color}]}>{this.state.modal.msg}</Text>
           </View>
           <TouchableHighlight underlayColor='transparent' onPress={() => {this.hideModal()}}>
-            <Ionicons style={styles.modalClose} name="md-arrow-dropright-circle" />
+            <Ionicons style={dynamicStyles.modalClose} name="md-arrow-dropright-circle" />
           </TouchableHighlight>
         </View>
       </Modal>
@@ -512,39 +549,4 @@ export default class Board extends React.Component {
 /******************************************************************************/
 
 const styles = StyleSheet.create({
-  boardMenu: {
-    flex: 1
-  },
-  board: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  selector: {
-    flex: 1
-  },
-  game: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#CECDCD',
-  },
-  modal: {
-    backgroundColor: '#b3b3b3',
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-  },
-  modalMsg: {
-    fontSize: 30,
-    fontFamily: 'NukamisoLite',
-    textAlign: 'center'
-  },
-  modalClose: {
-    textAlign: 'center',
-    fontSize: 60,
-    marginTop: 20,
-    color: '#b3b3b3'
-  }
 });
