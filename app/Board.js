@@ -94,7 +94,7 @@ export default class Board extends React.Component {
       let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
       let tile = this.state.board.tiles[tileId];
       if (tile.mods.indexOf(MODS[0]) === -1) { // not disabled, so enhance
-        tile.colorsOverride = ['#403837', '#7F3B32' ,'#BE3E2C', '#7F3B32'];
+        tile.colorsOverride = ['#403837', '#7F3B32' ,'#BE3E2C'];
         tile.tileStyle.borderWidth = 6;
         tile.tileStyle.borderColor = 'gray';
         numTilesToEnhance--;
