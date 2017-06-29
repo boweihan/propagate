@@ -26,10 +26,12 @@ export default class Board extends React.Component {
         color : null,
         type : null
       }
+    };
+    if (!props.boardStateCache) {
+      this.setDisabledTiles(props);
+      this.setFlippedTiles(props);
+      this.setTriColorTiles(props);
     }
-    this.setDisabledTiles(props);
-    this.setFlippedTiles(props);
-    this.setTriColorTiles(props);
     this.clickTile = this.clickTile.bind(this);
     this.setMode = this.setMode.bind(this);
   }
