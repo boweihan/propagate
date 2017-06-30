@@ -50,7 +50,7 @@ export default class ModeSelector extends React.Component {
     return (
       <View>
         <View style={dynamicStyles.selectedMode}>
-          <Text style={dynamicStyles.selectedModeText}>FLIP PATTERN: {this.state.mode}</Text>
+          <Text style={dynamicStyles.selectedModeText}>CURRENT PATTERN: {this.state.mode}</Text>
         </View>
         <View style={dynamicStyles.modes}>
           <Animated.View style={[dynamicStyles.selectors, this.state.squareStyle]}
