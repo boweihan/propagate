@@ -18,6 +18,7 @@ export default class Board extends React.Component {
     this.auxColors = ['gray'];
     this.mods = ["grayBlock"];
     this.modes = ['square', 'plus', 'cross'];
+    this.soundArray = [];
 
     this.state = {
       board : props.boardStateCache ? props.boardStateCache : this.buildBoard(props.size, props.moves),
@@ -414,9 +415,32 @@ export default class Board extends React.Component {
   */
   async playFlip() {
     await Audio.setIsEnabledAsync(true);
-    let sound = new Audio.Sound();
-    await sound.loadAsync(require('./assets/sounds/flipSoft.mp3'));
-    await sound.playAsync();
+    this.soundArray.push(new Audio.Sound());
+    this.soundArray[this.soundArray.length - 1].setCallback(this._soundCallback);
+    await this.soundArray[this.soundArray.length - 1].loadAsync(require('./assets/sounds/flipSoft.mp3'));
+    await this.soundArray[this.soundArray.length - 1].playAsync();
+    // await sound.playAsync().done(function() {
+    //   sound.unloadAsync();
+    // });
+    // setTimeout(function() {
+    //   sound.unloadAsync();
+    // }, 500);
+    // await sound.unloadAsync();
+  }
+
+  _soundCallback = status => {
+    if (status.isLoaded) {
+      if (status.didJustFinish && !status.isLooping) {
+        if (this.soundArray.length > 0) {
+          this.soundArray[0].unloadAsync();
+          this.soundArray.shift();
+        }
+      }
+    } else {
+      if (status.error) {
+        console.log(`FATAL PLAYER ERROR: ${status.error}`);
+      }
+    }
   }
 
 /******************************************************************************/
