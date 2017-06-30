@@ -33,7 +33,6 @@ export default class GameMaster extends React.Component {
     let newLevel = this.state.level + 1;
     let newScore = (this.state.score + 10) + this.state.level;
     newScore += movesLeft * 10;
-    // this.state.boardStateCache = null; // NOTE: GC
     this.setState({
       level : newLevel,
       score : newScore,

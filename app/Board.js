@@ -419,13 +419,6 @@ export default class Board extends React.Component {
     this.soundArray[this.soundArray.length - 1].setCallback(this._soundCallback);
     await this.soundArray[this.soundArray.length - 1].loadAsync(require('./assets/sounds/flipSoft.mp3'));
     await this.soundArray[this.soundArray.length - 1].playAsync();
-    // await sound.playAsync().done(function() {
-    //   sound.unloadAsync();
-    // });
-    // setTimeout(function() {
-    //   sound.unloadAsync();
-    // }, 500);
-    // await sound.unloadAsync();
   }
 
   _soundCallback = status => {
