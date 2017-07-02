@@ -11,15 +11,15 @@
 
 <h4 align="center">How to Play</h4>
 <p align="center">
-  1. Choose "New Game"
-  2. Investigate your board
-  3. Choose between three different flipping configurations**
-  4. Flip all the tiles to red
-  5. Level up!
-  6. See how far you can get. Your score will increase as you go.
+  1. Choose "New Game"<br/>
+  2. Investigate your board<br/>
+  3. Choose between three different flipping configurations**<br/>
+  4. Flip all the tiles to red<br/>
+  5. Level up!<br/>
+  6. See how far you can get. Your score will increase as you go.<br/>
 
 
-  ** flipping configurations are Square, Plus and Cross.
+  <strong>** flipping configurations are Square, Plus and Cross.</strong>
   - Clicking a tile in Square mode will flip 9 tiles in the shape of a square - 8 + the tile you are clicking
   - Clicking a tile in Plus mode will flip 5 tiles in the shape of a plus - 4 + the tile you are clicking
   - Clicking a tile in Cross mode will flip 5 tiles in the shape of a cross - 4 + the tile you are clicking
