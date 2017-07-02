@@ -1,4 +1,4 @@
-Propagate is a multi-level puzzle game built with react-native.
+<h1 align="center">Propagate is a multi-level puzzle game built with react-native.</h1>
 
 <p align="center">
   <img src="./images/1.png" width="350"/>
