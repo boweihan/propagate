@@ -1,7 +1,9 @@
 Propagate is a multi-level puzzle game built with react-native.
 
-![alt text](https://raw.githubusercontent.com/boweihan/propagate/master/images/1.png)
-![alt text](https://raw.githubusercontent.com/boweihan/propagate/master/images/2.png)
-![alt text](https://raw.githubusercontent.com/boweihan/propagate/master/images/3.png)
-![alt text](https://raw.githubusercontent.com/boweihan/propagate/master/images/4.png)
-![alt text](https://raw.githubusercontent.com/boweihan/propagate/master/images/5.png)
+<p align="center">
+  <img src="./images/1.png" width="350"/>
+  <img src="./images/2.png" width="350"/>
+  <img src="./images/3.png" width="350"/>
+  <img src="./images/4.png" width="350"/>
+  <img src="./images/5.png" width="350"/>
+</p>
