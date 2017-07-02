@@ -9,8 +9,8 @@
   <img src="./images/5.png" width="350"/>
 </p>
 
-<h4 align="center">How to Play</h4>
-<p align="center">
+<h4>How to Play</h4>
+<p>
   1. Choose "New Game"<br/>
   2. Investigate your board<br/>
   3. Choose between three different flipping configurations**<br/>
