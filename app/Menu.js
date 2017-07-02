@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Animated, Easing, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Animated, TouchableHighlight } from 'react-native';
 
 export default class Menu extends React.Component {
   constructor() {
@@ -23,33 +23,34 @@ export default class Menu extends React.Component {
   render() {
     let animateRedFirst = this._initRedAnimation();
     let animateBlackFirst = this._initBlackAnimation();
+    let triColor = this.props.triColor ? "ON" : "OFF";
 
     return (
       <View style={styles.menu}>
-        <View style={{flexDirection: 'row', marginBottom: 30}}>
+        <View style={{flexDirection: 'row', marginBottom: 50}}>
           <Animated.Text style={[styles.prop, {color: animateRedFirst}]} numberOfLines={2}>PROP
             <Animated.Text style={[styles.agate,  {color: animateBlackFirst}]}>AGATE</Animated.Text>
           </Animated.Text>
         </View>
         {!this.props.firstLoad ?
-          <TouchableHighlight underlayColor='white' activeOpacity={0.5}
+          <TouchableHighlight underlayColor='white' activeOpacity={0.5} style={styles.startButton}
             onPress={() => this.props.setRoute('game')}>
-            <View style={styles.startButton}>
-              <Text style={styles.startText}>CONTINUE</Text>
-            </View>
+            <Text style={styles.startText}>CONTINUE</Text>
           </TouchableHighlight>
         : null}
-        <TouchableHighlight underlayColor='white' activeOpacity={0.5}
+        <TouchableHighlight underlayColor='white' activeOpacity={0.5} style={styles.startButton}
           onPress={() => this.props.setRoute('newGame')}>
-          <View style={styles.startButton}>
-            <Text style={styles.startText}>NEW GAME</Text>
-          </View>
+          <Text style={styles.startText}>NEW GAME</Text>
         </TouchableHighlight>
-        <TouchableHighlight underlayColor='white' activeOpacity={0.5}
+        <TouchableHighlight underlayColor='white' activeOpacity={0.5} style={styles.startButton}
           onPress={() => this.props.setRoute('leaderboard')}>
-          <View style={styles.startButton}>
-            <Text style={styles.startText}>SCORES</Text>
-          </View>
+          <Text style={styles.startText}>SCORES</Text>
+        </TouchableHighlight>
+        <TouchableHighlight underlayColor='white' activeOpacity={0.5} style={{marginTop:70}}
+          onPress={() => this.props.toggleTriColorMode()}>
+          <Text style={styles.triColorText}>TRICOLOR MODE:
+            <Text style={{textDecorationLine: "underline"}}>{triColor}</Text>
+          </Text>
         </TouchableHighlight>
       </View>
     );
@@ -80,6 +81,11 @@ const styles = StyleSheet.create({
   startText : {
     fontWeight: 'bold',
     fontSize: 13,
+    color: "#7c6c6a",
+    fontFamily: "NukamisoLite"
+  },
+  triColorText : {
+    fontSize: 10,
     color: "#7c6c6a",
     fontFamily: "NukamisoLite"
   }

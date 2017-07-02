@@ -19,10 +19,12 @@ export default class GameMaster extends React.Component {
       score : 0,
       firstLoad : true,
       boardStateCache : null,
-      leaderboard : props.leaderboard
+      leaderboard : props.leaderboard,
+      triColor : false
     };
     this.levelUp = this.levelUp.bind(this);
     this.setRoute = this.setRoute.bind(this);
+    this.toggleTriColorMode = this.toggleTriColorMode.bind(this);
   }
 
   /**
@@ -31,13 +33,28 @@ export default class GameMaster extends React.Component {
   */
   levelUp(movesLeft) {
     let newLevel = this.state.level + 1;
-    let newScore = (this.state.score + 10) + this.state.level;
-    newScore += movesLeft * 10;
+    let newScore = this.state.score + 10;
+    if (this.state.triColor) {
+      newScore += ((movesLeft * 10) + this.state.level)*3;
+    } else {
+      newScore += (movesLeft * 10) + this.state.level;
+    }
     this.setState({
       level : newLevel,
       score : newScore,
       boardStateCache : null
     });
+  }
+
+  /**
+  * Method to toggle triColor mode true and false
+  * @param {Boolean} status - boolean indicating status of triColor mode
+  */
+  toggleTriColorMode() {
+    let status = !this.state.triColor;
+    this.setState({
+      triColor : status
+    })
   }
 
   /**
@@ -47,8 +64,9 @@ export default class GameMaster extends React.Component {
   _saveScoreToStorage() {
     let date = new Date();
     let newScore = {
-      "date":date.toLocaleString(),
-      "score":this.state.score
+      "date" : date.toLocaleString(),
+      "score" : this.state.score,
+      "triColor" : this.state.triColor ? "ON" : "OFF"
     }
     this.state.leaderboard.push(newScore);
     let sortedLeaderboard = this.state.leaderboard.sort(this._compare).slice(0, 20);
@@ -135,12 +153,14 @@ export default class GameMaster extends React.Component {
     return (
       <View style={{flex:1}}>
         {this.state.route.menu ?
-          <Menu setRoute={this.setRoute} firstLoad={this.state.firstLoad} /> : null}
+          <Menu setRoute={this.setRoute} firstLoad={this.state.firstLoad}
+            triColor={this.state.triColor} toggleTriColorMode={this.toggleTriColorMode} />: null}
         {this.state.route.game ?
           <Board size={levelState.size} moves={levelState.moves}
             key={this.state.level} level={this.state.level} levelUp={this.levelUp}
             score={this.state.score} setRoute={this.setRoute}
-            boardStateCache={this.state.boardStateCache} /> : null}
+            boardStateCache={this.state.boardStateCache}
+            triColor={this.state.triColor} /> : null}
         {this.state.route.leaderboard ?
           <LeaderBoard setRoute={this.setRoute} leaderboard={this.state.leaderboard} /> : null}
       </View>

@@ -38,15 +38,24 @@ export default class LeaderBoard extends React.Component {
                 <View key={key} style={dynamicStyles.leaderboard_score}>
                   <View style={dynamicStyles.leaderboard_score_flex}>
                     <Text style={dynamicStyles.leaderboard_score_text_1}>{score.date}</Text>
-                    <Text style={dynamicStyles.leaderboard_score_text_2}>{score.score}</Text>
+                    <Text style={dynamicStyles.leaderboard_score_text_2}>Tricolor: {this.formatTriColor(score.triColor)}</Text>
+                    <Text style={dynamicStyles.leaderboard_score_text_3}>{score.score}</Text>
                   </View>
                 </View>
               )
-            })}
+            }, this)}
           </ScrollView>
         </View>
       </View>
     );
+  }
+
+  formatTriColor(triColor) {
+    if (triColor) {
+      return triColor;
+    } else {
+      return "OFF";
+    }
   }
 
   getDynamicStyles() {
@@ -85,19 +94,27 @@ export default class LeaderBoard extends React.Component {
         justifyContent: 'flex-start',
         alignItems: 'center',
         textAlign: 'left',
-        marginLeft: 30,
-        color: 'white'
-        // fontFamily: 'NukamisoLite'
+        marginLeft: 5,
+        color: 'white',
+        fontSize: 12
       },
       leaderboard_score_text_2: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        color: 'white',
+        fontSize: 10
+      },
+      leaderboard_score_text_3: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
         textAlign: 'right',
-        marginRight: 30,
+        marginRight: 5,
         color: 'white',
-        // fontFamily: 'NukamisoLite',
         fontSize: 18
       },
       menuButton: {

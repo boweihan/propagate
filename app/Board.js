@@ -14,8 +14,8 @@ export default class Board extends React.Component {
     super();
     // "global" vars
     this.screenWidth = Dimensions.get('window').width;
-    this.regularTileColors = ['#403837', '#BE3E2C'];
-    this.auxColors = ['gray'];
+    this.colors = props.triColor ? ['#403837', '#7F3B32' ,'#BE3E2C'] : ['#403837', '#BE3E2C'];
+    this.auxcolors = ['gray'];
     this.mods = ["grayBlock"];
     this.modes = ['square', 'plus', 'cross'];
     this.soundArray = [];
@@ -57,7 +57,7 @@ export default class Board extends React.Component {
       let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
       let tile = this.state.board.tiles[tileId];
       tile.mods.push(this.mods[0]);
-      tile.tileStyle.backgroundColor = this.auxColors[0];
+      tile.tileStyle.backgroundColor = this.auxcolors[0];
     }
   }
 
@@ -74,7 +74,7 @@ export default class Board extends React.Component {
         let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
         let tile = this.state.board.tiles[tileId];
         if (tile.mods.indexOf(this.mods[0]) === -1) { // not disabled, so flip
-          tile.tileStyle.backgroundColor = this.regularTileColors[1];
+          tile.tileStyle.backgroundColor = this.colors[this.colors.length - 1];
           numTilesToMutate--;
         }
       }
@@ -96,7 +96,7 @@ export default class Board extends React.Component {
       let tileId = Math.floor(Math.random()*this.state.board.tiles.length);
       let tile = this.state.board.tiles[tileId];
       if (tile.mods.indexOf(this.mods[0]) === -1) { // not disabled, so enhance
-        tile.colorsOverride = ['#403837', '#7F3B32' ,'#BE3E2C'];
+        tile.colorsOverride = ['#403837', '#004d00' ,'#BE3E2C'];
         tile.tileStyle.borderWidth = 6;
         tile.tileStyle.borderColor = 'gray';
         numTilesToEnhance--;
@@ -162,7 +162,7 @@ export default class Board extends React.Component {
           opacity: opacities[key],
           transform: [{perspective: cellSize * 100}, {rotateX: tilts[key].interpolate({
                           inputRange: [0, 1], outputRange: ['0deg', '-90deg'] })}],
-          backgroundColor: this.regularTileColors[0]
+          backgroundColor: this.colors[0]
         };
         let mods = [] // extra classes for additional behaviour
         tiles.push({key : key, tileStyle : tileStyle, mods: mods, colorsOverride: null});
@@ -247,8 +247,8 @@ export default class Board extends React.Component {
     let size = this.state.board.size;
     for (let i = 0; i < (size * size); i++) {
         let tile = this.state.board.tiles[i];
-        if (tile.tileStyle.backgroundColor !== this.regularTileColors[1] &&
-          tile.mods.indexOf(this.mods[0]) === -1) { // not black or disabled, you don't win
+        if (tile.tileStyle.backgroundColor !== this.colors[this.colors.length - 1] &&
+          tile.mods.indexOf(this.mods[0]) === -1) { // not red or disabled, you don't win
             won = false;
         }
     }
@@ -374,7 +374,7 @@ export default class Board extends React.Component {
       let tile = this.state.board.tiles[ids[i]];
       if (tile.mods.indexOf(this.mods[0]) === -1) { // not disabled, trigger color change
         let currColor = tile.tileStyle.backgroundColor;
-        let colors = tile.colorsOverride ? tile.colorsOverride : this.regularTileColors;
+        let colors = tile.colorsOverride ? tile.colorsOverride : this.colors;
         let currIndex = colors.indexOf(currColor);
         let newIndex = (currIndex === colors.length - 1) ? 0 : currIndex + 1;
         newState.board.tiles[ids[i]].tileStyle.backgroundColor = colors[newIndex];
