@@ -8,35 +8,15 @@ export default class Menu extends React.Component {
       pulseRed : new Animated.Value(0),
       pulseBlack : new Animated.Value(0)
     };
-    this._redStart = this._redStart.bind(this);
-    this._redEnd = this._redEnd.bind(this);
-    this._blackStart = this._blackStart.bind(this);
-    this._blackEnd = this._blackEnd.bind(this);
-  }
-
-  _redStart() {
-    Animated.timing(this.state.pulseRed, { toValue: 1, duration: 1000 }).start(this._redEnd);
-  }
-
-  _redEnd() {
-    Animated.timing(this.state.pulseRed, { toValue: 0, duration: 1000 }).start(this._redStart);
-  }
-
-  _blackStart() {
-    Animated.timing(this.state.pulseBlack, { toValue: 1, duration: 1000 }).start(this._blackEnd);
-  }
-
-  _blackEnd() {
-    Animated.timing(this.state.pulseBlack, { toValue: 0, duration: 1000 }).start(this._blackStart);
   }
 
   _initRedAnimation() {
-    this._redStart();
+    Animated.timing(this.state.pulseRed, { toValue: 1, duration: 1000 }).start();
     return this.state.pulseRed.interpolate({ inputRange: [0, 1], outputRange: ["#403837", "#BE3E2C"] });
   }
 
   _initBlackAnimation() {
-    this._blackStart();
+    Animated.timing(this.state.pulseBlack, { toValue: 1, duration: 1000 }).start(this._blackEnd);
     return this.state.pulseBlack.interpolate({ inputRange: [0, 1], outputRange: ["#BE3E2C", "#403837"] });
   }
 
