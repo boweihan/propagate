@@ -1,34 +1,42 @@
 import React from 'react';
 import GameMaster from './GameMaster';
-import { Audio, Font } from 'expo';
+import { Font } from 'expo';
 import Store from 'react-native-simple-store';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../actions'
 
-export default class Propagate extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      leaderboard : null
-    };
-  }
+class Propagate extends React.Component {
+    async componentDidMount() {
+        let leaderboard;
+        await Font.loadAsync({
+            'NukamisoLite': require('../assets/fonts/NukamisoLite.ttf'),
+        });
+        await Store.get("leaderboard").then( //initialize store to array if need be
+            scores => {
+                leaderboard = scores;
+                if (!leaderboard) {
+                    leaderboard = [];
+                    Store.save("leaderboard", leaderboard);
+                }
+            });
+        this.props.setLeaderboard(leaderboard);
+    }
 
-  async componentDidMount() {
-    // todo: make a loading screen
-    let leaderboard;
-    await Font.loadAsync({
-      'NukamisoLite': require('../assets/fonts/NukamisoLite.ttf'),
-    });
-    await Store.get("leaderboard").then( //initialize store to array if need be
-      scores => {
-        leaderboard = scores;
-        if (!leaderboard) {
-          leaderboard = [];
-          Store.save("leaderboard", leaderboard);
-        }
-      });
-    this.setState({ leaderboard : leaderboard });
-  }
-
-  render() {
-    return this.state.leaderboard ? <GameMaster leaderboard={this.state.leaderboard} /> : null;
-  }
+    render() {
+        return this.props.leaderboard ?
+            <GameMaster leaderboard={this.props.leaderboard} /> : null;
+    }
 }
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(ActionCreators, dispatch);
+}
+
+function mapStateToProps(state) {
+    return {
+        leaderboard: state.leaderboard
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Propagate);
