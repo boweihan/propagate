@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Animated, Easing, TouchableHighlight, ScrollView } from 'react-native';
 import Dimensions from 'Dimensions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../actions'
 
-export default class LeaderBoard extends React.Component {
+class Leaderboard extends React.Component {
   constructor(props) {
-    super()
-    this.state = {
-      leaderboard: props.leaderboard
-    };
+    super();
     this.screenWidth = Dimensions.get('window').width;
   }
 
@@ -33,7 +33,7 @@ export default class LeaderBoard extends React.Component {
         </View>
         <View style={{flex:5, marginBottom: 30}}>
           <ScrollView>
-            {this.state.leaderboard.map(function(score, key){
+            {this.props.leaderboard.map(function(score, key){
               return (
                 <View key={key} style={dynamicStyles.leaderboard_score}>
                   <View style={dynamicStyles.leaderboard_score_flex}>
@@ -165,3 +165,15 @@ export default class LeaderBoard extends React.Component {
     }
   }
 }
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(ActionCreators, dispatch);
+}
+
+function mapStateToProps(state) {
+    return {
+        leaderboard: state.leaderboard
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Leaderboard);

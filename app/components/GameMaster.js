@@ -160,7 +160,7 @@ class GameMaster extends React.Component {
                         boardStateCache={this.state.boardStateCache}
                         triColor={this.state.triColor} /> : null}
                 {this.state.route.leaderboard ?
-                    <LeaderBoard setRoute={this.setRoute} leaderboard={this.props.leaderboard} /> : null}
+                    <LeaderBoard setRoute={this.setRoute} /> : null}
             </View>
         );
     }
