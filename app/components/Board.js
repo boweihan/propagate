@@ -417,7 +417,7 @@ export default class Board extends React.Component {
     await Audio.setIsEnabledAsync(true);
     this.soundArray.push(new Audio.Sound());
     this.soundArray[this.soundArray.length - 1].setCallback(this._soundCallback);
-    await this.soundArray[this.soundArray.length - 1].loadAsync(require('./assets/sounds/flipSoft.mp3'));
+    await this.soundArray[this.soundArray.length - 1].loadAsync(require('../assets/sounds/flipSoft.mp3'));
     await this.soundArray[this.soundArray.length - 1].playAsync();
   }
 

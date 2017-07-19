@@ -4,7 +4,7 @@ import Dimensions from 'Dimensions';
 
 export default class ModeSelector extends React.Component {
   constructor() {
-    super()
+    super();
     // "global" vars
     let {width, height} = Dimensions.get('window');
     this.buttonsize = width > height ? 0.8*(height/3) : 0.8*(width/3);
@@ -20,7 +20,7 @@ export default class ModeSelector extends React.Component {
       squareStyle : this.getDynamicStyles().active,
       plusStyle : null,
       crossStyle : null
-    }
+    };
   }
 
   getModeTiles(size, cellSize, tilesToFlip) {
