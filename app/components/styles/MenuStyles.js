@@ -1,34 +1,35 @@
 import { StyleSheet } from 'react-native';
+
 export default StyleSheet.create({
     menu: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
-    prop : {
+    prop: {
         flex: 1,
         textAlign: 'center',
         fontWeight: 'bold',
-        color: "#403837",
+        color: '#403837',
         fontSize: 30,
-        fontFamily: "NukamisoLite"
+        fontFamily: 'NukamisoLite',
     },
-    agate : {
-        color: "#BE3E2C",
-        fontFamily: "NukamisoLite"
+    agate: {
+        color: '#BE3E2C',
+        fontFamily: 'NukamisoLite',
     },
-    startButton : {
-        marginTop: 20
+    startButton: {
+        marginTop: 20,
     },
-    startText : {
+    startText: {
         fontWeight: 'bold',
         fontSize: 13,
-        color: "#7c6c6a",
-        fontFamily: "NukamisoLite"
+        color: '#7c6c6a',
+        fontFamily: 'NukamisoLite',
     },
-    triColorText : {
+    triColorText: {
         fontSize: 10,
-        color: "#7c6c6a",
-        fontFamily: "NukamisoLite"
-    }
+        color: '#7c6c6a',
+        fontFamily: 'NukamisoLite',
+    },
 });

@@ -1,12 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, Animated } from 'react-native';
+import { Animated } from 'react-native';
+import PropTypes from 'prop-types';
 
-export default class Tile extends React.Component {
-  render() {
+function Tile(props) {
     return (
-      <Animated.View style={this.props.style}
-        onStartShouldSetResponder={() => this.props.clickTile(this.props.id)}>
-      </Animated.View>
+        <Animated.View
+          style={props.style}
+          onStartShouldSetResponder={() => props.clickTile(props.id)}
+        />
     );
-  }
 }
+
+Tile.propTypes = {
+    style: PropTypes.array.isRequired,
+    id: PropTypes.number.isRequired,
+    clickTile: PropTypes.func.isRequired,
+};
+
+export default Tile;

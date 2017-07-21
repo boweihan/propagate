@@ -1,5 +1,5 @@
-import * as LeaderboardActions from './leaderboard'
+import * as LeaderboardActions from './leaderboard';
 
 export const ActionCreators = Object.assign({},
-    LeaderboardActions
+    LeaderboardActions,
 );
