@@ -5,19 +5,15 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import styles from './styles/LeaderBoardStyles';
 import { ActionCreators } from '../actions';
+import HelperUtils from './utils/HelperUtils';
 
 class Leaderboard extends React.Component {
-    static formatTriColor(triColor) {
-        if (triColor) { return triColor; }
-        return 'OFF';
-    }
-
     static getLeaderboardRow(score, key) {
         return (
             <View key={key} style={styles.leaderboard_score}>
                 <View style={styles.leaderboard_score_flex}>
                     <Text style={styles.leaderboard_score_text_1}>{score.date}</Text>
-                    <Text style={styles.leaderboard_score_text_2}>Tricolor: {Leaderboard.formatTriColor(score.triColor)}</Text>
+                    <Text style={styles.leaderboard_score_text_2}>Tricolor: {HelperUtils.formatTriColor(score.triColor)}</Text>
                     <Text style={styles.leaderboard_score_text_3}>{score.score}</Text>
                 </View>
             </View>

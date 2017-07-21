@@ -8,46 +8,15 @@ import Board from './Board';
 import Menu from './Menu';
 import LeaderBoard from './LeaderBoard';
 import { ActionCreators } from '../actions';
+import HelperUtils from './utils/HelperUtils';
 
 class GameMaster extends React.Component {
-    // temporary compare function for sorting leaderboard on push, better to use a tree
-    static compare(a, b) {
-        if (a.score < b.score) { return 1; }
-        if (a.score > b.score) { return -1; }
-        return 0;
-    }
-
-    static getLevelSpecs(level) { // TODO: better way to do levels
-        const specs = {};
-        if (level < 9) {
-            specs.size = 3; specs.moves = 15;
-        } else if (level >= 9 && level < 17) {
-            specs.size = 4; specs.moves = 20;
-        } else if (level >= 17 && level < 25) {
-            specs.size = 5; specs.moves = 25;
-        } else if (level >= 25 && level < 33) {
-            specs.size = 6; specs.moves = 30;
-        } else if (level >= 33 && level < 41) {
-            specs.size = 7; specs.moves = 40;
-        } else {
-            specs.size = 8; specs.moves = 50;
-        }
-        return specs;
-    }
-
-    constructor(props) {
+    constructor() {
         super();
-        props.setRoute('menu');
         this.levelUp = this.levelUp.bind(this);
         this.setRoute = this.setRoute.bind(this);
-        this.toggleTriColorMode = this.toggleTriColorMode.bind(this);
     }
 
-    /**
-    * Poor man's router
-    * @param {String} route - route name
-    * @param {Object} boardState - boardState if cached (OPTIONAL)
-    */
     setRoute(route, gameState) {
         const boardState = gameState || this.props.boardStateCache;
         switch (route) {
@@ -74,10 +43,6 @@ class GameMaster extends React.Component {
         this.props.setRoute(route);
     }
 
-    /**
-    * Level-up handler
-    * @param {Int} movesLeft - number of moves left, used to calculate score
-    */
     levelUp(movesLeft) {
         let newScore = this.props.score + 10;
         if (this.props.triColorMode) {
@@ -90,19 +55,6 @@ class GameMaster extends React.Component {
         this.props.setBoardStateCache(null);
     }
 
-    /**
-    * Method to toggle triColor mode true and false
-    * @param {Boolean} status - boolean indicating status of triColor mode
-    */
-    toggleTriColorMode() { // TODO kill
-        const triColor = !this.props.triColorMode;
-        this.props.setTriColorMode(triColor);
-    }
-
-    /**
-    * TODO: this should be more efficient, ie balanced search trees
-    * Save the new score into AsyncStorage and state, after sorting and truncating the leaderboard
-    */
     saveScoreToStorage() {
         const date = new Date();
         const newScore = {
@@ -112,16 +64,13 @@ class GameMaster extends React.Component {
         };
         const leaderboard = this.props.leaderboard;
         leaderboard.push(newScore);
-        const sortedLeaderboard = leaderboard.sort(this.compare).slice(0, 20);
+        const sortedLeaderboard = leaderboard.sort(HelperUtils.compare).slice(0, 20);
         this.props.setLeaderboard(sortedLeaderboard);
         Store.save('leaderboard', sortedLeaderboard);
     }
 
     render() {
-        const levelSpec = GameMaster.getLevelSpecs(this.props.level);
-        if (!this.props.routes) {
-            return null;
-        }
+        const levelSpec = HelperUtils.getLevelSpecs(this.props.level);
         return (
             <View style={{ flex: 1 }}>
                 {this.props.routes.menu ?
@@ -129,7 +78,7 @@ class GameMaster extends React.Component {
                       setRoute={this.setRoute}
                       firstLoad={this.props.firstLoad}
                       triColor={this.props.triColorMode}
-                      toggleTriColorMode={this.toggleTriColorMode}
+                      toggleTriColorMode={() => this.props.setTriColorMode(!this.props.triColorMode)}
                     /> : null}
                 {this.props.routes.game ?
                     <Board
@@ -169,7 +118,7 @@ GameMaster.propTypes = {
 };
 
 GameMaster.defaultProps = {
-    boardStateCache: null,
+    boardStateCache: null, // makes it easy to write exist() logic
 };
 
 function mapDispatchToProps(dispatch) {

@@ -8,6 +8,7 @@ import ModeSelector from './ModeSelector';
 import Tile from './Tile';
 import BoardMenu from './BoardMenu';
 import styles from './styles/BoardStyles';
+import HelperUtils from './utils/HelperUtils';
 
 const flipSound = require('../assets/sounds/flipSoft.mp3');
 
@@ -20,26 +21,6 @@ const Mods = ['grayBlock'];
 
 
 export default class Board extends React.Component {
-    /**
-    * Create an array of Animated() values to use for opacity
-    * @param {Int} size - width/height of cubic board
-    */
-    static getInitialOpacities(size) {
-        const opacities = new Array(size * size);
-        for (let i = 0; i < opacities.length; i += 1) { opacities[i] = new Animated.Value(1); }
-        return opacities;
-    }
-
-    /**
-    * Create an array of Animated() values to use for tilt
-    * @param {Int} size - width/height of cubic board
-    */
-    static getInitialTilt(size) {
-        const tilt = new Array(size * size);
-        for (let i = 0; i < tilt.length; i += 1) { tilt[i] = new Animated.Value(0); }
-        return tilt;
-    }
-
     constructor(props) {
         super();
         this.colors = props.triColor ? Colors3 : Colors2;
@@ -214,8 +195,8 @@ export default class Board extends React.Component {
         const cellSize = (0.8 * Width) / size;
         const cellPadding = cellSize * 0.01;
         const tileSize = cellSize - (cellPadding * 2);
-        const opacities = Board.getInitialOpacities(size);
-        const tilts = Board.getInitialTilt(size);
+        const opacities = HelperUtils.getInitialOpacities(size);
+        const tilts = HelperUtils.getInitialTilt(size);
         const tiles = this.getInitialTileState(size, cellSize, cellPadding, opacities, tilts);
         return { size, cellSize, cellPadding, tileSize, opacities, tilts, tiles, movesLeft, mode: this.modes[0] };
     }
