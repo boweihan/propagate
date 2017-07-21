@@ -17,41 +17,30 @@ class GameMaster extends React.Component {
         return 0;
     }
 
-    constructor() {
+    static getLevelSpecs(level) { // TODO: better way to do levels
+        const specs = {};
+        if (level < 9) {
+            specs.size = 3; specs.moves = 15;
+        } else if (level >= 9 && level < 17) {
+            specs.size = 4; specs.moves = 20;
+        } else if (level >= 17 && level < 25) {
+            specs.size = 5; specs.moves = 25;
+        } else if (level >= 25 && level < 33) {
+            specs.size = 6; specs.moves = 30;
+        } else if (level >= 33 && level < 41) {
+            specs.size = 7; specs.moves = 40;
+        } else {
+            specs.size = 8; specs.moves = 50;
+        }
+        return specs;
+    }
+
+    constructor(props) {
         super();
-        this.state = {
-            route: {
-                menu: true,
-                game: false,
-                leaderboard: false,
-            },
-            level: 1,
-            score: 0,
-            firstLoad: true,
-            boardStateCache: null,
-            triColor: false,
-        };
+        props.setRoute('menu');
         this.levelUp = this.levelUp.bind(this);
         this.setRoute = this.setRoute.bind(this);
         this.toggleTriColorMode = this.toggleTriColorMode.bind(this);
-    }
-
-    getStateForLevel() { // TODO: better way to do levels
-        const state = {};
-        if (this.state.level < 9) {
-            state.size = 3; state.moves = 15;
-        } else if (this.state.level >= 9 && this.state.level < 17) {
-            state.size = 4; state.moves = 20;
-        } else if (this.state.level >= 17 && this.state.level < 25) {
-            state.size = 5; state.moves = 25;
-        } else if (this.state.level >= 25 && this.state.level < 33) {
-            state.size = 6; state.moves = 30;
-        } else if (this.state.level >= 33 && this.state.level < 41) {
-            state.size = 7; state.moves = 40;
-        } else {
-            state.size = 8; state.moves = 50;
-        }
-        return state;
     }
 
     /**
@@ -60,42 +49,29 @@ class GameMaster extends React.Component {
     * @param {Object} boardState - boardState if cached (OPTIONAL)
     */
     setRoute(route, gameState) {
-        const boardState = gameState || this.state.boardStateCache;
+        const boardState = gameState || this.props.boardStateCache;
         switch (route) {
         case 'game':
-            this.setState({
-                route: { menu: false, game: true, leaderboard: false },
-                firstLoad: false,
-            }); break;
+            this.props.setFirstLoad(false); break;
         case 'menu':
-            this.setState({
-                route: { menu: true, game: false, leaderboard: false },
-                boardStateCache: boardState,
-            }); break;
         case 'leaderboard':
-            this.setState({
-                route: { menu: false, game: false, leaderboard: true },
-                boardStateCache: boardState,
-            }); break;
+            this.props.setBoardStateCache(boardState); break;
         case 'gameOver':
             this.saveScoreToStorage();
-            this.setState({
-                route: { menu: true, game: false, leaderboard: false },
-                level: 1,
-                score: 0,
-                firstLoad: true,
-                boardStateCache: null,
-            }); break;
+            this.props.setLevel(1);
+            this.props.setScore(1);
+            this.props.setFirstLoad(true);
+            this.props.setBoardStateCache(null);
+            break;
         case 'newGame':
-            this.setState({
-                route: { menu: false, game: true, leaderboard: false },
-                level: 1,
-                score: 0,
-                firstLoad: false,
-                boardStateCache: null,
-            }); break;
+            this.props.setLevel(1);
+            this.props.setScore(0);
+            this.props.setFirstLoad(false);
+            this.props.setBoardStateCache(null);
+            break;
         default: break;
         }
+        this.props.setRoute(route);
     }
 
     /**
@@ -103,27 +79,24 @@ class GameMaster extends React.Component {
     * @param {Int} movesLeft - number of moves left, used to calculate score
     */
     levelUp(movesLeft) {
-        const newLevel = this.state.level + 1;
-        let newScore = this.state.score + 10;
-        if (this.state.triColor) {
-            newScore += ((movesLeft * 10) + this.state.level) * 3;
+        let newScore = this.props.score + 10;
+        if (this.props.triColorMode) {
+            newScore += ((movesLeft * 10) + this.props.level) * 3;
         } else {
-            newScore += (movesLeft * 10) + this.state.level;
+            newScore += (movesLeft * 10) + this.props.level;
         }
-        this.setState({
-            level: newLevel,
-            score: newScore,
-            boardStateCache: null,
-        });
+        this.props.incrementLevel(this.props.level);
+        this.props.setScore(newScore);
+        this.props.setBoardStateCache(null);
     }
 
     /**
     * Method to toggle triColor mode true and false
     * @param {Boolean} status - boolean indicating status of triColor mode
     */
-    toggleTriColorMode() {
-        const triColor = !this.state.triColor;
-        this.setState({ triColor });
+    toggleTriColorMode() { // TODO kill
+        const triColor = !this.props.triColorMode;
+        this.props.setTriColorMode(triColor);
     }
 
     /**
@@ -134,8 +107,8 @@ class GameMaster extends React.Component {
         const date = new Date();
         const newScore = {
             date: date.toLocaleString(),
-            score: this.state.score,
-            triColor: this.state.triColor ? 'ON' : 'OFF',
+            score: this.props.score,
+            triColor: this.props.triColorMode ? 'ON' : 'OFF',
         };
         const leaderboard = this.props.leaderboard;
         leaderboard.push(newScore);
@@ -145,29 +118,32 @@ class GameMaster extends React.Component {
     }
 
     render() {
-        const levelState = this.getStateForLevel();
+        const levelSpec = GameMaster.getLevelSpecs(this.props.level);
+        if (!this.props.routes) {
+            return null;
+        }
         return (
             <View style={{ flex: 1 }}>
-                {this.state.route.menu ?
+                {this.props.routes.menu ?
                     <Menu
                       setRoute={this.setRoute}
-                      firstLoad={this.state.firstLoad}
-                      triColor={this.state.triColor}
+                      firstLoad={this.props.firstLoad}
+                      triColor={this.props.triColorMode}
                       toggleTriColorMode={this.toggleTriColorMode}
                     /> : null}
-                {this.state.route.game ?
+                {this.props.routes.game ?
                     <Board
-                      size={levelState.size}
-                      moves={levelState.moves}
-                      key={this.state.level}
-                      level={this.state.level}
+                      size={levelSpec.size}
+                      moves={levelSpec.moves}
+                      key={this.props.level}
+                      level={this.props.level}
                       levelUp={this.levelUp}
-                      score={this.state.score}
+                      score={this.props.score}
                       setRoute={this.setRoute}
-                      boardStateCache={this.state.boardStateCache}
-                      triColor={this.state.triColor}
+                      boardStateCache={this.props.boardStateCache}
+                      triColor={this.props.triColorMode}
                     /> : null}
-                {this.state.route.leaderboard ?
+                {this.props.routes.leaderboard ?
                     <LeaderBoard setRoute={this.setRoute} /> : null}
             </View>
         );
@@ -177,6 +153,23 @@ class GameMaster extends React.Component {
 GameMaster.propTypes = {
     leaderboard: PropTypes.array.isRequired,
     setLeaderboard: PropTypes.func.isRequired,
+    routes: PropTypes.object.isRequired,
+    level: PropTypes.number.isRequired,
+    score: PropTypes.number.isRequired,
+    firstLoad: PropTypes.bool.isRequired,
+    triColorMode: PropTypes.bool.isRequired,
+    boardStateCache: PropTypes.object,
+    incrementLevel: PropTypes.func.isRequired,
+    setScore: PropTypes.func.isRequired,
+    setBoardStateCache: PropTypes.func.isRequired,
+    setTriColorMode: PropTypes.func.isRequired,
+    setFirstLoad: PropTypes.func.isRequired,
+    setLevel: PropTypes.func.isRequired,
+    setRoute: PropTypes.func.isRequired,
+};
+
+GameMaster.defaultProps = {
+    boardStateCache: null,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -187,6 +180,11 @@ function mapStateToProps(state) {
     return {
         leaderboard: state.leaderboard,
         routes: state.routes,
+        level: state.level,
+        score: state.score,
+        firstLoad: state.firstLoad,
+        triColorMode: state.triColorMode,
+        boardStateCache: state.boardStateCache,
     };
 }
 

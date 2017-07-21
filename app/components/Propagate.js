@@ -36,7 +36,7 @@ Propagate.propTypes = {
 };
 
 Propagate.defaultProps = {
-    leaderboard: [],
+    leaderboard: null, // needs to start as null to prevent rendering before font load
 };
 
 function mapDispatchToProps(dispatch) {

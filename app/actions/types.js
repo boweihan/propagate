@@ -18,4 +18,4 @@ export const SET_BOARD_STATE_CACHE = 'SET_BOARD_STATE_CACHE';
 export const SET_LEADERBOARD = 'SET_LEADERBOARD';
 
 // ROUTES
-export const SET_ROUTES = 'SET_ROUTES';
+export const SET_ROUTE = 'SET_ROUTE';

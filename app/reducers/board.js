@@ -1,7 +1,7 @@
 import createReducer from '../lib/createReducer';
 import * as types from '../actions/types';
 
-export const level = createReducer(null, {
+export const level = createReducer(1, {
     [types.SET_LEVEL](state, action) {
         return action.level;
     },
@@ -10,19 +10,19 @@ export const level = createReducer(null, {
     },
 });
 
-export const score = createReducer(null, {
+export const score = createReducer(0, {
     [types.SET_SCORE](state, action) {
         return action.score;
     },
 });
 
-export const firstLoad = createReducer(null, {
+export const firstLoad = createReducer(true, {
     [types.SET_FIRST_LOAD](state, action) {
         return action.firstLoad;
     },
 });
 
-export const triColorMode = createReducer(null, {
+export const triColorMode = createReducer(false, {
     [types.SET_TRICOLOR_MODE](state, action) {
         return action.triColorMode;
     },
@@ -30,6 +30,6 @@ export const triColorMode = createReducer(null, {
 
 export const boardStateCache = createReducer(null, {
     [types.SET_BOARD_STATE_CACHE](state, action) {
-        return action.boardStateCache;
+        return action.boardState;
     },
 });
