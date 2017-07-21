@@ -1,1 +1,2 @@
 export const SET_LEADERBOARD = 'SET_LEADERBOARD';
+export const SET_ROUTES = 'SET_ROUTES';

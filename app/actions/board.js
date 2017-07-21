@@ -1,5 +1,4 @@
 import * as types from './types';
-// import Api from '../lib/api'
 
 export function setLeaderboard(leaderboard) {
     return {

@@ -186,6 +186,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return {
         leaderboard: state.leaderboard,
+        routes: state.routes,
     };
 }
 

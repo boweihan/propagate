@@ -26,7 +26,7 @@ class Propagate extends React.Component {
 
     render() {
         return this.props.leaderboard ?
-            <GameMaster leaderboard={this.props.leaderboard} /> : null;
+            <GameMaster /> : null;
     }
 }
 
