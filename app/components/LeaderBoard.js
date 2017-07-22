@@ -31,13 +31,13 @@ class Leaderboard extends React.Component {
                       onPress={() => this.props.setCompleteRoute('menu')}
                     >
                         <View style={styles.backToMenu}>
-                            <Text style={styles.menuText}>Menu</Text>
+                            <Text style={styles.menuText}>MENU</Text>
                         </View>
                     </TouchableHighlight>
                     <View style={styles.scoreElement}>
                         <View style={styles.scoreBox}>
                             <Text style={[styles.menuText, styles.scoreText]}>
-                                High{'\n'}Scores
+                                HIGH{'\n'}SCORES
                             </Text>
                         </View>
                     </View>

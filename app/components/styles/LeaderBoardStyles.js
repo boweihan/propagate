@@ -40,6 +40,7 @@ export default StyleSheet.create({
         marginLeft: 5,
         color: 'white',
         fontSize: 12,
+        fontFamily: 'MontserratBold',
     },
     leaderboard_score_text_2: {
         flex: 1,
@@ -49,6 +50,7 @@ export default StyleSheet.create({
         textAlign: 'center',
         color: 'white',
         fontSize: 10,
+        fontFamily: 'MontserratRegular',
     },
     leaderboard_score_text_3: {
         flex: 1,
@@ -59,6 +61,7 @@ export default StyleSheet.create({
         marginRight: 5,
         color: 'white',
         fontSize: 18,
+        fontFamily: 'MontserratBold',
     },
     menuButton: {
         flex: 1,
@@ -78,12 +81,14 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
         color: 'white',
+        fontFamily: 'MontserratBold',
     },
     scoreText: {
         fontSize: 20,
         padding: 5,
         paddingLeft: 8,
         paddingRight: 8,
+        fontFamily: 'MontserratBold',
     },
     emptyElement: {
         flex: 1,

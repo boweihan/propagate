@@ -4,10 +4,15 @@ const Width = Dimensions.get('window').width;
 
 export default StyleSheet.create({
     boardMenu: {
-        flex: 1,
+        flex: 4,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 30,
+    },
+    subBoardMenu: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     innerMainMenu: {
         flex: 1,
@@ -22,6 +27,9 @@ export default StyleSheet.create({
         paddingLeft: 8,
         paddingRight: 8,
         borderRadius: 5,
+        marginBottom: 5,
+        flex: 1,
+        justifyContent: 'center',
     },
     backToLeaderboard: {
         backgroundColor: '#ff9900',
@@ -29,6 +37,9 @@ export default StyleSheet.create({
         paddingLeft: 8,
         paddingRight: 8,
         borderRadius: 5,
+        marginBottom: 5,
+        flex: 1,
+        justifyContent: 'center',
     },
     movesLeft: {
         backgroundColor: '#1E6576',
@@ -37,6 +48,7 @@ export default StyleSheet.create({
         paddingRight: 8,
         borderRadius: 5,
         width: '90%',
+        marginBottom: 5,
     },
     score: {
         backgroundColor: '#7AAF29',
@@ -44,6 +56,9 @@ export default StyleSheet.create({
         paddingLeft: 8,
         paddingRight: 8,
         borderRadius: 5,
+        marginBottom: 5,
+        flex: 1,
+        justifyContent: 'center',
     },
     level: {
         backgroundColor: 'gray',
@@ -51,6 +66,9 @@ export default StyleSheet.create({
         paddingLeft: 8,
         paddingRight: 8,
         borderRadius: 5,
+        marginBottom: 5,
+        flex: 1,
+        justifyContent: 'center',
     },
     btn1: {
         flex: 1,
@@ -70,14 +88,29 @@ export default StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    btn3_col2: {
-        marginTop: 5,
+    flex1: {
+        flex: 1,
+        justifyContent: 'center',
     },
     menuText: {
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 15,
         color: 'white',
+        fontFamily: 'MontserratBold',
+    },
+    help: {
+        backgroundColor: '#403837',
+        padding: 5,
+        paddingLeft: 8,
+        paddingRight: 8,
+        borderRadius: 5,
+        flex: 1,
+        justifyContent: 'center',
+    },
+    helpText: {
+        color: 'white',
+        fontFamily: 'MontserratBold',
     },
 });
 
