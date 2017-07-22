@@ -21,3 +21,6 @@ export const SET_LEADERBOARD = 'SET_LEADERBOARD';
 export const SET_ROUTE = 'SET_ROUTE';
 
 export const SET_MODAL = 'SET_MODAL';
+
+// MODE
+export const SET_MODE = 'SET_MODE';

@@ -35,7 +35,7 @@ class Board extends React.Component {
             this.setTriColorTiles(props);
         }
         this.clickTile = this.clickTile.bind(this);
-        this.setMode = this.setMode.bind(this);
+        this.setBoardMode = this.setBoardMode.bind(this);
     }
 
     setDisabledTiles(props) {
@@ -88,7 +88,7 @@ class Board extends React.Component {
         }
     }
 
-    setMode(mode) {
+    setBoardMode(mode) {
         const modeIndex = Modes.indexOf(mode);
         if (modeIndex !== -1) {
             const newState = this.state;
@@ -213,7 +213,7 @@ class Board extends React.Component {
                 <View style={styles.selector}>
                     <ModeSelector
                       style={styles.modeSelector}
-                      setMode={this.setMode}
+                      setBoardMode={this.setBoardMode}
                     />
                 </View>
                 <Modal
