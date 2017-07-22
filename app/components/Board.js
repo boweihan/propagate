@@ -1,14 +1,19 @@
+// NOTE: leaving this as a react component for now
+
 import React from 'react';
 import { Text, View, Animated, Easing, TouchableHighlight, Dimensions } from 'react-native';
 import Modal from 'react-native-modal';
 import { Audio } from 'expo';
 import { Ionicons } from '@expo/vector-icons'; // eslint-disable-line
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import ModeSelector from './ModeSelector';
 import Tile from './Tile';
 import BoardMenu from './BoardMenu';
 import styles from './styles/BoardStyles';
 import HelperUtils from './utils/HelperUtils';
+import { ActionCreators } from '../actions';
 
 const flipSound = require('../assets/sounds/flipSoft.mp3');
 
@@ -20,10 +25,10 @@ const ColorsOverride = ['#403837', '#004d00', '#BE3E2C'];
 const Mods = ['grayBlock'];
 
 
-export default class Board extends React.Component {
+class Board extends React.Component {
     constructor(props) {
         super();
-        this.colors = props.triColor ? Colors3 : Colors2;
+        this.colors = props.triColorMode ? Colors3 : Colors2;
         this.modes = ['square', 'plus', 'cross'];
         this.soundArray = [];
         this.state = {
@@ -543,7 +548,7 @@ export default class Board extends React.Component {
 }
 
 Board.propTypes = {
-    triColor: PropTypes.bool.isRequired,
+    triColorMode: PropTypes.bool.isRequired,
     size: PropTypes.number.isRequired,
     moves: PropTypes.number.isRequired,
     boardStateCache: PropTypes.object,
@@ -557,3 +562,17 @@ Board.defaultProps = {
     boardStateCache: {},
 };
 
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(ActionCreators, dispatch);
+}
+
+function mapStateToProps(state) {
+    return {
+        level: state.level,
+        score: state.score,
+        triColorMode: state.triColorMode,
+        boardStateCache: state.boardStateCache,
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

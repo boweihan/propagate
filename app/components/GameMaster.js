@@ -82,12 +82,8 @@ class GameMaster extends React.Component {
                       size={levelSpec.size}
                       moves={levelSpec.moves}
                       key={this.props.level}
-                      level={this.props.level}
                       levelUp={this.levelUp}
-                      score={this.props.score}
                       setCompleteRoute={this.setCompleteRoute}
-                      boardStateCache={this.props.boardStateCache}
-                      triColor={this.props.triColorMode}
                     /> : null}
                 {this.props.routes.leaderboard ?
                     <LeaderBoard setCompleteRoute={this.setCompleteRoute} /> : null}
