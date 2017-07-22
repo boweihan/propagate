@@ -82,10 +82,16 @@ export default StyleSheet.create({
         paddingRight: 16,
         borderRadius: 5,
         minWidth: 150,
+        margin: 5,
     },
     settingsButtonText: {
         fontSize: 15,
         color: 'white',
+        fontFamily: 'MontserratBold',
+    },
+    progressText: {
+        fontSize: 15,
+        color: 'red',
         fontFamily: 'MontserratBold',
     },
     triColorStatus: {

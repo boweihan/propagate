@@ -11,6 +11,12 @@ export const level = createReducer(null, {
     },
 });
 
+export const highestLevel = createReducer(null, {
+    [types.SET_HIGHEST_LEVEL](state, action) {
+        return action.level;
+    },
+});
+
 export const score = createReducer(0, {
     [types.SET_SCORE](state, action) {
         return action.score;

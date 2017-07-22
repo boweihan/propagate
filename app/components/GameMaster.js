@@ -27,8 +27,13 @@ class GameMaster extends React.Component {
     }
 
     levelUp() {
-        Store.save('level', this.props.level + 1);
-        this.props.incrementLevel(this.props.level);
+        const nextLevel = this.props.level + 1;
+        if (this.props.highestLevel < nextLevel) {
+            Store.save('highestLevel', nextLevel);
+            this.props.setHighestLevel(nextLevel);
+        }
+        Store.save('level', nextLevel);
+        this.props.setLevel(nextLevel);
         this.props.setBoardStateCache(null);
     }
 
@@ -60,11 +65,12 @@ class GameMaster extends React.Component {
 GameMaster.propTypes = {
     routes: PropTypes.object.isRequired,
     level: PropTypes.number.isRequired,
-    score: PropTypes.number.isRequired,
     boardStateCache: PropTypes.object,
-    incrementLevel: PropTypes.func.isRequired,
+    setLevel: PropTypes.func.isRequired,
     setBoardStateCache: PropTypes.func.isRequired,
     setRoute: PropTypes.func.isRequired,
+    setHighestLevel: PropTypes.func.isRequired,
+    highestLevel: PropTypes.number.isRequired,
 };
 
 GameMaster.defaultProps = {
@@ -79,6 +85,7 @@ function mapStateToProps(state) {
     return {
         routes: state.routes,
         level: state.level,
+        highestLevel: state.highestLevel,
         score: state.score,
         boardStateCache: state.boardStateCache,
     };

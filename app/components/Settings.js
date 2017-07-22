@@ -1,12 +1,32 @@
 import React from 'react';
-import { Text, View, TouchableHighlight } from 'react-native';
+import { Text, View, TouchableHighlight, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import Store from 'react-native-simple-store';
 import styles from './styles/SettingsStyles';
 import { ActionCreators } from '../actions';
 
 class Settings extends React.Component {
+    resetLevel() {
+        Alert.alert(
+            'Clear Progress?',
+            'Are you sure you want to do that? This action will reset your level to 1',
+            [
+                { text: 'Cancel', onPress: () => {}, style: 'cancel' },
+                { text: 'Confirm', onPress: () => this.resetLevelConfirmed() },
+            ],
+            { cancelable: false },
+        );
+        this.props.setLevel(1);
+        Store.save('level', 1);
+    }
+
+    resetLevelConfirmed() {
+        this.props.setLevel(1);
+        Store.save('level', 1);
+    }
+
     render() {
         const triColor = this.props.triColorMode ? 'ON' : 'OFF';
 
@@ -47,6 +67,14 @@ class Settings extends React.Component {
                                 <Text style={styles.triColorStatus}>{triColor}</Text>
                             </Text>
                         </TouchableHighlight>
+                        <TouchableHighlight
+                          underlayColor="white"
+                          activeOpacity={0.5}
+                          style={styles.settingsButton}
+                          onPress={() => this.resetLevel()} // todo: add modal
+                        >
+                            <Text style={styles.progressText}>CLEAR PROGRESS</Text>
+                        </TouchableHighlight>
                     </View>
                 </View>
             </View>
@@ -58,6 +86,7 @@ Settings.propTypes = {
     triColorMode: PropTypes.bool.isRequired,
     setTriColorMode: PropTypes.func.isRequired,
     setCompleteRoute: PropTypes.func.isRequired,
+    setLevel: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

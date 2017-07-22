@@ -60,7 +60,7 @@ class Menu extends React.Component {
                 </TouchableHighlight>
                 <View style={styles.highestLevel}>
                     <Text style={styles.highestLevelText}>Highest Level Achieved :&nbsp;
-                        <Text style={styles.highestLevelStatus}>{this.props.level}</Text>
+                        <Text style={styles.highestLevelStatus}>{this.props.highestLevel}</Text>
                     </Text>
                 </View>
             </View>
@@ -72,7 +72,7 @@ Menu.propTypes = {
     setCompleteRoute: PropTypes.func.isRequired,
     pulseRed: PropTypes.object.isRequired,
     pulseBlack: PropTypes.object.isRequired,
-    level: PropTypes.number.isRequired,
+    highestLevel: PropTypes.number.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -83,7 +83,7 @@ function mapStateToProps(state) {
     return {
         pulseRed: state.pulseRed,
         pulseBlack: state.pulseBlack,
-        level: state.level,
+        highestLevel: state.highestLevel,
     };
 }
 

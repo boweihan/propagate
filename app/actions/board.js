@@ -7,9 +7,9 @@ export function setLevel(level) {
     };
 }
 
-export function incrementLevel(level) {
+export function setHighestLevel(level) {
     return {
-        type: types.INCREMENT_LEVEL,
+        type: types.SET_HIGHEST_LEVEL,
         level,
     };
 }
