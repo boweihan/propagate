@@ -11,6 +11,7 @@ import styles from './styles/ModalStyles';
 class FullScreenModal extends React.Component {
     hideModal() {
         if (this.props.modal.type === 'fail') {
+            this.props.setMode('SQUARE');
             this.props.setModal('default');
             this.props.setCompleteRoute('gameOver');
         } else {
@@ -55,6 +56,7 @@ FullScreenModal.propTypes = {
     setCompleteRoute: PropTypes.func.isRequired,
     levelUp: PropTypes.func.isRequired,
     board: PropTypes.object.isRequired,
+    setMode: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
