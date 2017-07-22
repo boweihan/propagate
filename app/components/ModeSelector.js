@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, Animated, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles/ModeSelectorStyles';
-import HelperUtils from './utils/HelperUtils';
+import ModeUtils from './utils/ModeUtils';
 
 const { width, height } = Dimensions.get('window');
 const ButtonSize = width > height ? 0.8 * (height / 3) : 0.8 * (width / 3);
@@ -13,9 +13,9 @@ export default class ModeSelector extends React.Component {
         this.state = {
             mode: 'SQUARE',
             modeTiles: {
-                squareTiles: HelperUtils.getModeTiles(3, (ButtonSize - 20) / 3, [0, 1, 2, 3, 4, 5, 6, 7, 8]),
-                plusTiles: HelperUtils.getModeTiles(3, (ButtonSize - 20) / 3, [1, 3, 4, 5, 7]),
-                crossTiles: HelperUtils.getModeTiles(3, (ButtonSize - 20) / 3, [0, 2, 4, 6, 8]),
+                squareTiles: ModeUtils.getModeTiles(3, (ButtonSize - 20) / 3, [0, 1, 2, 3, 4, 5, 6, 7, 8]),
+                plusTiles: ModeUtils.getModeTiles(3, (ButtonSize - 20) / 3, [1, 3, 4, 5, 7]),
+                crossTiles: ModeUtils.getModeTiles(3, (ButtonSize - 20) / 3, [0, 2, 4, 6, 8]),
             },
             squareStyle: styles.active,
             plusStyle: null,

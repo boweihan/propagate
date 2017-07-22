@@ -1,7 +1,6 @@
-// NOTE: leaving this as a react component for now
-
+// TODO: find a way to reduxify board
 import React from 'react';
-import { View, Animated, Easing, Dimensions } from 'react-native';
+import { View, Animated, Easing } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,13 +8,12 @@ import ModeSelector from './ModeSelector';
 import Tile from './Tile';
 import BoardMenu from './BoardMenu';
 import styles from './styles/BoardStyles';
-import HelperUtils from './utils/HelperUtils';
+import BoardUtils from './utils/BoardUtils';
 import ModeUtils from './utils/ModeUtils';
 import SoundUtils from './utils/SoundUtils';
 import { ActionCreators } from '../actions';
 import Modal from './Modal';
 
-const Width = Dimensions.get('window').width;
 const Colors3 = ['#403837', '#7F3B32', '#BE3E2C'];
 const Colors2 = ['#403837', '#BE3E2C'];
 const ColorsExtra = ['gray'];
@@ -29,7 +27,7 @@ class Board extends React.Component {
         super();
         this.colors = props.triColorMode ? Colors3 : Colors2;
         this.state = {
-            board: props.boardStateCache ? props.boardStateCache : this.buildBoard(props.size, props.moves),
+            board: props.boardStateCache ? props.boardStateCache : BoardUtils.buildBoard(props.size, props.moves, this.colors),
         };
         if (!props.boardStateCache) {
             this.setDisabledTiles(props);
@@ -90,10 +88,6 @@ class Board extends React.Component {
         }
     }
 
-    /**
-    * Handler for ModeSelector click event
-    * @param {String} mode - mode type
-    */
     setMode(mode) {
         const modeIndex = Modes.indexOf(mode);
         if (modeIndex !== -1) {
@@ -101,34 +95,6 @@ class Board extends React.Component {
             newState.board.mode = Modes[modeIndex];
             this.setState(newState);
         }
-    }
-
-    /**
-    * Set the initial state of a Tile
-    * @param {Int} size - width/height of cubic board
-    * @param {float} cellSize - Tile cell size
-    * @param {float} cellPadding - Tile padding
-    * @param {Array<Animated>} opacities - Array of Animated() opacity values
-    * @param {Array<Animated>} tilts - Array of Animated() tilt values
-    */
-    getInitialTileState(size, cellSize, cellPadding, opacities, tilts) {
-        const tiles = [];
-        for (let row = 0; row < size; row += 1) {
-            for (let col = 0; col < size; col += 1) {
-                const key = (row * size) + col;
-                const tileStyle = { // tile styling
-                    left: (col * cellSize) + cellPadding,
-                    top: (row * cellSize) + cellPadding,
-                    opacity: opacities[key],
-                    transform: [{ perspective: cellSize * 100 }, { rotateX: tilts[key].interpolate({
-                        inputRange: [0, 1], outputRange: ['0deg', '-90deg'] }) }],
-                    backgroundColor: this.colors[0],
-                };
-                const mods = []; // extra classes for additional behaviour
-                tiles.push({ key, tileStyle, mods, colorsOverride: null });
-            }
-        }
-        return tiles;
     }
 
     getDynamicStyles() {
@@ -150,25 +116,6 @@ class Board extends React.Component {
         };
     }
 
-    /**
-    * Build board on initialization
-    * @param {Int} size - width/height of cubic board
-    * @param {Int} movesLeft - moves allowed for level
-    */
-    buildBoard(size, movesLeft) {
-        const cellSize = (0.8 * Width) / size;
-        const cellPadding = cellSize * 0.01;
-        const tileSize = cellSize - (cellPadding * 2);
-        const opacities = HelperUtils.getInitialOpacities(size);
-        const tilts = HelperUtils.getInitialTilt(size);
-        const tiles = this.getInitialTileState(size, cellSize, cellPadding, opacities, tilts);
-        return { size, cellSize, cellPadding, tileSize, opacities, tilts, tiles, movesLeft, mode: Modes[0] };
-    }
-
-    /**
-    * Handler for Tile click event
-    * @param {Int} id - index of the clicked Tile
-    */
     clickTile(id) {
         if (this.state.board.tiles[id].mods.indexOf(Mods[0]) !== -1) { return; } // return if disabled
         SoundUtils.playFlip();
@@ -186,10 +133,6 @@ class Board extends React.Component {
         this.triggerColorChange(ids, newState);
     }
 
-    /**
-    * Check win conditions
-    * @param {Object} newState - copied state object
-    */
     didWin(newState) {
         let won = true;
         const size = this.state.board.size;
@@ -207,11 +150,6 @@ class Board extends React.Component {
         }
     }
 
-    /**
-    * Method to trigger color change for a set of Tiles
-    * @param {Array<Int>} ids - list of Tile indexes
-    * @param {Object} newState - copied state object
-    */
     triggerColorChange(ids, newState) {
         const newerState = newState;
         for (let i = 0; i < ids.length; i += 1) {
@@ -228,10 +166,6 @@ class Board extends React.Component {
         this.didWin(newerState);
     }
 
-    /**
-    * Method to trigger animation for a single Tile
-    * @param {Int} id - Tile Index
-    */
     triggerTileAnimation(id) {
         const opacity = this.state.board.opacities[id];
         const tilt = this.state.board.tilts[id];

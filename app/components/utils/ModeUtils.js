@@ -1,5 +1,6 @@
 // TODO: refactor this
 const Modes = ['square', 'plus', 'cross']; // duplicate
+const RegularTileColors = ['#403837', '#BE3E2C'];
 
 class ModeUtils {
     static getIdsForMode(id, mode, boardSize) {
@@ -118,6 +119,29 @@ class ModeUtils {
         }
 
         return ids;
+    }
+
+    static getModeTiles(size, cellSize, tilesToFlip) {
+        const tiles = [];
+        for (let row = 0; row < size; row += 1) {
+            for (let col = 0; col < size; col += 1) {
+                const key = (row * size) + col;
+                let tileColor = RegularTileColors[0];
+                if (tilesToFlip && tilesToFlip.indexOf(key) !== -1) {
+                    tileColor = RegularTileColors[1];
+                }
+                const tileStyle = {
+                    left: (col * cellSize) + 1.5,
+                    top: (row * cellSize) + 1.5,
+                    backgroundColor: tileColor,
+                    position: 'absolute',
+                    width: cellSize - 3,
+                    height: cellSize - 3,
+                };
+                tiles.push({ key, tileStyle }); // shorthand notation
+            }
+        }
+        return tiles;
     }
 }
 
