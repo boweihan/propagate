@@ -6,17 +6,17 @@ export const mode = createReducer({ activeMode: 'SQUARE', squareStyle: styles.ac
     [types.SET_MODE](state, action) {
         let newState = { activeMode: null, squareStyle: null, plusStyle: null, crossStyle: null }; // eslint-disable-line
         switch (action.mode) {
-        case 'square':
+        case 'SQUARE':
             newState.squareStyle = styles.active;
-            newState.activeMode = 'SQUARE';
+            newState.activeMode = action.mode;
             break;
-        case 'plus':
+        case 'PLUS':
             newState.plusStyle = styles.active;
-            newState.activeMode = 'PLUS';
+            newState.activeMode = action.mode;
             break;
-        case 'cross':
+        case 'CROSS':
             newState.crossStyle = styles.active;
-            newState.activeMode = 'CROSS';
+            newState.activeMode = action.mode;
             break;
         default:
             newState.squareStyle = styles.active;

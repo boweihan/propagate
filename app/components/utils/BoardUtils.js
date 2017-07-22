@@ -1,17 +1,16 @@
 import { Animated, Dimensions } from 'react-native';
 
-const Modes = ['square', 'plus', 'cross'];
 const Width = Dimensions.get('window').width;
 
 class BoardUtils {
-    static buildBoard(size, movesLeft, colors) {
+    static buildBoard(size, movesLeft, colors, mode) {
         const cellSize = (0.8 * Width) / size;
         const cellPadding = cellSize * 0.01;
         const tileSize = cellSize - (cellPadding * 2);
         const opacities = BoardUtils.getInitialOpacities(size);
         const tilts = BoardUtils.getInitialTilt(size);
         const tiles = BoardUtils.getInitialTileState(size, cellSize, cellPadding, opacities, tilts, colors);
-        return { size, cellSize, cellPadding, tileSize, opacities, tilts, tiles, movesLeft, mode: Modes[0] };
+        return { size, cellSize, cellPadding, tileSize, opacities, tilts, tiles, movesLeft, mode };
     }
 
     static getInitialOpacities(size) {

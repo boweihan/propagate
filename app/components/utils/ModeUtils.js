@@ -1,5 +1,5 @@
 // TODO: refactor this
-const Modes = ['square', 'plus', 'cross']; // duplicate
+const Modes = ['SQUARE', 'PLUS', 'CROSS']; // duplicate
 // const RegularTileColors = ['#403837', '#BE3E2C'];
 const RegularTileColors = ['transparent', '#BE3E2C'];
 

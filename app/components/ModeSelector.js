@@ -37,7 +37,7 @@ class ModeSelector extends React.Component {
                 <View style={styles.modes}>
                     <Animated.View
                       style={[styles.selectors, this.props.mode.squareStyle]}
-                      onStartShouldSetResponder={() => this.selectMode('square')}
+                      onStartShouldSetResponder={() => this.selectMode('SQUARE')}
                     >
                         {this.squareTiles.map(tile =>
                             <View key={tile.key} style={tile.tileStyle} />,
@@ -45,7 +45,7 @@ class ModeSelector extends React.Component {
                     </Animated.View>
                     <Animated.View
                       style={[styles.selectors, this.props.mode.plusStyle]}
-                      onStartShouldSetResponder={() => this.selectMode('plus')}
+                      onStartShouldSetResponder={() => this.selectMode('PLUS')}
                     >
                         {this.plusTiles.map(tile =>
                             <View key={tile.key} style={tile.tileStyle} />,
@@ -53,7 +53,7 @@ class ModeSelector extends React.Component {
                     </Animated.View>
                     <Animated.View
                       style={[styles.selectors, this.props.mode.crossStyle]}
-                      onStartShouldSetResponder={() => this.selectMode('cross')}
+                      onStartShouldSetResponder={() => this.selectMode('CROSS')}
                     >
                         {this.crossTiles.map(tile =>
                             <View key={tile.key} style={tile.tileStyle} />,

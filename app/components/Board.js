@@ -19,7 +19,7 @@ const Colors2 = ['#403837', '#BE3E2C'];
 const ColorsExtra = ['gray'];
 const ColorsOverride = ['#403837', '#004d00', '#BE3E2C'];
 const Mods = ['grayBlock'];
-const Modes = ['square', 'plus', 'cross'];
+const Modes = ['SQUARE', 'PLUS', 'CROSS'];
 
 
 class Board extends React.Component {
@@ -27,7 +27,7 @@ class Board extends React.Component {
         super();
         this.colors = props.triColorMode ? Colors3 : Colors2;
         this.state = {
-            board: props.boardStateCache ? props.boardStateCache : BoardUtils.buildBoard(props.size, props.moves, this.colors),
+            board: props.boardStateCache ? props.boardStateCache : BoardUtils.buildBoard(props.size, props.moves, this.colors, props.mode.activeMode),
         };
         if (!props.boardStateCache) {
             this.setDisabledTiles(props);
@@ -236,6 +236,7 @@ Board.propTypes = {
     score: PropTypes.number.isRequired,
     setModal: PropTypes.func.isRequired,
     levelUp: PropTypes.func.isRequired,
+    mode: PropTypes.object.isRequired,
 };
 
 Board.defaultProps = {
@@ -253,6 +254,7 @@ function mapStateToProps(state) {
         triColorMode: state.triColorMode,
         boardStateCache: state.boardStateCache,
         modal: state.modal,
+        mode: state.mode,
     };
 }
 
