@@ -1,0 +1,30 @@
+import React from 'react';
+import { Audio } from 'expo';
+
+const flipSound = require('../../assets/sounds/flipSoft.mp3');
+
+const SoundArray = [];
+
+class SoundUtils extends React.Component {
+    static soundCallback(status) {
+        if (status.isLoaded) {
+            if (status.didJustFinish && !status.isLooping) {
+                if (SoundArray.length > 0) {
+                    SoundArray[0].unloadAsync();
+                    SoundArray.shift();
+                }
+            }
+        } else if (status.error) {
+            // TODO
+        }
+    }
+    static async playFlip() {
+        await Audio.setIsEnabledAsync(true);
+        SoundArray.push(new Audio.Sound());
+        SoundArray[SoundArray.length - 1].setCallback(this.soundCallback);
+        await SoundArray[SoundArray.length - 1].loadAsync(flipSound);
+        await SoundArray[SoundArray.length - 1].playAsync();
+    }
+}
+
+export default SoundUtils;
