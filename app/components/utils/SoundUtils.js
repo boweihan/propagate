@@ -1,11 +1,10 @@
-import React from 'react';
 import { Audio } from 'expo';
 
 const flipSound = require('../../assets/sounds/flipSoft.mp3');
 
 const SoundArray = [];
 
-class SoundUtils extends React.Component {
+class SoundUtils {
     static soundCallback(status) {
         if (status.isLoaded) {
             if (status.didJustFinish && !status.isLooping) {
