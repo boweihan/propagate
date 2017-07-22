@@ -27,7 +27,7 @@ export default StyleSheet.create({
         borderRadius: 5,
         minWidth: 150,
     },
-    triColorButton: {
+    highestLevel: {
         marginTop: 70,
         backgroundColor: '#403837',
         padding: 10,
@@ -43,13 +43,12 @@ export default StyleSheet.create({
         fontFamily: 'MontserratBold',
         textAlign: 'center',
     },
-    triColorText: {
+    highestLevelText: {
         fontSize: 15,
         color: 'white',
         fontFamily: 'MontserratBold',
     },
-    triColorStatus: {
-        textDecorationLine: 'underline',
+    highestLevelStatus: {
         color: '#d8695a',
     },
 });

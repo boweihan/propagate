@@ -1,16 +1,14 @@
 import createReducer from '../lib/createReducer';
 import * as types from '../actions/types';
 
-export const routes = createReducer({ menu: true, game: false, leaderboard: false, instructions: false }, {
+export const routes = createReducer({ menu: true, game: false, instructions: false, settings: false }, {
     [types.SET_ROUTE](state, action) {
-        let newRoutes = { menu: false, game: false, leaderboard: false, instructions: false }; // eslint-disable-line
+        let newRoutes = { menu: false, game: false, instructions: false, settings: false }; // eslint-disable-line
         switch (action.route) {
-        case 'game':
-        case 'newGame': newRoutes.game = true; break;
-        case 'gameOver':
+        case 'game': newRoutes.game = true; break;
         case 'menu': newRoutes.menu = true; break;
-        case 'leaderboard': newRoutes.leaderboard = true; break;
         case 'instructions': newRoutes.instructions = true; break;
+        case 'settings': newRoutes.settings = true; break;
         default: break;
         }
         return newRoutes;

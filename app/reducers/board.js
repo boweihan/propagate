@@ -16,12 +16,6 @@ export const score = createReducer(0, {
     },
 });
 
-export const firstLoad = createReducer(true, {
-    [types.SET_FIRST_LOAD](state, action) {
-        return action.firstLoad;
-    },
-});
-
 export const triColorMode = createReducer(false, {
     [types.SET_TRICOLOR_MODE](state, action) {
         return action.triColorMode;

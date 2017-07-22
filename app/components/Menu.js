@@ -35,31 +35,13 @@ class Menu extends React.Component {
                         </Animated.Text>
                     </Animated.Text>
                 </View>
-                {!this.props.firstLoad ?
-                    <TouchableHighlight
-                      underlayColor="lightgray"
-                      activeOpacity={0.5}
-                      style={styles.startButton}
-                      onPress={() => this.props.setCompleteRoute('game')}
-                    >
-                        <Text style={styles.startText}>CONTINUE</Text>
-                    </TouchableHighlight>
-                : null}
                 <TouchableHighlight
                   underlayColor="lightgray"
                   activeOpacity={0.5}
                   style={styles.startButton}
-                  onPress={() => this.props.setCompleteRoute('newGame')}
+                  onPress={() => this.props.setCompleteRoute('game')}
                 >
-                    <Text style={styles.startText}>NEW GAME</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  underlayColor="lightgray"
-                  activeOpacity={0.5}
-                  style={styles.startButton}
-                  onPress={() => this.props.setCompleteRoute('leaderboard')}
-                >
-                    <Text style={styles.startText}>SCORES</Text>
+                    <Text style={styles.startText}>PLAY</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   underlayColor="lightgray"
@@ -70,15 +52,18 @@ class Menu extends React.Component {
                     <Text style={styles.startText}>INSTRUCTIONS</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
-                  underlayColor="white"
+                  underlayColor="lightgray"
                   activeOpacity={0.5}
-                  style={styles.triColorButton}
-                  onPress={() => this.props.setTriColorMode(!this.props.triColorMode)}
+                  style={styles.startButton}
+                  onPress={() => this.props.setCompleteRoute('settings')}
                 >
-                    <Text style={styles.triColorText}>TRICOLOR MODE :&nbsp;
-                        <Text style={styles.triColorStatus}>{triColor}</Text>
-                    </Text>
+                    <Text style={styles.startText}>SETTINGS</Text>
                 </TouchableHighlight>
+                <View style={styles.highestLevel}>
+                    <Text style={styles.highestLevelText}>Highest Level Achieved :&nbsp;
+                        <Text style={styles.highestLevelStatus}>1</Text>
+                    </Text>
+                </View>
             </View>
         );
     }
@@ -86,9 +71,7 @@ class Menu extends React.Component {
 
 Menu.propTypes = {
     triColorMode: PropTypes.bool.isRequired,
-    firstLoad: PropTypes.bool.isRequired,
     setCompleteRoute: PropTypes.func.isRequired,
-    setTriColorMode: PropTypes.func.isRequired,
     pulseRed: PropTypes.object.isRequired,
     pulseBlack: PropTypes.object.isRequired,
 };
@@ -100,7 +83,6 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return {
         triColorMode: state.triColorMode,
-        firstLoad: state.firstLoad,
         pulseRed: state.pulseRed,
         pulseBlack: state.pulseBlack,
     };

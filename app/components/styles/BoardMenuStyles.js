@@ -61,7 +61,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
     },
     level: {
-        backgroundColor: 'gray',
+        backgroundColor: '#403837',
         padding: 5,
         paddingLeft: 8,
         paddingRight: 8,
@@ -100,7 +100,7 @@ export default StyleSheet.create({
         fontFamily: 'MontserratBold',
     },
     help: {
-        backgroundColor: '#403837',
+        backgroundColor: 'gray',
         padding: 5,
         paddingLeft: 8,
         paddingRight: 8,

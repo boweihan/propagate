@@ -13,7 +13,7 @@ class FullScreenModal extends React.Component {
         if (this.props.modal.type === 'fail') {
             this.props.setMode('SQUARE');
             this.props.setModal('default');
-            this.props.setCompleteRoute('gameOver');
+            this.props.setCompleteRoute('menu');
         } else {
             this.props.setModal('default');
             this.props.levelUp(this.props.board.movesLeft);

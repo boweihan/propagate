@@ -21,13 +21,6 @@ export function setScore(score) {
     };
 }
 
-export function setFirstLoad(firstLoad) {
-    return {
-        type: types.SET_FIRST_LOAD,
-        firstLoad,
-    };
-}
-
 export function setTriColorMode(triColorMode) {
     return {
         type: types.SET_TRICOLOR_MODE,

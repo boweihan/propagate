@@ -53,7 +53,8 @@ class Instructions extends React.Component {
                     <Text style={styles.stepNumberText}>3</Text>
                 </View>
                 <View style={styles.stepInfo}>
-                    <Text style={styles.stepInfoText}>Try to get all the tiles to be red! You might need to experiment with different strategies and flipping modes.</Text>
+                    <Text style={styles.stepInfoText}>Try to get all the tiles to be red!
+                        You might need to experiment with different strategies and flipping modes.</Text>
                     <View style={{ height: 250, width: '80%' }}>
                         <Image style={styles.stepImage} source={imgStep3} />
                     </View>
@@ -128,7 +129,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        leaderboard: state.leaderboard,
+
     };
 }
 

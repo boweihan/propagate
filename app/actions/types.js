@@ -5,9 +5,6 @@ export const INCREMENT_LEVEL = 'INCREMENT_LEVEL';
 // SCORE
 export const SET_SCORE = 'SET_SCORE';
 
-// FIRST LOAD
-export const SET_FIRST_LOAD = 'SET_FIRST_LOAD';
-
 // TRICOLOR
 export const SET_TRICOLOR_MODE = 'SET_TRICOLOR_MODE';
 

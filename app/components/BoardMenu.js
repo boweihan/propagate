@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, TouchableHighlight } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles/BoardMenuStyles';
+import { Ionicons } from '@expo/vector-icons'; // eslint-disable-line
 
 function BoardMenu(props) {
     return (
@@ -25,10 +26,10 @@ function BoardMenu(props) {
                               style={styles.btn3_col2}
                               underlayColor="#CECDCD"
                               activeOpacity={0.5}
-                              onPress={() => props.setCompleteRoute('leaderboard', props.board)}
+                              onPress={() => props.setCompleteRoute('settings', props.board)}
                             >
                                 <View style={styles.backToLeaderboard}>
-                                    <Text style={[styles.menuText, { fontSize: 12 }]}>TOP{'\n'}SCORES</Text>
+                                    <Ionicons style={[styles.menuText, { fontSize: 30, paddingLeft: 10, paddingRight: 10 }]} name="md-settings" />
                                 </View>
                             </TouchableHighlight>
                         </View>
@@ -43,15 +44,9 @@ function BoardMenu(props) {
                     </View>
                     <View style={styles.btn3}>
                         <View style={styles.flex1}>
-                            <View style={styles.score}>
-                                <Text style={[styles.menuText, { fontSize: 12 }]}>SCORE</Text>
-                                <Text style={styles.menuText}>{props.score}</Text>
-                            </View>
-                        </View>
-                        <View style={styles.flex1}>
                             <View style={styles.level}>
-                                <Text style={[styles.menuText, { fontSize: 12 }]}>LEVEL</Text>
-                                <Text style={styles.menuText}>{props.level}</Text>
+                                <Text style={styles.menuText}>LEVEL</Text>
+                                <Text style={[styles.menuText, { fontSize: 30 }]}>{props.level}</Text>
                             </View>
                         </View>
                     </View>

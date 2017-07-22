@@ -1,4 +1,3 @@
-// TODO: find a way to reduxify board
 import React from 'react';
 import { View, Animated, Easing } from 'react-native';
 import PropTypes from 'prop-types';

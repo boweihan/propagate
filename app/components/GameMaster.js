@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Board from './Board';
 import Menu from './Menu';
-import LeaderBoard from './LeaderBoard';
+import Settings from './Settings';
 import Instructions from './Instructions';
 import { ActionCreators } from '../actions';
 import HelperUtils from './utils/HelperUtils';
@@ -18,44 +18,21 @@ class GameMaster extends React.Component {
         this.setCompleteRoute = this.setCompleteRoute.bind(this);
     }
 
-    setCompleteRoute(route, gameState) { // TODO: find way to reduxify this
+    setCompleteRoute(route, gameState) {
         const boardState = gameState || this.props.boardStateCache;
         switch (route) {
-        case 'game':
-            this.props.setFirstLoad(false); break;
         case 'menu':
         case 'leaderboard':
             this.props.setBoardStateCache(boardState); break;
         case 'gameOver':
-            this.saveScoreToStorage();
-            this.props.setLevel(1);
-            this.props.setScore(0);
-            this.props.setFirstLoad(true);
-            this.props.setBoardStateCache(null);
-            break;
-        case 'newGame':
-            this.props.setLevel(1);
-            this.props.setScore(0);
-            this.props.setFirstLoad(false);
-            this.props.setBoardStateCache(null);
-            this.props.setMode('SQUARE');
-            break;
-        case 'instructions':
-            break;
+            this.props.setBoardStateCache(null); break;
         default: break;
         }
         this.props.setRoute(route);
     }
 
-    levelUp(movesLeft) {  // TODO: find way to reduxify this
-        let newScore = this.props.score + 10;
-        if (this.props.triColorMode) {
-            newScore += ((movesLeft * 10) + this.props.level) * 3;
-        } else {
-            newScore += (movesLeft * 10) + this.props.level;
-        }
+    levelUp() {
         this.props.incrementLevel(this.props.level);
-        this.props.setScore(newScore);
         this.props.setBoardStateCache(null);
     }
 
@@ -89,10 +66,10 @@ class GameMaster extends React.Component {
                       levelUp={this.levelUp}
                       setCompleteRoute={this.setCompleteRoute}
                     /> : null}
-                {this.props.routes.leaderboard ?
-                    <LeaderBoard setCompleteRoute={this.setCompleteRoute} /> : null}
                 {this.props.routes.instructions ?
                     <Instructions setCompleteRoute={this.setCompleteRoute} /> : null}
+                {this.props.routes.settings ?
+                    <Settings setCompleteRoute={this.setCompleteRoute} /> : null}
             </View>
         );
     }
@@ -107,12 +84,8 @@ GameMaster.propTypes = {
     triColorMode: PropTypes.bool.isRequired,
     boardStateCache: PropTypes.object,
     incrementLevel: PropTypes.func.isRequired,
-    setScore: PropTypes.func.isRequired,
     setBoardStateCache: PropTypes.func.isRequired,
-    setFirstLoad: PropTypes.func.isRequired,
-    setLevel: PropTypes.func.isRequired,
     setRoute: PropTypes.func.isRequired,
-    setMode: PropTypes.func.isRequired,
 };
 
 GameMaster.defaultProps = {
