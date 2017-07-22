@@ -19,11 +19,15 @@ class GameMaster extends React.Component {
     }
 
     setCompleteRoute(route, gameState) {
+        let newRoute = route;
         const boardState = gameState || this.props.boardStateCache;
-        if (route === 'menu' || route === 'settings') {
+        if (newRoute === 'gameOver') {
+            newRoute = 'menu';
+            this.props.setBoardStateCache(null);
+        } else if (newRoute === 'menu' || newRoute === 'settings') {
             this.props.setBoardStateCache(boardState);
         }
-        this.props.setRoute(route);
+        this.props.setRoute(newRoute);
     }
 
     levelUp() {
