@@ -28,7 +28,7 @@ class GameMaster extends React.Component {
         case 'gameOver':
             this.saveScoreToStorage();
             this.props.setLevel(1);
-            this.props.setScore(1);
+            this.props.setScore(0);
             this.props.setFirstLoad(true);
             this.props.setBoardStateCache(null);
             break;

@@ -7,6 +7,7 @@ export const routes = createReducer({ menu: true, game: false, leaderboard: fals
         switch (action.route) {
         case 'game':
         case 'newGame': newRoutes.game = true; break;
+        case 'gameOver':
         case 'menu': newRoutes.menu = true; break;
         case 'leaderboard': newRoutes.leaderboard = true; break;
         default: break;

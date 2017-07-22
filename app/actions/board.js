@@ -41,3 +41,11 @@ export function setBoardStateCache(boardState) {
         boardState,
     };
 }
+
+export function setModal(modal) {
+    return {
+        type: types.SET_MODAL,
+        modal,
+    };
+}
+

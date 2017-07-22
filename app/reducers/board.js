@@ -33,3 +33,19 @@ export const boardStateCache = createReducer(null, {
         return action.boardState;
     },
 });
+
+const defaultModal = { visible: false, msg: null, color: null, type: null };
+export const modal = createReducer(defaultModal, {
+    [types.SET_MODAL](state, action) {
+        switch (action.modal) {
+        case 'fail':
+            return { visible: true, msg: 'SORRY. OUT OF MOVES.', color: '#dd7b6e', type: 'fail' };
+        case 'levelup':
+            return { visible: true, msg: 'LEVEL UP', color: '#7AAF29', type: 'levelup' };
+        default:
+            break;
+        }
+        return defaultModal;
+    },
+});
+

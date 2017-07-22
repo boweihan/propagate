@@ -33,12 +33,6 @@ class Board extends React.Component {
         this.soundArray = [];
         this.state = {
             board: props.boardStateCache ? props.boardStateCache : this.buildBoard(props.size, props.moves),
-            modal: {
-                visible: false,
-                msg: null,
-                color: null,
-                type: null,
-            },
         };
         if (!props.boardStateCache) {
             this.setDisabledTiles(props);
@@ -242,9 +236,9 @@ class Board extends React.Component {
             }
         }
         if (won) {
-            this.renderModal('levelup');
+            this.props.setModal('levelup');
         } else if (newState.board.movesLeft === 0) {
-            this.renderModal('fail');
+            this.props.setModal('fail');
         }
     }
 
@@ -444,11 +438,11 @@ class Board extends React.Component {
     * @param {String} msg - modal message
     */
     modal() {
-        const opacity = (this.state.modal.type === 'levelup') ? 0.9 : 1;
+        const opacity = (this.props.modal.type === 'levelup') ? 0.9 : 1;
         return (
             <Modal
-              isVisible={this.state.modal.visible}
-              backdropColor={this.state.modal.color}
+              isVisible={this.props.modal.visible}
+              backdropColor={this.props.modal.color}
               backdropOpacity={opacity}
               animationIn={'zoomInDown'}
               animationOut={'zoomOutUp'}
@@ -459,7 +453,7 @@ class Board extends React.Component {
             >
                 <View>
                     <View style={styles.modal}>
-                        <Text style={[styles.modalMsg, { color: this.state.modal.color }]}>{this.state.modal.msg}</Text>
+                        <Text style={[styles.modalMsg, { color: this.props.modal.color }]}>{this.props.modal.msg}</Text>
                     </View>
                     <TouchableHighlight
                       underlayColor="transparent"
@@ -472,40 +466,13 @@ class Board extends React.Component {
         );
     }
 
-    /**
-    * hide modal on click
-    */
     hideModal() {
-        if (this.state.modal.type === 'fail') {
+        if (this.props.modal.type === 'fail') {
+            this.props.setModal('default');
             this.props.setCompleteRoute('gameOver');
-        } else { // NOTE: don't need to set modal visible:false because component is reconstructed
+        } else {
+            this.props.setModal('default');
             this.props.levelUp(this.state.board.movesLeft);
-        }
-    }
-
-    /**
-    * TODO: use enum
-    * Render the modal based on type
-    * @param {String} type - string indicated which type of modal to render
-    */
-    renderModal(type) {
-        switch (type) {
-        case 'fail':
-            this.setState({ modal: {
-                visible: true,
-                msg: 'SORRY. OUT OF MOVES.',
-                color: '#dd7b6e',
-                type: 'fail',
-            } }); break;
-        case 'levelup':
-            this.setState({ modal: {
-                visible: true,
-                msg: 'LEVEL UP',
-                color: '#7AAF29',
-                type: 'levelup',
-            } }); break;
-        default:
-            break;
         }
     }
 
@@ -551,11 +518,13 @@ Board.propTypes = {
     triColorMode: PropTypes.bool.isRequired,
     size: PropTypes.number.isRequired,
     moves: PropTypes.number.isRequired,
+    modal: PropTypes.object.isRequired,
     boardStateCache: PropTypes.object,
     setCompleteRoute: PropTypes.func.isRequired,
     levelUp: PropTypes.func.isRequired,
     level: PropTypes.number.isRequired,
     score: PropTypes.number.isRequired,
+    setModal: PropTypes.func.isRequired,
 };
 
 Board.defaultProps = {
@@ -572,6 +541,7 @@ function mapStateToProps(state) {
         score: state.score,
         triColorMode: state.triColorMode,
         boardStateCache: state.boardStateCache,
+        modal: state.modal,
     };
 }
 
