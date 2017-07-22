@@ -3,13 +3,13 @@ import { StyleSheet, Dimensions } from 'react-native';
 const Width = Dimensions.get('window').width;
 
 export default StyleSheet.create({
-    leaderboard: {
+    instructions: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#CECDCD',
     },
-    leaderboard_header: {
+    instructions_header: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -30,38 +30,6 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    leaderboard_score_text_1: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        textAlign: 'left',
-        marginLeft: 5,
-        color: 'white',
-        fontSize: 12,
-        fontFamily: 'MontserratBold',
-    },
-    leaderboard_score_text_2: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        color: 'white',
-        fontSize: 10,
-        fontFamily: 'MontserratRegular',
-    },
-    leaderboard_score_text_3: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        textAlign: 'right',
-        marginRight: 5,
-        color: 'white',
-        fontSize: 18,
-        fontFamily: 'MontserratBold',
     },
     menuContainer: {
         flex: 1,
@@ -92,21 +60,21 @@ export default StyleSheet.create({
         color: 'white',
         fontFamily: 'MontserratBold',
     },
-    scoreText: {
+    instructionsText: {
         fontSize: 20,
         padding: 5,
         paddingLeft: 8,
         paddingRight: 8,
         fontFamily: 'MontserratBold',
     },
-    scoreElement: {
+    instructionsElement: {
         flex: 4,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    scoreBox: {
-        backgroundColor: '#ff9900',
+    instructionsBox: {
+        backgroundColor: '#7AAF29',
         padding: 5,
         paddingLeft: 8,
         paddingRight: 8,
@@ -115,5 +83,46 @@ export default StyleSheet.create({
         width: '95%',
         flex: 1,
         justifyContent: 'center',
+    },
+    stepsContainer: {
+        backgroundColor: 'lightgray',
+        padding: 10,
+        borderRadius: 5,
+    },
+    step: {
+        borderRadius: 5,
+        backgroundColor: '#403837',
+        margin: 2,
+        flex: 1,
+        flexDirection: 'row',
+    },
+    stepNumber: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'gray',
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
+    },
+    stepInfo: {
+        flex: 6,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    stepNumberText: {
+        fontFamily: 'MontserratBold',
+        fontSize: 20,
+    },
+    stepInfoText: {
+        fontFamily: 'MontserratBold',
+        color: 'white',
+        margin: 10,
+        marginBottom: 0,
+    },
+    stepImage: {
+        height: '100%',
+        width: '100%',
+        borderRadius: 5,
+        resizeMode: 'contain',
     },
 });

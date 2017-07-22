@@ -62,6 +62,14 @@ class Menu extends React.Component {
                     <Text style={styles.startText}>SCORES</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
+                  underlayColor="lightgray"
+                  activeOpacity={0.5}
+                  style={styles.startButton}
+                  onPress={() => this.props.setCompleteRoute('instructions')}
+                >
+                    <Text style={styles.startText}>INSTRUCTIONS</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
                   underlayColor="white"
                   activeOpacity={0.5}
                   style={styles.triColorButton}

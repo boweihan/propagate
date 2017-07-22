@@ -31,7 +31,7 @@ class ModeSelector extends React.Component {
             <View>
                 <View style={styles.selectedMode}>
                     <View style={styles.selectedModeHelp}>
-                        <Text style={styles.selectedModeText}>Pick a flipping mode</Text>
+                        <Text style={styles.selectedModeText}>Pick a flipping pattern</Text>
                     </View>
                 </View>
                 <View style={styles.modes}>

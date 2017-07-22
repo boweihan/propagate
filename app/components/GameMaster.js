@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Board from './Board';
 import Menu from './Menu';
 import LeaderBoard from './LeaderBoard';
+import Instructions from './Instructions';
 import { ActionCreators } from '../actions';
 import HelperUtils from './utils/HelperUtils';
 
@@ -37,6 +38,9 @@ class GameMaster extends React.Component {
             this.props.setScore(0);
             this.props.setFirstLoad(false);
             this.props.setBoardStateCache(null);
+            this.props.setMode('SQUARE');
+            break;
+        case 'instructions':
             break;
         default: break;
         }
@@ -87,6 +91,8 @@ class GameMaster extends React.Component {
                     /> : null}
                 {this.props.routes.leaderboard ?
                     <LeaderBoard setCompleteRoute={this.setCompleteRoute} /> : null}
+                {this.props.routes.instructions ?
+                    <Instructions setCompleteRoute={this.setCompleteRoute} /> : null}
             </View>
         );
     }
@@ -106,6 +112,7 @@ GameMaster.propTypes = {
     setFirstLoad: PropTypes.func.isRequired,
     setLevel: PropTypes.func.isRequired,
     setRoute: PropTypes.func.isRequired,
+    setMode: PropTypes.func.isRequired,
 };
 
 GameMaster.defaultProps = {
