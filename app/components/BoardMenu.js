@@ -65,7 +65,6 @@ BoardMenu.propTypes = {
     board: PropTypes.object.isRequired,
     setCompleteRoute: PropTypes.func.isRequired,
     movesLeft: PropTypes.number.isRequired,
-    score: PropTypes.number.isRequired,
     level: PropTypes.number.isRequired,
 };
 

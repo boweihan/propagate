@@ -1,7 +1,8 @@
 import createReducer from '../lib/createReducer';
 import * as types from '../actions/types';
 
-export const level = createReducer(1, {
+// NEED TO SET LEVEL TO BE NULL SO THAT WE CAN PULL FROM LOCALSTORAGE IN Propagate.js
+export const level = createReducer(null, {
     [types.SET_LEVEL](state, action) {
         return action.level;
     },

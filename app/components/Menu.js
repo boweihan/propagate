@@ -20,7 +20,6 @@ class Menu extends React.Component {
     render() {
         const red = this.initRedAnimation();
         const black = this.initBlackAnimation();
-        const triColor = this.props.triColorMode ? 'ON' : 'OFF';
 
         return (
             <View style={styles.menu}>
@@ -61,7 +60,7 @@ class Menu extends React.Component {
                 </TouchableHighlight>
                 <View style={styles.highestLevel}>
                     <Text style={styles.highestLevelText}>Highest Level Achieved :&nbsp;
-                        <Text style={styles.highestLevelStatus}>1</Text>
+                        <Text style={styles.highestLevelStatus}>{this.props.level}</Text>
                     </Text>
                 </View>
             </View>
@@ -70,10 +69,10 @@ class Menu extends React.Component {
 }
 
 Menu.propTypes = {
-    triColorMode: PropTypes.bool.isRequired,
     setCompleteRoute: PropTypes.func.isRequired,
     pulseRed: PropTypes.object.isRequired,
     pulseBlack: PropTypes.object.isRequired,
+    level: PropTypes.number.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -82,9 +81,9 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        triColorMode: state.triColorMode,
         pulseRed: state.pulseRed,
         pulseBlack: state.pulseBlack,
+        level: state.level,
     };
 }
 

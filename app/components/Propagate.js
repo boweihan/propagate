@@ -13,34 +13,34 @@ const MontserratRegular = require('../assets/fonts/Montserrat-Regular.ttf');
 
 class Propagate extends React.Component {
     async componentDidMount() {
-        let leaderboard;
+        let startingLevel;
         await Font.loadAsync({ NukamisoLite });
         await Font.loadAsync({ MontserratBold });
         await Font.loadAsync({ MontserratRegular });
-        await Store.get('leaderboard').then(
-            (scores) => {
-                leaderboard = scores;
-                if (!leaderboard) {
-                    leaderboard = [];
-                    Store.save('leaderboard', leaderboard);
+        await Store.get('level').then(
+            (level) => {
+                startingLevel = level;
+                if (!startingLevel) {
+                    startingLevel = 1;
+                    Store.save('level', startingLevel);
                 }
             });
-        this.props.setLeaderboard(leaderboard);
+        this.props.setLevel(startingLevel);
     }
 
     render() {
-        return this.props.leaderboard ?
+        return this.props.level ?
             <GameMaster /> : null;
     }
 }
 
 Propagate.propTypes = {
-    setLeaderboard: PropTypes.func.isRequired,
-    leaderboard: PropTypes.array,
+    setLevel: PropTypes.func.isRequired,
+    level: PropTypes.number,
 };
 
 Propagate.defaultProps = {
-    leaderboard: null, // needs to start as null to prevent rendering before font load
+    level: null, // needs to start as null to prevent rendering before font load
 };
 
 function mapDispatchToProps(dispatch) {
@@ -49,7 +49,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        leaderboard: state.leaderboard,
+        level: state.level,
     };
 }
 

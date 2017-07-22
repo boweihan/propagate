@@ -20,34 +20,16 @@ class GameMaster extends React.Component {
 
     setCompleteRoute(route, gameState) {
         const boardState = gameState || this.props.boardStateCache;
-        switch (route) {
-        case 'menu':
-        case 'leaderboard':
-            this.props.setBoardStateCache(boardState); break;
-        case 'gameOver':
-            this.props.setBoardStateCache(null); break;
-        default: break;
+        if (route === 'menu' || route === 'settings') {
+            this.props.setBoardStateCache(boardState);
         }
         this.props.setRoute(route);
     }
 
     levelUp() {
+        Store.save('level', this.props.level + 1);
         this.props.incrementLevel(this.props.level);
         this.props.setBoardStateCache(null);
-    }
-
-    saveScoreToStorage() {
-        const date = new Date();
-        const newScore = {
-            date: date.toLocaleString(),
-            score: this.props.score,
-            triColor: this.props.triColorMode ? 'ON' : 'OFF',
-        };
-        const leaderboard = this.props.leaderboard;
-        leaderboard.push(newScore);
-        const sortedLeaderboard = leaderboard.sort(HelperUtils.compare).slice(0, 20);
-        this.props.setLeaderboard(sortedLeaderboard);
-        Store.save('leaderboard', sortedLeaderboard);
     }
 
     render() {
@@ -76,12 +58,9 @@ class GameMaster extends React.Component {
 }
 
 GameMaster.propTypes = {
-    leaderboard: PropTypes.array.isRequired,
-    setLeaderboard: PropTypes.func.isRequired,
     routes: PropTypes.object.isRequired,
     level: PropTypes.number.isRequired,
     score: PropTypes.number.isRequired,
-    triColorMode: PropTypes.bool.isRequired,
     boardStateCache: PropTypes.object,
     incrementLevel: PropTypes.func.isRequired,
     setBoardStateCache: PropTypes.func.isRequired,
@@ -98,12 +77,9 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        leaderboard: state.leaderboard,
         routes: state.routes,
         level: state.level,
         score: state.score,
-        firstLoad: state.firstLoad,
-        triColorMode: state.triColorMode,
         boardStateCache: state.boardStateCache,
     };
 }
