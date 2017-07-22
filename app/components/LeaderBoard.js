@@ -30,20 +30,23 @@ class Leaderboard extends React.Component {
                       activeOpacity={0.5}
                       onPress={() => this.props.setCompleteRoute('menu')}
                     >
-                        <View style={styles.backToMenu}>
-                            <Text style={styles.menuText}>MENU</Text>
+                        <View style={styles.menuContainer}>
+                            <View style={styles.backToMenu}>
+                                <Text style={styles.menuText}>MENU</Text>
+                            </View>
                         </View>
                     </TouchableHighlight>
                     <View style={styles.scoreElement}>
-                        <View style={styles.scoreBox}>
-                            <Text style={[styles.menuText, styles.scoreText]}>
-                                HIGH{'\n'}SCORES
-                            </Text>
+                        <View style={styles.menuContainer}>
+                            <View style={styles.scoreBox}>
+                                <Text style={[styles.menuText, styles.scoreText]}>
+                                    HIGH SCORES
+                                </Text>
+                            </View>
                         </View>
                     </View>
-                    <View style={styles.emptyElement} />
                 </View>
-                <View style={{ flex: 5, marginBottom: 30 }}>
+                <View style={{ flex: 7, marginBottom: 30 }}>
                     <ScrollView>
                         {this.props.leaderboard.map((score, key) => Leaderboard.getLeaderboardRow(score, key))}
                     </ScrollView>

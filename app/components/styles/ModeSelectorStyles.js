@@ -21,7 +21,7 @@ export default StyleSheet.create({
         margin: ButtonSize * 0.1,
     },
     modes: {
-        flex: 3,
+        flex: 4,
         flexDirection: 'row',
         alignItems: 'flex-start',
     },
@@ -30,7 +30,15 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    selectedModeHelp: {
+        backgroundColor: '#BE3E2C',
+        padding: 5,
+        paddingLeft: 8,
+        paddingRight: 8,
+        borderRadius: 5,
+    },
     selectedModeText: {
-        fontWeight: 'bold',
+        color: 'white',
+        fontFamily: 'MontserratBold',
     },
 });

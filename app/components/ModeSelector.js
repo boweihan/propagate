@@ -30,7 +30,9 @@ class ModeSelector extends React.Component {
         return (
             <View>
                 <View style={styles.selectedMode}>
-                    <Text style={styles.selectedModeText}>CURRENT PATTERN: {this.props.mode.activeMode}</Text>
+                    <View style={styles.selectedModeHelp}>
+                        <Text style={styles.selectedModeText}>Pick a flipping mode</Text>
+                    </View>
                 </View>
                 <View style={styles.modes}>
                     <Animated.View

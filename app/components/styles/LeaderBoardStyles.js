@@ -63,6 +63,12 @@ export default StyleSheet.create({
         fontSize: 18,
         fontFamily: 'MontserratBold',
     },
+    menuContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     menuButton: {
         flex: 1,
         flexDirection: 'row',
@@ -75,6 +81,9 @@ export default StyleSheet.create({
         paddingLeft: 8,
         paddingRight: 8,
         borderRadius: 5,
+        marginBottom: 20,
+        flex: 1,
+        justifyContent: 'center',
     },
     menuText: {
         textAlign: 'center',
@@ -97,7 +106,7 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     scoreElement: {
-        flex: 2.2,
+        flex: 4,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -108,6 +117,9 @@ export default StyleSheet.create({
         paddingLeft: 8,
         paddingRight: 8,
         borderRadius: 5,
-        width: '90%',
+        marginBottom: 20,
+        width: '95%',
+        flex: 1,
+        justifyContent: 'center',
     },
 });

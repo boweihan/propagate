@@ -59,7 +59,7 @@ function BoardMenu(props) {
             </View>
             <View style={styles.subBoardMenu}>
                 <View style={styles.help}>
-                    <Text style={styles.helpText}>Flip the tiles to red!</Text>
+                    <Text style={styles.helpText}>Flip the tiles to red to level up!</Text>
                 </View>
             </View>
         </View>
