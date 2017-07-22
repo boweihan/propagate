@@ -28,20 +28,12 @@ class HelperUtils {
         return specs;
     }
 
-    /**
-    * Create an array of Animated() values to use for opacity
-    * @param {Int} size - width/height of cubic board
-    */
     static getInitialOpacities(size) {
         const opacities = new Array(size * size);
         for (let i = 0; i < opacities.length; i += 1) { opacities[i] = new Animated.Value(1); }
         return opacities;
     }
 
-    /**
-    * Create an array of Animated() values to use for tilt
-    * @param {Int} size - width/height of cubic board
-    */
     static getInitialTilt(size) {
         const tilt = new Array(size * size);
         for (let i = 0; i < tilt.length; i += 1) { tilt[i] = new Animated.Value(0); }

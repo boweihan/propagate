@@ -472,7 +472,7 @@ export default class Board extends React.Component {
     */
     hideModal() {
         if (this.state.modal.type === 'fail') {
-            this.props.setRoute('gameOver');
+            this.props.setCompleteRoute('gameOver');
         } else { // NOTE: don't need to set modal visible:false because component is reconstructed
             this.props.levelUp(this.state.board.movesLeft);
         }
@@ -511,7 +511,7 @@ export default class Board extends React.Component {
             <View style={styles.game}>
                 <View style={styles.boardMenu}>
                     <BoardMenu
-                      setRoute={this.props.setRoute}
+                      setCompleteRoute={this.props.setCompleteRoute}
                       movesLeft={this.state.board.movesLeft}
                       level={this.props.level}
                       score={this.props.score}
@@ -547,7 +547,7 @@ Board.propTypes = {
     size: PropTypes.number.isRequired,
     moves: PropTypes.number.isRequired,
     boardStateCache: PropTypes.object,
-    setRoute: PropTypes.func.isRequired,
+    setCompleteRoute: PropTypes.func.isRequired,
     levelUp: PropTypes.func.isRequired,
     level: PropTypes.number.isRequired,
     score: PropTypes.number.isRequired,

@@ -28,7 +28,7 @@ class Leaderboard extends React.Component {
                       style={styles.menuButton}
                       underlayColor="#CECDCD"
                       activeOpacity={0.5}
-                      onPress={() => this.props.setRoute('menu')}
+                      onPress={() => this.props.setCompleteRoute('menu')}
                     >
                         <View style={styles.backToMenu}>
                             <Text style={styles.menuText}>Menu</Text>
@@ -54,7 +54,7 @@ class Leaderboard extends React.Component {
 }
 
 Leaderboard.propTypes = {
-    setRoute: PropTypes.func.isRequired,
+    setCompleteRoute: PropTypes.func.isRequired,
     leaderboard: PropTypes.array.isRequired,
 };
 

@@ -14,10 +14,10 @@ class GameMaster extends React.Component {
     constructor() {
         super();
         this.levelUp = this.levelUp.bind(this);
-        this.setRoute = this.setRoute.bind(this);
+        this.setCompleteRoute = this.setCompleteRoute.bind(this);
     }
 
-    setRoute(route, gameState) {
+    setCompleteRoute(route, gameState) { // TODO: find way to reduxify this
         const boardState = gameState || this.props.boardStateCache;
         switch (route) {
         case 'game':
@@ -43,7 +43,7 @@ class GameMaster extends React.Component {
         this.props.setRoute(route);
     }
 
-    levelUp(movesLeft) {
+    levelUp(movesLeft) {  // TODO: find way to reduxify this
         let newScore = this.props.score + 10;
         if (this.props.triColorMode) {
             newScore += ((movesLeft * 10) + this.props.level) * 3;
@@ -75,10 +75,7 @@ class GameMaster extends React.Component {
             <View style={{ flex: 1 }}>
                 {this.props.routes.menu ?
                     <Menu
-                      setRoute={this.setRoute}
-                      firstLoad={this.props.firstLoad}
-                      triColor={this.props.triColorMode}
-                      toggleTriColorMode={() => this.props.setTriColorMode(!this.props.triColorMode)}
+                      setCompleteRoute={this.setCompleteRoute}
                     /> : null}
                 {this.props.routes.game ?
                     <Board
@@ -88,12 +85,12 @@ class GameMaster extends React.Component {
                       level={this.props.level}
                       levelUp={this.levelUp}
                       score={this.props.score}
-                      setRoute={this.setRoute}
+                      setCompleteRoute={this.setCompleteRoute}
                       boardStateCache={this.props.boardStateCache}
                       triColor={this.props.triColorMode}
                     /> : null}
                 {this.props.routes.leaderboard ?
-                    <LeaderBoard setRoute={this.setRoute} /> : null}
+                    <LeaderBoard setCompleteRoute={this.setCompleteRoute} /> : null}
             </View>
         );
     }
@@ -105,13 +102,11 @@ GameMaster.propTypes = {
     routes: PropTypes.object.isRequired,
     level: PropTypes.number.isRequired,
     score: PropTypes.number.isRequired,
-    firstLoad: PropTypes.bool.isRequired,
     triColorMode: PropTypes.bool.isRequired,
     boardStateCache: PropTypes.object,
     incrementLevel: PropTypes.func.isRequired,
     setScore: PropTypes.func.isRequired,
     setBoardStateCache: PropTypes.func.isRequired,
-    setTriColorMode: PropTypes.func.isRequired,
     setFirstLoad: PropTypes.func.isRequired,
     setLevel: PropTypes.func.isRequired,
     setRoute: PropTypes.func.isRequired,

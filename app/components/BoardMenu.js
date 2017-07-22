@@ -11,7 +11,7 @@ function BoardMenu(props) {
                     <TouchableHighlight
                       underlayColor="#CECDCD"
                       activeOpacity={0.5}
-                      onPress={() => props.setRoute('menu', props.board)}
+                      onPress={() => props.setCompleteRoute('menu', props.board)}
                     >
                         <View style={styles.backToMenu}>
                             <Text style={styles.menuText}>Menu</Text>
@@ -21,7 +21,7 @@ function BoardMenu(props) {
                       style={styles.btn3_col2}
                       underlayColor="#CECDCD"
                       activeOpacity={0.5}
-                      onPress={() => props.setRoute('leaderboard', props.board)}
+                      onPress={() => props.setCompleteRoute('leaderboard', props.board)}
                     >
                         <View style={styles.backToLeaderboard}>
                             <Text style={[styles.menuText, { fontSize: 12 }]}>Top{'\n'}Scores</Text>
@@ -55,7 +55,7 @@ function BoardMenu(props) {
 
 BoardMenu.propTypes = {
     board: PropTypes.object.isRequired,
-    setRoute: PropTypes.func.isRequired,
+    setCompleteRoute: PropTypes.func.isRequired,
     movesLeft: PropTypes.number.isRequired,
     score: PropTypes.number.isRequired,
     level: PropTypes.number.isRequired,
