@@ -69,7 +69,7 @@ class Instructions extends React.Component {
                     <Text style={styles.stepNumberText}>4</Text>
                 </View>
                 <View style={styles.stepInfo}>
-                    <Text style={styles.stepInfoText}>Level up! Keep going. How high can you score?</Text>
+                    <Text style={styles.stepInfoText}>Level up! Keep going. How high can you climb?</Text>
                     <View style={{ height: 100, width: '80%' }}>
                         <Image style={styles.stepImage} source={imgStep4} />
                     </View>
