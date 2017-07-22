@@ -8,11 +8,15 @@ import { ActionCreators } from '../actions';
 import GameMaster from './GameMaster';
 
 const NukamisoLite = require('../assets/fonts/NukamisoLite.ttf');
+const MontserratBold = require('../assets/fonts/Montserrat-Bold.ttf');
+const MontserratRegular = require('../assets/fonts/Montserrat-Regular.ttf');
 
 class Propagate extends React.Component {
     async componentDidMount() {
         let leaderboard;
         await Font.loadAsync({ NukamisoLite });
+        await Font.loadAsync({ MontserratBold });
+        await Font.loadAsync({ MontserratRegular });
         await Store.get('leaderboard').then(
             (scores) => {
                 leaderboard = scores;

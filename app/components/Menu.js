@@ -37,7 +37,7 @@ class Menu extends React.Component {
                 </View>
                 {!this.props.firstLoad ?
                     <TouchableHighlight
-                      underlayColor="white"
+                      underlayColor="lightgray"
                       activeOpacity={0.5}
                       style={styles.startButton}
                       onPress={() => this.props.setCompleteRoute('game')}
@@ -46,7 +46,7 @@ class Menu extends React.Component {
                     </TouchableHighlight>
                 : null}
                 <TouchableHighlight
-                  underlayColor="white"
+                  underlayColor="lightgray"
                   activeOpacity={0.5}
                   style={styles.startButton}
                   onPress={() => this.props.setCompleteRoute('newGame')}
@@ -54,7 +54,7 @@ class Menu extends React.Component {
                     <Text style={styles.startText}>NEW GAME</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
-                  underlayColor="white"
+                  underlayColor="lightgray"
                   activeOpacity={0.5}
                   style={styles.startButton}
                   onPress={() => this.props.setCompleteRoute('leaderboard')}
@@ -64,11 +64,11 @@ class Menu extends React.Component {
                 <TouchableHighlight
                   underlayColor="white"
                   activeOpacity={0.5}
-                  style={{ marginTop: 70 }}
+                  style={styles.triColorButton}
                   onPress={() => this.props.setTriColorMode(!this.props.triColorMode)}
                 >
-                    <Text style={styles.triColorText}>TRICOLOR MODE:
-                        <Text style={{ textDecorationLine: 'underline' }}>{triColor}</Text>
+                    <Text style={styles.triColorText}>TRICOLOR MODE :&nbsp;
+                        <Text style={styles.triColorStatus}>{triColor}</Text>
                     </Text>
                 </TouchableHighlight>
             </View>
