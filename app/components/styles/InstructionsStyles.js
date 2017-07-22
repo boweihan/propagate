@@ -54,7 +54,7 @@ export default StyleSheet.create({
         fontFamily: 'MontserratBold',
     },
     instructionsElement: {
-        flex: 4,
+        flex: 3,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
