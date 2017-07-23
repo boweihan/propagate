@@ -97,7 +97,8 @@ export default StyleSheet.create({
     },
     stepNumberText: {
         fontFamily: 'MontserratBold',
-        fontSize: 20,
+        fontSize: 30,
+        color: 'white',
     },
     stepInfoText: {
         fontFamily: 'MontserratBold',
@@ -108,7 +109,6 @@ export default StyleSheet.create({
     stepImage: {
         height: '100%',
         width: '100%',
-        borderRadius: 5,
         resizeMode: 'contain',
     },
 });

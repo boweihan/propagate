@@ -11,7 +11,7 @@ class Settings extends React.Component {
     resetLevel() {
         Alert.alert(
             'Clear Progress?',
-            'Are you sure you want to do that? This action will reset your level to 1',
+            'Are you sure you want to do that? This action will reset your highest level to 1',
             [
                 { text: 'Cancel', onPress: () => {}, style: 'cancel' },
                 { text: 'Confirm', onPress: () => this.resetLevelConfirmed() },
@@ -21,7 +21,9 @@ class Settings extends React.Component {
     }
 
     resetLevelConfirmed() {
-        this.props.setLevel(1);
+        Store.save('highestLevel', 1);
+        this.props.setHighestLevel(1);
+        this.props.setLevel(null);
         this.props.setBoardStateCache(null);
     }
 
@@ -84,6 +86,7 @@ Settings.propTypes = {
     triColorMode: PropTypes.bool.isRequired,
     setTriColorMode: PropTypes.func.isRequired,
     setCompleteRoute: PropTypes.func.isRequired,
+    setHighestLevel: PropTypes.func.isRequired,
     setLevel: PropTypes.func.isRequired,
     setBoardStateCache: PropTypes.func.isRequired,
 };

@@ -90,6 +90,8 @@ export default StyleSheet.create({
         margin: 5,
         height: ((Width * 0.8) / 4) - 10,
         backgroundColor: '#649122',
+        borderWidth: 5,
+        borderColor: '#d6d7da',
     },
     cellDisabled: {
         flex: 1,
@@ -99,8 +101,10 @@ export default StyleSheet.create({
         borderRadius: 5,
         margin: 5,
         height: ((Width * 0.8) / 4) - 10,
-        backgroundColor: '#649122',
+        backgroundColor: 'gray',
         opacity: 0.5,
+        borderWidth: 5,
+        borderColor: '#d6d7da',
     },
     cellText: {
         fontSize: Width * 0.1,

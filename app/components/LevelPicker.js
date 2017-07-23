@@ -37,6 +37,7 @@ class LevelPicker extends React.Component {
     }
 
     selectLevel(level) {
+        this.props.setBoardStateCache(null);
         this.props.setLevel(level);
         this.props.setCompleteRoute('game');
     }
@@ -84,6 +85,7 @@ LevelPicker.propTypes = {
     setCompleteRoute: PropTypes.func.isRequired,
     setLevel: PropTypes.func.isRequired,
     highestLevel: PropTypes.number.isRequired,
+    setBoardStateCache: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

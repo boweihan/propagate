@@ -49,7 +49,7 @@ class Menu extends React.Component {
                   style={styles.startButton}
                   onPress={() => this.props.setCompleteRoute('picker')}
                 >
-                    <Text style={styles.startText}>PLAY</Text>
+                    <Text style={styles.startText}>SELECT LEVEL</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   underlayColor="lightgray"
