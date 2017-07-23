@@ -98,7 +98,7 @@ class Instructions extends React.Component {
                 <View style={styles.instructions_header}>
                     <TouchableHighlight
                       style={styles.menuButton}
-                      underlayColor="#CECDCD"
+                      underlayColor="#f2f2f2"
                       activeOpacity={0.5}
                       onPress={() => this.props.setCompleteRoute('menu')}
                     >
@@ -125,7 +125,7 @@ class Instructions extends React.Component {
                         {Instructions.step3()}
                         {Instructions.step4()}
                         {Instructions.step5()}
-                        <View style={{ marginBottom: 50 }} />
+                        <View style={{ marginBottom: 20 }} />
                     </ScrollView>
                 </View>
             </View>

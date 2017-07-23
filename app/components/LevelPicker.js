@@ -42,7 +42,7 @@ class LevelPicker extends React.Component {
         return level <= this.props.highestLevel ?
         (
             <TouchableHighlight
-              underlayColor="#CECDCD"
+              underlayColor="#f2f2f2"
               activeOpacity={0.5}
               key={key}
               style={styles.cell}
@@ -82,7 +82,7 @@ class LevelPicker extends React.Component {
                 <View style={styles.levelPickerHeader}>
                     <TouchableHighlight
                       style={styles.menuButton}
-                      underlayColor="#CECDCD"
+                      underlayColor="#f2f2f2"
                       activeOpacity={0.5}
                       onPress={() => this.props.setCompleteRoute('menu')}
                     >

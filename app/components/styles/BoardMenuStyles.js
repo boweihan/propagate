@@ -96,7 +96,7 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 15,
-        color: 'white',
+        color: '#f2f2f2',
         fontFamily: 'MontserratBold',
     },
     help: {
@@ -109,7 +109,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
     },
     helpText: {
-        color: 'white',
+        color: '#f2f2f2',
         fontFamily: 'MontserratBold',
     },
 });

@@ -74,7 +74,7 @@ class GameMaster extends React.Component {
     render() {
         const levelSpec = LevelUtils.getLevelSpecs(this.props.level);
         return (
-            <View style={{ flex: 1, backgroundColor: '#CECDCD' }}>
+            <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 {this.props.routes.menu ?
                     <Menu
                       setCompleteRoute={this.setCompleteRoute}
