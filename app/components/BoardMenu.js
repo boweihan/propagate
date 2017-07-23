@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View, TouchableHighlight } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles/BoardMenuStyles';
-import { Ionicons } from '@expo/vector-icons'; // eslint-disable-line
 
 function BoardMenu(props) {
     return (
@@ -26,10 +25,10 @@ function BoardMenu(props) {
                               style={styles.btn3_col2}
                               underlayColor="#CECDCD"
                               activeOpacity={0.5}
-                              onPress={() => props.setCompleteRoute('settings', props.board)}
+                              onPress={() => props.setCompleteRoute('picker', props.board)}
                             >
                                 <View style={styles.backToLeaderboard}>
-                                    <Ionicons style={[styles.menuText, { fontSize: 30, paddingLeft: 10, paddingRight: 10 }]} name="md-settings" />
+                                    <Text style={[styles.menuText, { fontSize: 13 }]}>LEVELS</Text>
                                 </View>
                             </TouchableHighlight>
                         </View>

@@ -25,7 +25,7 @@ class GameMaster extends React.Component {
         if (newRoute === 'gameOver') {
             newRoute = 'menu';
             this.props.setBoardStateCache(null);
-        } else if (newRoute === 'menu' || newRoute === 'settings') {
+        } else if (newRoute === 'menu' || newRoute === 'picker') {
             this.props.setBoardStateCache(boardState);
         }
         this.props.setRoute(newRoute);
