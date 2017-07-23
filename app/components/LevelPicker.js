@@ -5,8 +5,19 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import styles from './styles/LevelPickerStyles';
 import { ActionCreators } from '../actions';
+import { Ionicons } from '@expo/vector-icons'; // eslint-disable-line
 
 class LevelPicker extends React.Component {
+    static getRatingStar(rating, ratingKey) {
+        let star;
+        if (rating === 'filled') {
+            star = <View key={ratingKey}><Ionicons style={styles.star} name="md-star" /></View>;
+        } else if (rating === 'empty') {
+            star = <View key={ratingKey}><Ionicons style={styles.star} name="md-star-outline" /></View>;
+        }
+        return star;
+    }
+
     getLevelRow(value, key) {
         const startingLevel = value * 4;
         const levels = [startingLevel + 1, startingLevel + 2, startingLevel + 3, startingLevel + 4];
@@ -18,6 +29,16 @@ class LevelPicker extends React.Component {
     }
 
     getLevelCell(level, key) {
+        const rating = [];
+        const levelRating = this.props.levelRatings[level];
+        for (let i = 1; i <= 3; i += 1) {
+            if (levelRating && i <= levelRating) {
+                rating.push('filled');
+            } else {
+                rating.push('empty');
+            }
+        }
+
         return level <= this.props.highestLevel ?
         (
             <TouchableHighlight
@@ -27,11 +48,19 @@ class LevelPicker extends React.Component {
               style={styles.cell}
               onPress={() => this.selectLevel(level)}
             >
-                <Text style={styles.cellText}>{level}</Text>
+                <View style={styles.innerCell}>
+                    <Text style={styles.cellText}>{level}</Text>
+                    <View style={styles.ratingBox}>
+                        {rating.length > 0 ?
+                            rating.map((elem, ratingKey) => LevelPicker.getRatingStar(elem, ratingKey)) : null}
+                    </View>
+                </View>
             </TouchableHighlight>
         ) : (
             <View key={key} style={styles.cellDisabled} >
-                <Text style={styles.cellText}>{level}</Text>
+                <View style={styles.innerCell}>
+                    <Text style={styles.cellText}>{level}</Text>
+                </View>
             </View>
         );
     }
@@ -89,6 +118,7 @@ LevelPicker.propTypes = {
     highestLevel: PropTypes.number.isRequired,
     setBoardStateCache: PropTypes.func.isRequired,
     level: PropTypes.number,
+    levelRatings: PropTypes.object.isRequired,
 };
 
 LevelPicker.defaultProps = {
@@ -103,6 +133,7 @@ function mapStateToProps(state) {
     return {
         level: state.level,
         highestLevel: state.highestLevel,
+        levelRatings: state.levelRatings,
     };
 }
 

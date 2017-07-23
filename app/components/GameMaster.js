@@ -39,7 +39,8 @@ class GameMaster extends React.Component {
         this.props.setRoute(newRoute);
     }
 
-    levelUp() {
+    levelUp(movesLeft) {
+        this.updateLevelRatings(movesLeft);
         const nextLevel = this.props.level + 1;
         if (this.props.highestLevel < nextLevel) {
             Store.save('highestLevel', nextLevel);
@@ -48,6 +49,26 @@ class GameMaster extends React.Component {
         this.props.setLevel(nextLevel);
         this.props.setModal('default');
         this.props.setBoardStateCache(null);
+    }
+
+    updateLevelRatings(movesLeft) {
+        const stars = LevelUtils.getLevelSpecs(this.props.level).stars;
+
+        let newRating;
+        if (movesLeft === stars[2]) {
+            newRating = 3; // 3 stars
+        } else if (movesLeft >= stars[1] && movesLeft < stars[2]) {
+            newRating = 2; // 2 stars
+        } else if (movesLeft >= stars[0] && movesLeft < stars[1]) {
+            newRating = 1; // 1 star
+        }
+
+        const ratings = this.props.levelRatings;
+        if (!ratings[this.props.level] || ratings[this.props.level] < newRating) {
+            ratings[this.props.level] = newRating;
+        }
+        Store.save('levelRatings', ratings);
+        this.props.setLevelRatings(ratings);
     }
 
     render() {
@@ -87,6 +108,8 @@ GameMaster.propTypes = {
     highestLevel: PropTypes.number.isRequired,
     setMode: PropTypes.func.isRequired,
     setModal: PropTypes.func.isRequired,
+    levelRatings: PropTypes.object.isRequired,
+    setLevelRatings: PropTypes.func.isRequired,
 };
 
 GameMaster.defaultProps = {
@@ -105,6 +128,7 @@ function mapStateToProps(state) {
         highestLevel: state.highestLevel,
         score: state.score,
         boardStateCache: state.boardStateCache,
+        levelRatings: state.levelRatings,
     };
 }
 

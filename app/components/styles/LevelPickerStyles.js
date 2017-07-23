@@ -84,11 +84,9 @@ export default StyleSheet.create({
     cell: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
         borderRadius: 5,
         margin: 5,
-        height: ((Width * 0.8) / 4) - 10,
+        height: (((Width * 0.8) / 4) - 10) + 20,
         backgroundColor: '#649122',
         borderWidth: 5,
         borderColor: '#d6d7da',
@@ -96,19 +94,31 @@ export default StyleSheet.create({
     cellDisabled: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
         borderRadius: 5,
         margin: 5,
-        height: ((Width * 0.8) / 4) - 10,
+        height: (((Width * 0.8) / 4) - 10) + 20,
         backgroundColor: 'gray',
         opacity: 0.5,
         borderWidth: 5,
         borderColor: '#d6d7da',
     },
+    innerCell: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     cellText: {
         fontSize: Width * 0.1,
         color: 'white',
         fontFamily: 'MontserratBold',
+    },
+    ratingBox: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    star: {
+        color: 'yellow',
     },
 });

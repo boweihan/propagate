@@ -14,6 +14,13 @@ export function setHighestLevel(level) {
     };
 }
 
+export function setLevelRatings(ratings) {
+    return {
+        type: types.SET_LEVEL_RATINGS,
+        ratings,
+    };
+}
+
 export function setScore(score) {
     return {
         type: types.SET_SCORE,

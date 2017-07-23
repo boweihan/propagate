@@ -2,6 +2,7 @@
 export const SET_LEVEL = 'SET_LEVEL';
 export const INCREMENT_LEVEL = 'INCREMENT_LEVEL';
 export const SET_HIGHEST_LEVEL = 'SET_HIGHEST_LEVEL';
+export const SET_LEVEL_RATINGS = 'SET_LEVEL_RATINGS';
 
 // SCORE
 export const SET_SCORE = 'SET_SCORE';

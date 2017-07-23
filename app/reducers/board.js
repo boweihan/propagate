@@ -17,6 +17,12 @@ export const highestLevel = createReducer(null, {
     },
 });
 
+export const levelRatings = createReducer(null, {
+    [types.SET_LEVEL_RATINGS](state, action) {
+        return action.ratings;
+    },
+});
+
 export const score = createReducer(0, {
     [types.SET_SCORE](state, action) {
         return action.score;
