@@ -10,7 +10,7 @@ import Menu from './Menu';
 import Settings from './Settings';
 import Instructions from './Instructions';
 import { ActionCreators } from '../actions';
-import HelperUtils from './utils/HelperUtils';
+import LevelUtils from './utils/LevelUtils';
 
 class GameMaster extends React.Component {
     constructor() {
@@ -42,7 +42,7 @@ class GameMaster extends React.Component {
     }
 
     render() {
-        const levelSpec = HelperUtils.getLevelSpecs(this.props.level);
+        const levelSpec = LevelUtils.getLevelSpecs(this.props.level);
         return (
             <View style={{ flex: 1, backgroundColor: '#CECDCD' }}>
                 {this.props.routes.menu ?
@@ -51,8 +51,7 @@ class GameMaster extends React.Component {
                     /> : null}
                 {this.props.routes.game ?
                     <Board
-                      size={levelSpec.size}
-                      moves={levelSpec.moves}
+                      levelSpec={levelSpec}
                       key={this.props.level}
                       levelUp={this.levelUp}
                       setCompleteRoute={this.setCompleteRoute}

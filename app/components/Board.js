@@ -26,65 +26,31 @@ class Board extends React.Component {
         super();
         this.colors = props.triColorMode ? Colors3 : Colors2;
         this.state = {
-            board: props.boardStateCache ? props.boardStateCache : BoardUtils.buildBoard(props.size, props.moves, this.colors, props.mode.activeMode),
+            board: props.boardStateCache ?
+                props.boardStateCache :
+                BoardUtils.buildBoard(props.levelSpec.size, props.levelSpec.moves, this.colors, props.mode.activeMode),
         };
         if (!props.boardStateCache) {
-            this.setDisabledTiles(props);
-            this.setFlippedTiles(props);
-            this.setTriColorTiles(props);
+            this.setInitialBoardState(props.levelSpec.initialBoard);
         }
         this.clickTile = this.clickTile.bind(this);
         this.setBoardMode = this.setBoardMode.bind(this);
     }
 
-    setDisabledTiles(props) {
-        let numTilesToDisable;
-        if (props.level % 8 === 4) {
-            numTilesToDisable = props.level / 5;
-        } else if (props.level % 8 > 4 || props.level % 8 === 0) {
-            numTilesToDisable = (Math.floor(props.level / 5)) * 2;
-        }
-        for (let i = 0; i < numTilesToDisable; i += 1) {
-            const tileId = Math.floor(Math.random() * this.state.board.tiles.length);
-            const tile = this.state.board.tiles[tileId];
-            tile.mods.push(Mods[0]);
-            tile.tileStyle.backgroundColor = ColorsExtra[0];
-        }
-    }
-
-    setFlippedTiles(props) {
-        if (props.level % 8 !== 1) {
-            let numTilesToMutate = (props.level % 8) * (props.level / 8) * 0.5;
-            if (numTilesToMutate < 1) { numTilesToMutate = 1; }
-            if (props.level % 8 === 0) { numTilesToMutate = (1 * props.level) / 8; } // custom logic for levels with multiples of 8, fixme
-            while (numTilesToMutate > 0) {
-                const tileId = Math.floor(Math.random() * this.state.board.tiles.length);
-                const tile = this.state.board.tiles[tileId];
-                if (tile.mods.indexOf(Mods[0]) === -1) { // not disabled, so flip
-                    tile.tileStyle.backgroundColor = this.colors[this.colors.length - 1];
-                    numTilesToMutate -= 1;
-                }
-            }
-        }
-    }
-
-    setTriColorTiles(props) {
-        let numTilesToEnhance;
-        if (props.level % 8 === 6) {
-            numTilesToEnhance = Math.floor(props.level / 6);
-        } else if (props.level % 8 > 6 || props.level * 8 === 0) {
-            numTilesToEnhance = (Math.floor(props.level / 7)) * 2;
-        }
-        while (numTilesToEnhance > 0) {
-            const tileId = Math.floor(Math.random() * this.state.board.tiles.length);
-            const tile = this.state.board.tiles[tileId];
-            if (tile.mods.indexOf(Mods[0]) === -1) { // not disabled, so enhance
+    setInitialBoardState(initialBoard) {
+        Object.keys(initialBoard).forEach((key) => {
+            const tile = this.state.board.tiles[key];
+            if (initialBoard[key] === 'd') { // disabled
+                tile.mods.push(Mods[0]);
+                tile.tileStyle.backgroundColor = ColorsExtra[0];
+            } else if (initialBoard[key] === 'f') { // flipped
+                tile.tileStyle.backgroundColor = this.colors[this.colors.length - 1];
+            } else if (initialBoard[key] === 't') { // triColor
                 tile.colorsOverride = ColorsOverride;
                 tile.tileStyle.borderWidth = 6;
                 tile.tileStyle.borderColor = 'gray';
-                numTilesToEnhance -= 1;
             }
-        }
+        });
     }
 
     setBoardMode(mode) {
@@ -227,8 +193,7 @@ class Board extends React.Component {
 
 Board.propTypes = {
     triColorMode: PropTypes.bool.isRequired,
-    size: PropTypes.number.isRequired,
-    moves: PropTypes.number.isRequired,
+    levelSpec: PropTypes.object.isRequired,
     boardStateCache: PropTypes.object,
     setCompleteRoute: PropTypes.func.isRequired,
     level: PropTypes.number.isRequired,
