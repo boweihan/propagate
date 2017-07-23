@@ -18,13 +18,12 @@ class Settings extends React.Component {
             ],
             { cancelable: false },
         );
-        this.props.setLevel(1);
-        Store.save('level', 1);
     }
 
     resetLevelConfirmed() {
-        this.props.setLevel(1);
         Store.save('level', 1);
+        this.props.setLevel(1);
+        this.props.setBoardStateCache(null);
     }
 
     render() {
@@ -87,6 +86,7 @@ Settings.propTypes = {
     setTriColorMode: PropTypes.func.isRequired,
     setCompleteRoute: PropTypes.func.isRequired,
     setLevel: PropTypes.func.isRequired,
+    setBoardStateCache: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
