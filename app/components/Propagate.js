@@ -18,14 +18,6 @@ class Propagate extends React.Component {
         await Font.loadAsync({ NukamisoLite });
         await Font.loadAsync({ MontserratBold });
         await Font.loadAsync({ MontserratRegular });
-        await Store.get('level').then(
-            (level) => {
-                startingLevel = level;
-                if (!startingLevel) {
-                    startingLevel = 1;
-                    Store.save('level', startingLevel);
-                }
-            });
         await Store.get('highestLevel').then(
             (level) => {
                 highestLevel = level;
@@ -35,25 +27,21 @@ class Propagate extends React.Component {
                 }
             });
         if (highestLevel < startingLevel) { highestLevel = startingLevel; } // redundant check, but useful
-        this.props.setLevel(startingLevel);
         this.props.setHighestLevel(highestLevel);
     }
 
     render() {
-        return this.props.level && this.props.highestLevel ?
+        return this.props.highestLevel ?
             <GameMaster /> : null;
     }
 }
 
 Propagate.propTypes = {
-    setLevel: PropTypes.func.isRequired,
-    level: PropTypes.number,
     setHighestLevel: PropTypes.func.isRequired,
     highestLevel: PropTypes.number,
 };
 
 Propagate.defaultProps = {
-    level: null, // needs to start as null to prevent rendering before font load
     highestLevel: null,
 };
 
@@ -63,7 +51,6 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        level: state.level,
         highestLevel: state.highestLevel,
     };
 }

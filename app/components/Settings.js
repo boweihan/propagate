@@ -21,7 +21,6 @@ class Settings extends React.Component {
     }
 
     resetLevelConfirmed() {
-        Store.save('level', 1);
         this.props.setLevel(1);
         this.props.setBoardStateCache(null);
     }

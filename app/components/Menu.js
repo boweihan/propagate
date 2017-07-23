@@ -34,11 +34,20 @@ class Menu extends React.Component {
                         </Animated.Text>
                     </Animated.Text>
                 </View>
+                {this.props.level ?
+                    <TouchableHighlight
+                      underlayColor="lightgray"
+                      activeOpacity={0.5}
+                      style={styles.startButton}
+                      onPress={() => this.props.setCompleteRoute('game')}
+                    >
+                        <Text style={styles.startText}>CONTINUE</Text>
+                    </TouchableHighlight> : null}
                 <TouchableHighlight
                   underlayColor="lightgray"
                   activeOpacity={0.5}
                   style={styles.startButton}
-                  onPress={() => this.props.setCompleteRoute('game')}
+                  onPress={() => this.props.setCompleteRoute('picker')}
                 >
                     <Text style={styles.startText}>PLAY</Text>
                 </TouchableHighlight>
@@ -73,6 +82,11 @@ Menu.propTypes = {
     pulseRed: PropTypes.object.isRequired,
     pulseBlack: PropTypes.object.isRequired,
     highestLevel: PropTypes.number.isRequired,
+    level: PropTypes.number,
+};
+
+Menu.defaultProps = {
+    level: null,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -81,6 +95,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
+        level: state.level,
         pulseRed: state.pulseRed,
         pulseBlack: state.pulseBlack,
         highestLevel: state.highestLevel,

@@ -8,7 +8,7 @@ class HelperUtils {
 
     static getLevelSpecs(level) { // TODO: better way to do levels
         const specs = {};
-        if (level < 9) {
+        if (!level || level < 9) {
             specs.size = 3; specs.moves = 15;
         } else if (level >= 9 && level < 17) {
             specs.size = 4; specs.moves = 20;

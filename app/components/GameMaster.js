@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Board from './Board';
+import LevelPicker from './LevelPicker';
 import Menu from './Menu';
 import Settings from './Settings';
 import Instructions from './Instructions';
@@ -36,7 +37,6 @@ class GameMaster extends React.Component {
             Store.save('highestLevel', nextLevel);
             this.props.setHighestLevel(nextLevel);
         }
-        Store.save('level', nextLevel);
         this.props.setLevel(nextLevel);
         this.props.setBoardStateCache(null);
     }
@@ -57,6 +57,8 @@ class GameMaster extends React.Component {
                       levelUp={this.levelUp}
                       setCompleteRoute={this.setCompleteRoute}
                     /> : null}
+                {this.props.routes.picker ?
+                    <LevelPicker setCompleteRoute={this.setCompleteRoute} /> : null}
                 {this.props.routes.instructions ?
                     <Instructions setCompleteRoute={this.setCompleteRoute} /> : null}
                 {this.props.routes.settings ?
@@ -68,7 +70,7 @@ class GameMaster extends React.Component {
 
 GameMaster.propTypes = {
     routes: PropTypes.object.isRequired,
-    level: PropTypes.number.isRequired,
+    level: PropTypes.number,
     boardStateCache: PropTypes.object,
     setLevel: PropTypes.func.isRequired,
     setBoardStateCache: PropTypes.func.isRequired,
@@ -79,6 +81,7 @@ GameMaster.propTypes = {
 
 GameMaster.defaultProps = {
     boardStateCache: null, // makes it easy to write exist() logic
+    level: null,
 };
 
 function mapDispatchToProps(dispatch) {
