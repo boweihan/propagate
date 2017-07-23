@@ -10,9 +10,10 @@ export default StyleSheet.create({
         borderColor: 'rgba(0, 0, 0, 0.1)',
     },
     modalMsg: {
-        fontSize: 30,
-        fontFamily: 'NukamisoLite',
+        fontSize: 20,
+        fontFamily: 'MontserratBold',
         textAlign: 'center',
+        flexWrap: 'wrap',
     },
     modalClose: {
         textAlign: 'center',

@@ -10,6 +10,7 @@ import styles from './styles/BoardStyles';
 import BoardUtils from './utils/BoardUtils';
 import ModeUtils from './utils/ModeUtils';
 import SoundUtils from './utils/SoundUtils';
+import LevelUtils from './utils/LevelUtils';
 import { ActionCreators } from '../actions';
 import Modal from './Modal';
 
@@ -109,7 +110,11 @@ class Board extends React.Component {
             }
         }
         if (won) {
-            this.props.setModal('levelup');
+            if (LevelUtils.getMaxLevel() === this.props.level) {
+                this.props.setModal('won');
+            } else {
+                this.props.setModal('levelup');
+            }
         } else if (newState.board.movesLeft === 0) {
             this.props.setModal('fail');
         }

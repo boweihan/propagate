@@ -22,8 +22,16 @@ class GameMaster extends React.Component {
     setCompleteRoute(route, gameState) {
         let newRoute = route;
         const boardState = gameState || this.props.boardStateCache;
-        if (newRoute === 'gameOver') {
+        if (newRoute === 'won') {
             newRoute = 'menu';
+            this.props.setMode('SQUARE');
+            this.props.setModal('default');
+            this.props.setBoardStateCache(null);
+            this.props.setLevel(null);
+        } else if (newRoute === 'gameOver') {
+            newRoute = 'menu';
+            this.props.setMode('SQUARE');
+            this.props.setModal('default');
             this.props.setBoardStateCache(null);
         } else if (newRoute === 'menu' || newRoute === 'picker') {
             this.props.setBoardStateCache(boardState);
@@ -38,6 +46,7 @@ class GameMaster extends React.Component {
             this.props.setHighestLevel(nextLevel);
         }
         this.props.setLevel(nextLevel);
+        this.props.setModal('default');
         this.props.setBoardStateCache(null);
     }
 
@@ -76,6 +85,8 @@ GameMaster.propTypes = {
     setRoute: PropTypes.func.isRequired,
     setHighestLevel: PropTypes.func.isRequired,
     highestLevel: PropTypes.number.isRequired,
+    setMode: PropTypes.func.isRequired,
+    setModal: PropTypes.func.isRequired,
 };
 
 GameMaster.defaultProps = {

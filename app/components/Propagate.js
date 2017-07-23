@@ -27,7 +27,7 @@ class Propagate extends React.Component {
                 }
             });
         if (highestLevel < startingLevel) { highestLevel = startingLevel; } // redundant check, but useful
-        this.props.setHighestLevel(40);
+        this.props.setHighestLevel(highestLevel);
     }
 
     render() {

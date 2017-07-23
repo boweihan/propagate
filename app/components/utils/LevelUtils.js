@@ -42,6 +42,10 @@ const Levels = {
 };
 
 class LevelUtils {
+    static getMaxLevel() {
+        return Object.keys(Levels).length;
+    }
+
     static getLevelSpecs(level) { // TODO: better way to do levels
         if (!level) {
             return { size: 0, moves: 0 };

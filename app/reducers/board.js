@@ -40,9 +40,26 @@ export const modal = createReducer(defaultModal, {
     [types.SET_MODAL](state, action) {
         switch (action.modal) {
         case 'fail':
-            return { visible: true, msg: 'SORRY. OUT OF MOVES.', color: '#dd7b6e', type: 'fail' };
+            return {
+                visible: true,
+                msg: 'SORRY. OUT OF MOVES.',
+                color: '#dd7b6e',
+                type: 'fail',
+            };
         case 'levelup':
-            return { visible: true, msg: 'LEVEL UP', color: '#7AAF29', type: 'levelup' };
+            return {
+                visible: true,
+                msg: 'LEVEL UP',
+                color: '#7AAF29',
+                type: 'levelup',
+            };
+        case 'won':
+            return {
+                visible: true,
+                msg: 'CONGRATULATIONS! YOU FINISHED THE GAME. STAY TUNED FOR MORE LEVELS.',
+                color: '#7AAF29',
+                type: 'won',
+            };
         default:
             break;
         }
