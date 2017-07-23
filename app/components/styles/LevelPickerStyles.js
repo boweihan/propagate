@@ -119,6 +119,7 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     star: {
-        color: 'yellow',
+        color: 'white',
+        fontSize: 13,
     },
 });

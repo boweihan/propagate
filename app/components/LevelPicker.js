@@ -51,8 +51,7 @@ class LevelPicker extends React.Component {
                 <View style={styles.innerCell}>
                     <Text style={styles.cellText}>{level}</Text>
                     <View style={styles.ratingBox}>
-                        {rating.length > 0 ?
-                            rating.map((elem, ratingKey) => LevelPicker.getRatingStar(elem, ratingKey)) : null}
+                        {rating.map((elem, ratingKey) => LevelPicker.getRatingStar(elem, ratingKey))}
                     </View>
                 </View>
             </TouchableHighlight>
@@ -60,6 +59,9 @@ class LevelPicker extends React.Component {
             <View key={key} style={styles.cellDisabled} >
                 <View style={styles.innerCell}>
                     <Text style={styles.cellText}>{level}</Text>
+                    <View style={styles.ratingBox}>
+                        {rating.map((elem, ratingKey) => LevelPicker.getRatingStar(elem, ratingKey))}
+                    </View>
                 </View>
             </View>
         );
