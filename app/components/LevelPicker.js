@@ -63,7 +63,7 @@ class LevelPicker extends React.Component {
                         <View style={styles.menuContainer}>
                             <View style={styles.levelPickerBox}>
                                 <Text style={[styles.menuText, styles.levelPickerText]}>
-                                    CHOOSE A LEVEL
+                                    LEVELS
                                 </Text>
                             </View>
                         </View>
