@@ -29,7 +29,7 @@ export default StyleSheet.create({
     },
     highestLevel: {
         marginTop: 70,
-        backgroundColor: '#403837',
+        backgroundColor: 'gray',
         padding: 10,
         paddingLeft: 16,
         paddingRight: 16,
@@ -49,6 +49,6 @@ export default StyleSheet.create({
         fontFamily: 'MontserratBold',
     },
     highestLevelStatus: {
-        color: '#d8695a',
+        color: '#BE3E2C',
     },
 });
