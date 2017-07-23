@@ -25,10 +25,10 @@ function BoardMenu(props) {
                               style={styles.btn3_col2}
                               underlayColor="#CECDCD"
                               activeOpacity={0.5}
-                              onPress={() => props.setCompleteRoute('leaderboard', props.board)}
+                              onPress={() => props.setCompleteRoute('picker', props.board)}
                             >
                                 <View style={styles.backToLeaderboard}>
-                                    <Text style={[styles.menuText, { fontSize: 12 }]}>TOP{'\n'}SCORES</Text>
+                                    <Text style={[styles.menuText, { fontSize: 13 }]}>LEVELS</Text>
                                 </View>
                             </TouchableHighlight>
                         </View>
@@ -43,15 +43,9 @@ function BoardMenu(props) {
                     </View>
                     <View style={styles.btn3}>
                         <View style={styles.flex1}>
-                            <View style={styles.score}>
-                                <Text style={[styles.menuText, { fontSize: 12 }]}>SCORE</Text>
-                                <Text style={styles.menuText}>{props.score}</Text>
-                            </View>
-                        </View>
-                        <View style={styles.flex1}>
                             <View style={styles.level}>
-                                <Text style={[styles.menuText, { fontSize: 12 }]}>LEVEL</Text>
-                                <Text style={styles.menuText}>{props.level}</Text>
+                                <Text style={styles.menuText}>LEVEL</Text>
+                                <Text style={[styles.menuText, { fontSize: 30 }]}>{props.level}</Text>
                             </View>
                         </View>
                     </View>
@@ -70,7 +64,6 @@ BoardMenu.propTypes = {
     board: PropTypes.object.isRequired,
     setCompleteRoute: PropTypes.func.isRequired,
     movesLeft: PropTypes.number.isRequired,
-    score: PropTypes.number.isRequired,
     level: PropTypes.number.isRequired,
 };
 

@@ -19,7 +19,6 @@ class Instructions extends React.Component {
                     <Text style={styles.stepNumberText}>1</Text>
                 </View>
                 <View style={styles.stepInfo}>
-                    <Text style={styles.stepInfoText}>Start a new game!</Text>
                     <View style={{ height: 100, width: '80%' }}>
                         <Image style={styles.stepImage} source={imgStep1} />
                     </View>
@@ -27,7 +26,6 @@ class Instructions extends React.Component {
             </View>
         );
     }
-
     static step2() {
         return (
             <View style={styles.step}>
@@ -35,9 +33,7 @@ class Instructions extends React.Component {
                     <Text style={styles.stepNumberText}>2</Text>
                 </View>
                 <View style={styles.stepInfo}>
-                    <Text style={styles.stepInfoText}>Select a flipping pattern (default: square).
-                        Tapping a tile will flip your tile and surrounding tiles in the
-                        shape of the selected flipping pattern.</Text>
+                    <Text style={styles.stepInfoText}>Choose a level. Levels will unlock as you level up.</Text>
                     <View style={{ height: 150, width: '80%' }}>
                         <Image style={styles.stepImage} source={imgStep2} />
                     </View>
@@ -53,8 +49,10 @@ class Instructions extends React.Component {
                     <Text style={styles.stepNumberText}>3</Text>
                 </View>
                 <View style={styles.stepInfo}>
-                    <Text style={styles.stepInfoText}>Try to get all the tiles to be red! You might need to experiment with different strategies and flipping modes.</Text>
-                    <View style={{ height: 250, width: '80%' }}>
+                    <Text style={styles.stepInfoText}>Select a pattern.
+                        Tapping a tile will flip tiles on the board based
+                        on the shape of the selected pattern.</Text>
+                    <View style={{ height: 150, width: '80%' }}>
                         <Image style={styles.stepImage} source={imgStep3} />
                     </View>
                 </View>
@@ -69,10 +67,26 @@ class Instructions extends React.Component {
                     <Text style={styles.stepNumberText}>4</Text>
                 </View>
                 <View style={styles.stepInfo}>
-                    <Text style={styles.stepInfoText}>Level up! Keep going. How high can you climb?</Text>
-                    <View style={{ height: 100, width: '80%' }}>
+                    <Text style={styles.stepInfoText}>Turn all board tiles red!
+                        You may need to use various patterns to get there.</Text>
+                    <View style={{ height: 250, width: '80%' }}>
                         <Image style={styles.stepImage} source={imgStep4} />
                     </View>
+                </View>
+            </View>
+        );
+    }
+
+    static step5() {
+        return (
+            <View style={styles.step}>
+                <View style={styles.stepNumber}>
+                    <Text style={styles.stepNumberText}>5</Text>
+                </View>
+                <View style={styles.stepInfo}>
+                    <Text style={[styles.stepInfoText, { marginBottom: 10 }]}>
+                        Level up! Can you finish all the levels?
+                    </Text>
                 </View>
             </View>
         );
@@ -110,6 +124,7 @@ class Instructions extends React.Component {
                         {Instructions.step2()}
                         {Instructions.step3()}
                         {Instructions.step4()}
+                        {Instructions.step5()}
                         <View style={{ marginBottom: 50 }} />
                     </ScrollView>
                 </View>
@@ -126,9 +141,9 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(ActionCreators, dispatch);
 }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
     return {
-        leaderboard: state.leaderboard,
+
     };
 }
 

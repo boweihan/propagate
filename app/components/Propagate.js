@@ -13,34 +13,47 @@ const MontserratRegular = require('../assets/fonts/Montserrat-Regular.ttf');
 
 class Propagate extends React.Component {
     async componentDidMount() {
-        let leaderboard;
+        let highestLevel;
+        let levelRatings;
         await Font.loadAsync({ NukamisoLite });
         await Font.loadAsync({ MontserratBold });
         await Font.loadAsync({ MontserratRegular });
-        await Store.get('leaderboard').then(
-            (scores) => {
-                leaderboard = scores;
-                if (!leaderboard) {
-                    leaderboard = [];
-                    Store.save('leaderboard', leaderboard);
+        await Store.get('highestLevel').then(
+            (level) => {
+                highestLevel = level;
+                if (!highestLevel) {
+                    highestLevel = 1;
+                    Store.save('highestLevel', highestLevel);
                 }
             });
-        this.props.setLeaderboard(leaderboard);
+        this.props.setHighestLevel(highestLevel);
+        await Store.get('levelRatings').then(
+            (ratings) => {
+                levelRatings = ratings;
+                if (!levelRatings) {
+                    levelRatings = {};
+                    Store.save('levelRatings', levelRatings);
+                }
+            });
+        this.props.setLevelRatings(levelRatings);
     }
 
     render() {
-        return this.props.leaderboard ?
+        return this.props.highestLevel && this.props.levelRatings ?
             <GameMaster /> : null;
     }
 }
 
 Propagate.propTypes = {
-    setLeaderboard: PropTypes.func.isRequired,
-    leaderboard: PropTypes.array,
+    setHighestLevel: PropTypes.func.isRequired, // eslint-disable-line
+    highestLevel: PropTypes.number,
+    setLevelRatings: PropTypes.func.isRequired,
+    levelRatings: PropTypes.object,
 };
 
 Propagate.defaultProps = {
-    leaderboard: null, // needs to start as null to prevent rendering before font load
+    highestLevel: null,
+    levelRatings: null,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -49,7 +62,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        leaderboard: state.leaderboard,
+        highestLevel: state.highestLevel,
+        levelRatings: state.levelRatings,
     };
 }
 

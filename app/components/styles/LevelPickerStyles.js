@@ -3,13 +3,13 @@ import { StyleSheet, Dimensions } from 'react-native';
 const Width = Dimensions.get('window').width;
 
 export default StyleSheet.create({
-    instructions: {
+    levelPicker: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#CECDCD',
     },
-    instructions_header: {
+    levelPickerHeader: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -46,21 +46,21 @@ export default StyleSheet.create({
         color: 'white',
         fontFamily: 'MontserratBold',
     },
-    instructionsText: {
+    levelPickerText: {
         fontSize: 20,
         padding: 5,
         paddingLeft: 8,
         paddingRight: 8,
         fontFamily: 'MontserratBold',
     },
-    instructionsElement: {
+    levelPickerElement: {
         flex: 3,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    instructionsBox: {
-        backgroundColor: '#7AAF29',
+    levelPickerBox: {
+        backgroundColor: '#403837',
         padding: 5,
         paddingLeft: 8,
         paddingRight: 8,
@@ -70,45 +70,55 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
-    stepsContainer: {
-        backgroundColor: 'lightgray',
-        padding: 10,
-        borderRadius: 5,
+    rows: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
     },
-    step: {
-        borderRadius: 5,
-        backgroundColor: '#403837',
-        margin: 2,
+    columns: {
         flex: 1,
         flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    stepNumber: {
+    cell: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        flexDirection: 'row',
+        borderRadius: 5,
+        margin: 5,
+        height: (((Width * 0.8) / 4) - 10) + 20,
+        backgroundColor: '#649122',
+        borderWidth: 5,
+        borderColor: '#d6d7da',
+    },
+    cellDisabled: {
+        flex: 1,
+        flexDirection: 'row',
+        borderRadius: 5,
+        margin: 5,
+        height: (((Width * 0.8) / 4) - 10) + 20,
         backgroundColor: 'gray',
-        borderTopLeftRadius: 5,
-        borderBottomLeftRadius: 5,
+        opacity: 0.5,
+        borderWidth: 5,
+        borderColor: '#d6d7da',
     },
-    stepInfo: {
-        flex: 6,
-        alignItems: 'center',
+    innerCell: {
+        flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
     },
-    stepNumberText: {
-        fontFamily: 'MontserratBold',
-        fontSize: 30,
+    cellText: {
+        fontSize: Width * 0.1,
         color: 'white',
-    },
-    stepInfoText: {
         fontFamily: 'MontserratBold',
-        color: 'white',
-        margin: 10,
-        marginBottom: 0,
     },
-    stepImage: {
-        height: '100%',
-        width: '100%',
-        resizeMode: 'contain',
+    ratingBox: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    star: {
+        color: 'yellow',
     },
 });

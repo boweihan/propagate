@@ -1,12 +1,11 @@
 // LEVEL
 export const SET_LEVEL = 'SET_LEVEL';
 export const INCREMENT_LEVEL = 'INCREMENT_LEVEL';
+export const SET_HIGHEST_LEVEL = 'SET_HIGHEST_LEVEL';
+export const SET_LEVEL_RATINGS = 'SET_LEVEL_RATINGS';
 
 // SCORE
 export const SET_SCORE = 'SET_SCORE';
-
-// FIRST LOAD
-export const SET_FIRST_LOAD = 'SET_FIRST_LOAD';
 
 // TRICOLOR
 export const SET_TRICOLOR_MODE = 'SET_TRICOLOR_MODE';

@@ -3,13 +3,13 @@ import { StyleSheet, Dimensions } from 'react-native';
 const Width = Dimensions.get('window').width;
 
 export default StyleSheet.create({
-    instructions: {
+    settings: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#CECDCD',
     },
-    instructions_header: {
+    settings_header: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -46,21 +46,21 @@ export default StyleSheet.create({
         color: 'white',
         fontFamily: 'MontserratBold',
     },
-    instructionsText: {
+    settingsText: {
         fontSize: 20,
         padding: 5,
         paddingLeft: 8,
         paddingRight: 8,
         fontFamily: 'MontserratBold',
     },
-    instructionsElement: {
+    settingsElement: {
         flex: 3,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    instructionsBox: {
-        backgroundColor: '#7AAF29',
+    settingsBox: {
+        backgroundColor: '#e68a00',
         padding: 5,
         paddingLeft: 8,
         paddingRight: 8,
@@ -70,45 +70,32 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
-    stepsContainer: {
-        backgroundColor: 'lightgray',
-        padding: 10,
-        borderRadius: 5,
+    menu: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
     },
-    step: {
-        borderRadius: 5,
+    settingsButton: {
         backgroundColor: '#403837',
-        margin: 2,
-        flex: 1,
-        flexDirection: 'row',
+        padding: 10,
+        paddingLeft: 16,
+        paddingRight: 16,
+        borderRadius: 5,
+        minWidth: 150,
+        margin: 5,
     },
-    stepNumber: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'gray',
-        borderTopLeftRadius: 5,
-        borderBottomLeftRadius: 5,
-    },
-    stepInfo: {
-        flex: 6,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    stepNumberText: {
-        fontFamily: 'MontserratBold',
-        fontSize: 30,
+    settingsButtonText: {
+        fontSize: 15,
         color: 'white',
-    },
-    stepInfoText: {
         fontFamily: 'MontserratBold',
-        color: 'white',
-        margin: 10,
-        marginBottom: 0,
     },
-    stepImage: {
-        height: '100%',
-        width: '100%',
-        resizeMode: 'contain',
+    progressText: {
+        fontSize: 15,
+        color: 'red',
+        fontFamily: 'MontserratBold',
+    },
+    triColorStatus: {
+        textDecorationLine: 'underline',
+        color: '#d8695a',
     },
 });

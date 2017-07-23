@@ -20,7 +20,6 @@ class Menu extends React.Component {
     render() {
         const red = this.initRedAnimation();
         const black = this.initBlackAnimation();
-        const triColor = this.props.triColorMode ? 'ON' : 'OFF';
 
         return (
             <View style={styles.menu}>
@@ -35,7 +34,7 @@ class Menu extends React.Component {
                         </Animated.Text>
                     </Animated.Text>
                 </View>
-                {!this.props.firstLoad ?
+                {this.props.level ?
                     <TouchableHighlight
                       underlayColor="lightgray"
                       activeOpacity={0.5}
@@ -43,23 +42,14 @@ class Menu extends React.Component {
                       onPress={() => this.props.setCompleteRoute('game')}
                     >
                         <Text style={styles.startText}>CONTINUE</Text>
-                    </TouchableHighlight>
-                : null}
+                    </TouchableHighlight> : null}
                 <TouchableHighlight
                   underlayColor="lightgray"
                   activeOpacity={0.5}
                   style={styles.startButton}
-                  onPress={() => this.props.setCompleteRoute('newGame')}
+                  onPress={() => this.props.setCompleteRoute('picker')}
                 >
-                    <Text style={styles.startText}>NEW GAME</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  underlayColor="lightgray"
-                  activeOpacity={0.5}
-                  style={styles.startButton}
-                  onPress={() => this.props.setCompleteRoute('leaderboard')}
-                >
-                    <Text style={styles.startText}>SCORES</Text>
+                    <Text style={styles.startText}>SELECT LEVEL</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   underlayColor="lightgray"
@@ -70,27 +60,33 @@ class Menu extends React.Component {
                     <Text style={styles.startText}>INSTRUCTIONS</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
-                  underlayColor="white"
+                  underlayColor="lightgray"
                   activeOpacity={0.5}
-                  style={styles.triColorButton}
-                  onPress={() => this.props.setTriColorMode(!this.props.triColorMode)}
+                  style={styles.startButton}
+                  onPress={() => this.props.setCompleteRoute('settings')}
                 >
-                    <Text style={styles.triColorText}>TRICOLOR MODE :&nbsp;
-                        <Text style={styles.triColorStatus}>{triColor}</Text>
-                    </Text>
+                    <Text style={styles.startText}>SETTINGS</Text>
                 </TouchableHighlight>
+                <View style={styles.highestLevel}>
+                    <Text style={styles.highestLevelText}>Highest Level Achieved :&nbsp;
+                        <Text style={styles.highestLevelStatus}>{this.props.highestLevel}</Text>
+                    </Text>
+                </View>
             </View>
         );
     }
 }
 
 Menu.propTypes = {
-    triColorMode: PropTypes.bool.isRequired,
-    firstLoad: PropTypes.bool.isRequired,
     setCompleteRoute: PropTypes.func.isRequired,
-    setTriColorMode: PropTypes.func.isRequired,
     pulseRed: PropTypes.object.isRequired,
     pulseBlack: PropTypes.object.isRequired,
+    highestLevel: PropTypes.number.isRequired,
+    level: PropTypes.number,
+};
+
+Menu.defaultProps = {
+    level: null,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -99,10 +95,10 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        triColorMode: state.triColorMode,
-        firstLoad: state.firstLoad,
+        level: state.level,
         pulseRed: state.pulseRed,
         pulseBlack: state.pulseBlack,
+        highestLevel: state.highestLevel,
     };
 }
 

@@ -7,10 +7,17 @@ export function setLevel(level) {
     };
 }
 
-export function incrementLevel(level) {
+export function setHighestLevel(level) {
     return {
-        type: types.INCREMENT_LEVEL,
+        type: types.SET_HIGHEST_LEVEL,
         level,
+    };
+}
+
+export function setLevelRatings(ratings) {
+    return {
+        type: types.SET_LEVEL_RATINGS,
+        ratings,
     };
 }
 
@@ -18,13 +25,6 @@ export function setScore(score) {
     return {
         type: types.SET_SCORE,
         score,
-    };
-}
-
-export function setFirstLoad(firstLoad) {
-    return {
-        type: types.SET_FIRST_LOAD,
-        firstLoad,
     };
 }
 

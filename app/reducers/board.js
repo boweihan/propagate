@@ -1,7 +1,8 @@
 import createReducer from '../lib/createReducer';
 import * as types from '../actions/types';
 
-export const level = createReducer(1, {
+// NEED TO SET LEVEL TO BE NULL SO THAT WE CAN PULL FROM LOCALSTORAGE IN Propagate.js
+export const level = createReducer(null, {
     [types.SET_LEVEL](state, action) {
         return action.level;
     },
@@ -10,15 +11,21 @@ export const level = createReducer(1, {
     },
 });
 
-export const score = createReducer(0, {
-    [types.SET_SCORE](state, action) {
-        return action.score;
+export const highestLevel = createReducer(null, {
+    [types.SET_HIGHEST_LEVEL](state, action) {
+        return action.level;
     },
 });
 
-export const firstLoad = createReducer(true, {
-    [types.SET_FIRST_LOAD](state, action) {
-        return action.firstLoad;
+export const levelRatings = createReducer(null, {
+    [types.SET_LEVEL_RATINGS](state, action) {
+        return action.ratings;
+    },
+});
+
+export const score = createReducer(0, {
+    [types.SET_SCORE](state, action) {
+        return action.score;
     },
 });
 
@@ -39,9 +46,26 @@ export const modal = createReducer(defaultModal, {
     [types.SET_MODAL](state, action) {
         switch (action.modal) {
         case 'fail':
-            return { visible: true, msg: 'SORRY. OUT OF MOVES.', color: '#dd7b6e', type: 'fail' };
+            return {
+                visible: true,
+                msg: 'SORRY. OUT OF MOVES.',
+                color: '#dd7b6e',
+                type: 'fail',
+            };
         case 'levelup':
-            return { visible: true, msg: 'LEVEL UP', color: '#7AAF29', type: 'levelup' };
+            return {
+                visible: true,
+                msg: 'LEVEL UP',
+                color: '#7AAF29',
+                type: 'levelup',
+            };
+        case 'won':
+            return {
+                visible: true,
+                msg: 'CONGRATULATIONS! YOU FINISHED THE GAME. STAY TUNED FOR MORE LEVELS.',
+                color: '#7AAF29',
+                type: 'won',
+            };
         default:
             break;
         }

@@ -4,7 +4,7 @@ module.exports = {
         "indent": [2, 4],
         "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
         "react/jsx-indent": [2, 4],
-        "max-len": ["error", 150],
+        "max-len": ["error", 200],
         "react/forbid-prop-types": ["error", { "forbid": [] }]
     }
 };
