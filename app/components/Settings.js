@@ -25,6 +25,7 @@ class Settings extends React.Component {
         Store.save('levelRatings', {});
         this.props.setHighestLevel(1);
         this.props.setLevel(null);
+        this.props.setMode('SQUARE');
         this.props.setBoardStateCache(null);
         this.props.setLevelRatings({});
     }
@@ -92,6 +93,7 @@ Settings.propTypes = {
     setLevel: PropTypes.func.isRequired,
     setBoardStateCache: PropTypes.func.isRequired,
     setLevelRatings: PropTypes.func.isRequired,
+    setMode: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

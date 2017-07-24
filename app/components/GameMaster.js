@@ -55,9 +55,8 @@ class GameMaster extends React.Component {
 
     updateLevelRatings(movesLeft) {
         const stars = LevelUtils.getLevelSpecs(this.props.level).stars;
-
         let newRating;
-        if (movesLeft === stars[2]) {
+        if (movesLeft >= stars[2]) {
             newRating = 3; // 3 stars
         } else if (movesLeft >= stars[1] && movesLeft < stars[2]) {
             newRating = 2; // 2 stars
