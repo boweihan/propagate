@@ -42,7 +42,7 @@ class LevelPicker extends React.Component {
         return level <= this.props.highestLevel ?
         (
             <TouchableHighlight
-              underlayColor="#CECDCD"
+              underlayColor="#f2f2f2"
               activeOpacity={0.5}
               key={key}
               style={styles.cell}
@@ -51,8 +51,7 @@ class LevelPicker extends React.Component {
                 <View style={styles.innerCell}>
                     <Text style={styles.cellText}>{level}</Text>
                     <View style={styles.ratingBox}>
-                        {rating.length > 0 ?
-                            rating.map((elem, ratingKey) => LevelPicker.getRatingStar(elem, ratingKey)) : null}
+                        {rating.map((elem, ratingKey) => LevelPicker.getRatingStar(elem, ratingKey))}
                     </View>
                 </View>
             </TouchableHighlight>
@@ -60,6 +59,9 @@ class LevelPicker extends React.Component {
             <View key={key} style={styles.cellDisabled} >
                 <View style={styles.innerCell}>
                     <Text style={styles.cellText}>{level}</Text>
+                    <View style={styles.ratingBox}>
+                        {rating.map((elem, ratingKey) => LevelPicker.getRatingStar(elem, ratingKey))}
+                    </View>
                 </View>
             </View>
         );
@@ -80,7 +82,7 @@ class LevelPicker extends React.Component {
                 <View style={styles.levelPickerHeader}>
                     <TouchableHighlight
                       style={styles.menuButton}
-                      underlayColor="#CECDCD"
+                      underlayColor="#f2f2f2"
                       activeOpacity={0.5}
                       onPress={() => this.props.setCompleteRoute('menu')}
                     >

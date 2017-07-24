@@ -26,7 +26,7 @@ class Leaderboard extends React.Component {
                 <View style={styles.leaderboard_header}>
                     <TouchableHighlight
                       style={styles.menuButton}
-                      underlayColor="#CECDCD"
+                      underlayColor="#f2f2f2"
                       activeOpacity={0.5}
                       onPress={() => this.props.setCompleteRoute('menu')}
                     >

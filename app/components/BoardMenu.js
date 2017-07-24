@@ -11,7 +11,7 @@ function BoardMenu(props) {
                     <View style={styles.btn1}>
                         <View style={styles.flex1}>
                             <TouchableHighlight
-                              underlayColor="#CECDCD"
+                              underlayColor="#f2f2f2"
                               activeOpacity={0.5}
                               onPress={() => props.setCompleteRoute('menu', props.board)}
                             >
@@ -23,7 +23,7 @@ function BoardMenu(props) {
                         <View style={styles.flex1}>
                             <TouchableHighlight
                               style={styles.btn3_col2}
-                              underlayColor="#CECDCD"
+                              underlayColor="#f2f2f2"
                               activeOpacity={0.5}
                               onPress={() => props.setCompleteRoute('picker', props.board)}
                             >

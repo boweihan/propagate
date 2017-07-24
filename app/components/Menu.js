@@ -68,7 +68,7 @@ class Menu extends React.Component {
                     <Text style={styles.startText}>SETTINGS</Text>
                 </TouchableHighlight>
                 <View style={styles.highestLevel}>
-                    <Text style={styles.highestLevelText}>Highest Level Achieved :&nbsp;
+                    <Text style={styles.highestLevelText}>HIGHEST LEVEL ACHIEVED :&nbsp;
                         <Text style={styles.highestLevelStatus}>{this.props.highestLevel}</Text>
                     </Text>
                 </View>

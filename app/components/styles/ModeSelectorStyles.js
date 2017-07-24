@@ -14,8 +14,8 @@ export default StyleSheet.create({
     selectors: {
         borderWidth: 10,
         borderRadius: 4,
-        borderColor: '#d6d7da',
-        opacity: 0.7,
+        borderColor: '#f2f2f2',
+        opacity: 0.3,
         width: ButtonSize,
         height: ButtonSize,
         margin: ButtonSize * 0.1,
@@ -38,7 +38,7 @@ export default StyleSheet.create({
         borderRadius: 5,
     },
     selectedModeText: {
-        color: 'white',
+        color: '#f2f2f2',
         fontFamily: 'MontserratBold',
     },
 });

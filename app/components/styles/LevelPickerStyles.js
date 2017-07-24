@@ -7,7 +7,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#CECDCD',
+        backgroundColor: '#f2f2f2',
     },
     levelPickerHeader: {
         flex: 1,
@@ -43,7 +43,7 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 15,
-        color: 'white',
+        color: '#f2f2f2',
         fontFamily: 'MontserratBold',
     },
     levelPickerText: {
@@ -109,7 +109,7 @@ export default StyleSheet.create({
     },
     cellText: {
         fontSize: Width * 0.1,
-        color: 'white',
+        color: '#f2f2f2',
         fontFamily: 'MontserratBold',
     },
     ratingBox: {
@@ -119,6 +119,7 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     star: {
-        color: 'yellow',
+        color: '#f2f2f2',
+        fontSize: 13,
     },
 });

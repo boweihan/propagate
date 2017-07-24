@@ -22,9 +22,11 @@ class Settings extends React.Component {
 
     resetLevelConfirmed() {
         Store.save('highestLevel', 1);
+        Store.save('levelRatings', {});
         this.props.setHighestLevel(1);
         this.props.setLevel(null);
         this.props.setBoardStateCache(null);
+        this.props.setLevelRatings({});
     }
 
     render() {
@@ -35,7 +37,7 @@ class Settings extends React.Component {
                 <View style={styles.settings_header}>
                     <TouchableHighlight
                       style={styles.menuButton}
-                      underlayColor="#CECDCD"
+                      underlayColor="#f2f2f2"
                       activeOpacity={0.5}
                       onPress={() => this.props.setCompleteRoute('menu')}
                     >
@@ -89,6 +91,7 @@ Settings.propTypes = {
     setHighestLevel: PropTypes.func.isRequired,
     setLevel: PropTypes.func.isRequired,
     setBoardStateCache: PropTypes.func.isRequired,
+    setLevelRatings: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

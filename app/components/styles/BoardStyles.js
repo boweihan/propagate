@@ -15,7 +15,7 @@ export default StyleSheet.create({
     game: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#CECDCD',
+        backgroundColor: '#f2f2f2',
     },
 });
 

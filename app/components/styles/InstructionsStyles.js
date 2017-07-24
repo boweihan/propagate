@@ -7,7 +7,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#CECDCD',
+        backgroundColor: '#f2f2f2',
     },
     instructions_header: {
         flex: 1,
@@ -43,7 +43,7 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 15,
-        color: 'white',
+        color: '#f2f2f2',
         fontFamily: 'MontserratBold',
     },
     instructionsText: {
@@ -98,11 +98,11 @@ export default StyleSheet.create({
     stepNumberText: {
         fontFamily: 'MontserratBold',
         fontSize: 30,
-        color: 'white',
+        color: '#f2f2f2',
     },
     stepInfoText: {
         fontFamily: 'MontserratBold',
-        color: 'white',
+        color: '#f2f2f2',
         margin: 10,
         marginBottom: 0,
     },
