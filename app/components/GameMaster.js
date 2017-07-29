@@ -41,21 +41,22 @@ class GameMaster extends React.Component {
 
     levelUp(movesLeft) {
         this.updateLevelRatings(movesLeft);
-        const nextLevel = this.props.level + 1;
-        if (this.props.highestLevel < nextLevel) {
-            Store.save('highestLevel', nextLevel);
-            this.props.setHighestLevel(nextLevel);
+        if (this.props.level < LevelUtils.getMaxLevel()) {
+            const nextLevel = this.props.level + 1;
+            if (this.props.highestLevel < nextLevel) {
+                Store.save('highestLevel', nextLevel);
+                this.props.setHighestLevel(nextLevel);
+            }
+            this.props.setLevel(nextLevel);
+            this.props.setModal('default');
+            this.props.setBoardStateCache(null);
         }
-        this.props.setLevel(nextLevel);
-        this.props.setModal('default');
-        this.props.setBoardStateCache(null);
     }
 
     updateLevelRatings(movesLeft) {
         const stars = LevelUtils.getLevelSpecs(this.props.level).stars;
-
         let newRating;
-        if (movesLeft === stars[2]) {
+        if (movesLeft >= stars[2]) {
             newRating = 3; // 3 stars
         } else if (movesLeft >= stars[1] && movesLeft < stars[2]) {
             newRating = 2; // 2 stars

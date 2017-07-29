@@ -15,6 +15,7 @@ class FullScreenModal extends React.Component {
         } else if (this.props.modal.type === 'levelup') {
             this.props.levelUp(this.props.board.movesLeft);
         } else if (this.props.modal.type === 'won') {
+            this.props.levelUp(this.props.board.movesLeft);
             this.props.setCompleteRoute('won');
         }
     }
