@@ -3,73 +3,73 @@ import * as types from '../actions/types';
 
 // NEED TO SET LEVEL TO BE NULL SO THAT WE CAN PULL FROM LOCALSTORAGE IN Propagate.js
 export const level = createReducer(null, {
-    [types.SET_LEVEL](state, action) {
-        return action.level;
-    },
-    [types.INCREMENT_LEVEL](state, action) {
-        return action.level + 1;
-    },
+  [types.SET_LEVEL](state, action) {
+    return action.level;
+  },
+  [types.INCREMENT_LEVEL](state, action) {
+    return action.level + 1;
+  },
 });
 
 export const highestLevel = createReducer(null, {
-    [types.SET_HIGHEST_LEVEL](state, action) {
-        return action.level;
-    },
+  [types.SET_HIGHEST_LEVEL](state, action) {
+    return action.level;
+  },
 });
 
 export const levelRatings = createReducer(null, {
-    [types.SET_LEVEL_RATINGS](state, action) {
-        return action.ratings;
-    },
+  [types.SET_LEVEL_RATINGS](state, action) {
+    return action.ratings;
+  },
 });
 
 export const score = createReducer(0, {
-    [types.SET_SCORE](state, action) {
-        return action.score;
-    },
+  [types.SET_SCORE](state, action) {
+    return action.score;
+  },
 });
 
 export const triColorMode = createReducer(false, {
-    [types.SET_TRICOLOR_MODE](state, action) {
-        return action.triColorMode;
-    },
+  [types.SET_TRICOLOR_MODE](state, action) {
+    return action.triColorMode;
+  },
 });
 
 export const boardStateCache = createReducer(null, {
-    [types.SET_BOARD_STATE_CACHE](state, action) {
-        return action.boardState;
-    },
+  [types.SET_BOARD_STATE_CACHE](state, action) {
+    return action.boardState;
+  },
 });
 
 const defaultModal = { visible: false, msg: null, color: null, type: null };
 export const modal = createReducer(defaultModal, {
-    [types.SET_MODAL](state, action) {
-        switch (action.modal) {
-        case 'fail':
-            return {
-                visible: true,
-                msg: 'SORRY. OUT OF MOVES.',
-                color: '#dd7b6e',
-                type: 'fail',
-            };
-        case 'levelup':
-            return {
-                visible: true,
-                msg: 'LEVEL UP',
-                color: '#7AAF29',
-                type: 'levelup',
-            };
-        case 'won':
-            return {
-                visible: true,
-                msg: 'CONGRATULATIONS! YOU FINISHED THE GAME. STAY TUNED FOR MORE LEVELS.',
-                color: '#7AAF29',
-                type: 'won',
-            };
-        default:
-            break;
-        }
-        return defaultModal;
-    },
+  [types.SET_MODAL](state, action) {
+    switch (action.modal) {
+      case 'fail':
+        return {
+          visible: true,
+          msg: 'SORRY. OUT OF MOVES.',
+          color: '#dd7b6e',
+          type: 'fail',
+        };
+      case 'levelup':
+        return {
+          visible: true,
+          msg: 'LEVEL UP',
+          color: '#7AAF29',
+          type: 'levelup',
+        };
+      case 'won':
+        return {
+          visible: true,
+          msg:
+            'CONGRATULATIONS! YOU FINISHED THE GAME. STAY TUNED FOR MORE LEVELS.',
+          color: '#7AAF29',
+          type: 'won',
+        };
+      default:
+        break;
+    }
+    return defaultModal;
+  },
 });
-

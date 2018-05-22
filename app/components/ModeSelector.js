@@ -14,71 +14,83 @@ const PlusPattern = [1, 3, 4, 5, 7];
 const CrossPattern = [0, 2, 4, 6, 8];
 
 class ModeSelector extends React.Component {
-    constructor() {
-        super();
-        this.squareTiles = ModeUtils.getModeTiles(3, (ButtonSize - 20) / 3, SquarePattern);
-        this.plusTiles = ModeUtils.getModeTiles(3, (ButtonSize - 20) / 3, PlusPattern);
-        this.crossTiles = ModeUtils.getModeTiles(3, (ButtonSize - 20) / 3, CrossPattern);
-    }
+  constructor() {
+    super();
+    this.squareTiles = ModeUtils.getModeTiles(
+      3,
+      (ButtonSize - 20) / 3,
+      SquarePattern,
+    );
+    this.plusTiles = ModeUtils.getModeTiles(
+      3,
+      (ButtonSize - 20) / 3,
+      PlusPattern,
+    );
+    this.crossTiles = ModeUtils.getModeTiles(
+      3,
+      (ButtonSize - 20) / 3,
+      CrossPattern,
+    );
+  }
 
-    selectMode(mode) {
-        this.props.setMode(mode);
-        this.props.setBoardMode(mode);
-    }
+  selectMode(mode) {
+    this.props.setMode(mode);
+    this.props.setBoardMode(mode);
+  }
 
-    render() {
-        return (
-            <View>
-                <View style={styles.selectedMode}>
-                    <View style={styles.selectedModeHelp}>
-                        <Text style={styles.selectedModeText}>Pick a flipping pattern</Text>
-                    </View>
-                </View>
-                <View style={styles.modes}>
-                    <Animated.View
-                      style={[styles.selectors, this.props.mode.squareStyle]}
-                      onStartShouldSetResponder={() => this.selectMode('SQUARE')}
-                    >
-                        {this.squareTiles.map(tile =>
-                            <View key={tile.key} style={tile.tileStyle} />,
-                        )}
-                    </Animated.View>
-                    <Animated.View
-                      style={[styles.selectors, this.props.mode.plusStyle]}
-                      onStartShouldSetResponder={() => this.selectMode('PLUS')}
-                    >
-                        {this.plusTiles.map(tile =>
-                            <View key={tile.key} style={tile.tileStyle} />,
-                        )}
-                    </Animated.View>
-                    <Animated.View
-                      style={[styles.selectors, this.props.mode.crossStyle]}
-                      onStartShouldSetResponder={() => this.selectMode('CROSS')}
-                    >
-                        {this.crossTiles.map(tile =>
-                            <View key={tile.key} style={tile.tileStyle} />,
-                        )}
-                    </Animated.View>
-                </View>
-            </View>
-        );
-    }
+  render() {
+    return (
+      <View>
+        <View style={styles.selectedMode}>
+          <View style={styles.selectedModeHelp}>
+            <Text style={styles.selectedModeText}>Pick a flipping pattern</Text>
+          </View>
+        </View>
+        <View style={styles.modes}>
+          <Animated.View
+            style={[styles.selectors, this.props.mode.squareStyle]}
+            onStartShouldSetResponder={() => this.selectMode('SQUARE')}
+          >
+            {this.squareTiles.map(tile => (
+              <View key={tile.key} style={tile.tileStyle} />
+            ))}
+          </Animated.View>
+          <Animated.View
+            style={[styles.selectors, this.props.mode.plusStyle]}
+            onStartShouldSetResponder={() => this.selectMode('PLUS')}
+          >
+            {this.plusTiles.map(tile => (
+              <View key={tile.key} style={tile.tileStyle} />
+            ))}
+          </Animated.View>
+          <Animated.View
+            style={[styles.selectors, this.props.mode.crossStyle]}
+            onStartShouldSetResponder={() => this.selectMode('CROSS')}
+          >
+            {this.crossTiles.map(tile => (
+              <View key={tile.key} style={tile.tileStyle} />
+            ))}
+          </Animated.View>
+        </View>
+      </View>
+    );
+  }
 }
 
 ModeSelector.propTypes = {
-    setMode: PropTypes.func.isRequired,
-    setBoardMode: PropTypes.func.isRequired,
-    mode: PropTypes.object.isRequired,
+  setMode: PropTypes.func.isRequired,
+  setBoardMode: PropTypes.func.isRequired,
+  mode: PropTypes.object.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(ActionCreators, dispatch);
+  return bindActionCreators(ActionCreators, dispatch);
 }
 
 function mapStateToProps(state) {
-    return {
-        mode: state.mode,
-    };
+  return {
+    mode: state.mode,
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModeSelector);

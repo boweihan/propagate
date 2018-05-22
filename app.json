@@ -1,17 +1,17 @@
 {
   "expo": {
-    "sdkVersion": "17.0.0",
+    "sdkVersion": "26.0.0",
     "orientation": "portrait",
-    "name" : "Propagate",
-    "description" : "Black -> Red",
-    "icon" : "./grid.png",
-    "version" : "2.0.0",
-    "slug" : "propagate",
-    "ios" : {
-      "bundleIdentifier": "tech.bhan.propagate",
+    "name": "Propagate",
+    "description": "Black -> Red",
+    "icon": "./grid.png",
+    "version": "2.0.0",
+    "slug": "propagate",
+    "ios": {
+      "bundleIdentifier": "tech.bhan.propagate"
     },
     "android": {
-      "package": "tech.bhan.propagate",
+      "package": "tech.bhan.propagate"
     }
   }
 }
