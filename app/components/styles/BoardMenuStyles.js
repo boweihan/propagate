@@ -10,7 +10,7 @@ export default StyleSheet.create({
     marginTop: 30,
   },
   subBoardMenu: {
-    flex: 1,
+    flex: 1.5,
     justifyContent: 'center',
     alignItems: 'center',
   },

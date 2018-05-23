@@ -1,4 +1,6 @@
+import Store from 'react-native-simple-store';
 import * as types from './types';
+import LevelUtils from '../components/utils/LevelUtils';
 
 export function setLevel(level) {
   return {
@@ -46,5 +48,40 @@ export function setModal(modal) {
   return {
     type: types.SET_MODAL,
     modal,
+  };
+}
+
+export function updateLevelRatings(dispatch, movesLeft, levelRatings, level) {
+  const stars = LevelUtils.getLevelSpecs(level).stars;
+  let newRating;
+  if (movesLeft >= stars[2]) {
+    newRating = 3; // 3 stars
+  } else if (movesLeft >= stars[1] && movesLeft < stars[2]) {
+    newRating = 2; // 2 stars
+  } else if (movesLeft >= stars[0] && movesLeft < stars[1]) {
+    newRating = 1; // 1 star
+  }
+
+  const ratings = levelRatings;
+  if (!ratings[level] || ratings[level] < newRating) {
+    ratings[level] = newRating;
+  }
+  Store.save('levelRatings', ratings);
+  dispatch(setLevelRatings(ratings));
+}
+
+export function levelUp(movesLeft, ratings, level, highestLevel) {
+  return dispatch => {
+    updateLevelRatings(dispatch, movesLeft, ratings, level);
+    if (level < LevelUtils.getMaxLevel()) {
+      const nextLevel = level + 1;
+      if (highestLevel < nextLevel) {
+        Store.save('highestLevel', nextLevel);
+        dispatch(setHighestLevel(nextLevel));
+      }
+      dispatch(setLevel(nextLevel));
+      dispatch(setModal('default'));
+      dispatch(setBoardStateCache(null));
+    }
   };
 }

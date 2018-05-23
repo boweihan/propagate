@@ -41,7 +41,9 @@ class Settings extends React.Component {
             style={styles.menuButton}
             underlayColor="#f2f2f2"
             activeOpacity={0.5}
-            onPress={() => this.props.setCompleteRoute('menu')}
+            onPress={() =>
+              this.props.setCompleteRoute('menu', this.props.boardStateCache)
+            }
           >
             <View style={styles.menuContainer}>
               <View style={styles.backToMenu}>
@@ -98,6 +100,11 @@ Settings.propTypes = {
   setBoardStateCache: PropTypes.func.isRequired,
   setLevelRatings: PropTypes.func.isRequired,
   setMode: PropTypes.func.isRequired,
+  boardStateCache: PropTypes.object,
+};
+
+Settings.defaultProps = {
+  boardStateCache: null,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -107,6 +114,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     triColorMode: state.triColorMode,
+    boardStateCache: state.boardStateCache,
   };
 }
 

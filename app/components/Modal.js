@@ -11,12 +11,22 @@ import styles from './styles/ModalStyles';
 class FullScreenModal extends React.Component {
   hideModal() {
     if (this.props.modal.type === 'fail') {
-      this.props.setCompleteRoute('gameOver');
+      this.props.setCompleteRoute('gameOver', this.props.boardStateCache);
     } else if (this.props.modal.type === 'levelup') {
-      this.props.levelUp(this.props.board.movesLeft);
+      this.props.levelUp(
+        this.props.board.movesLeft,
+        this.props.levelRatings,
+        this.props.level,
+        this.props.highestLevel,
+      );
     } else if (this.props.modal.type === 'won') {
-      this.props.levelUp(this.props.board.movesLeft);
-      this.props.setCompleteRoute('won');
+      this.props.levelUp(
+        this.props.board.movesLeft,
+        this.props.levelRatings,
+        this.props.level,
+        this.props.highestLevel,
+      );
+      this.props.setCompleteRoute('won', this.props.boardStateCache);
     }
   }
 
@@ -62,6 +72,14 @@ FullScreenModal.propTypes = {
   setCompleteRoute: PropTypes.func.isRequired,
   levelUp: PropTypes.func.isRequired,
   board: PropTypes.object.isRequired,
+  boardStateCache: PropTypes.object,
+  level: PropTypes.number.isRequired,
+  highestLevel: PropTypes.number.isRequired,
+  levelRatings: PropTypes.object.isRequired,
+};
+
+FullScreenModal.defaultProps = {
+  boardStateCache: null,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -71,6 +89,10 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     modal: state.modal,
+    boardStateCache: state.boardStateCache,
+    levelRatings: state.levelRatings,
+    level: state.level,
+    highestLevel: state.highestLevel,
   };
 }
 

@@ -112,7 +112,9 @@ class Instructions extends React.Component {
             style={styles.menuButton}
             underlayColor="#f2f2f2"
             activeOpacity={0.5}
-            onPress={() => this.props.setCompleteRoute('menu')}
+            onPress={() =>
+              this.props.setCompleteRoute('menu', this.props.boardStateCache)
+            }
           >
             <View style={styles.menuContainer}>
               <View style={styles.backToMenu}>
@@ -147,14 +149,19 @@ class Instructions extends React.Component {
 
 Instructions.propTypes = {
   setCompleteRoute: PropTypes.func.isRequired,
+  boardStateCache: PropTypes.object,
+};
+
+Instructions.defaultProps = {
+  boardStateCache: null,
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  return { boardStateCache: state.boardStateCache };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Instructions);

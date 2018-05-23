@@ -89,7 +89,7 @@ class LevelPicker extends React.Component {
       this.props.setBoardStateCache(null);
     }
     this.props.setLevel(level);
-    this.props.setCompleteRoute('game');
+    this.props.setCompleteRoute('game', this.props.boardStateCache);
   }
 
   render() {
@@ -101,7 +101,9 @@ class LevelPicker extends React.Component {
             style={styles.menuButton}
             underlayColor="#f2f2f2"
             activeOpacity={0.5}
-            onPress={() => this.props.setCompleteRoute('menu')}
+            onPress={() =>
+              this.props.setCompleteRoute('menu', this.props.boardStateCache)
+            }
           >
             <View style={styles.menuContainer}>
               <View style={styles.backToMenu}>
@@ -138,10 +140,12 @@ LevelPicker.propTypes = {
   setBoardStateCache: PropTypes.func.isRequired,
   level: PropTypes.number,
   levelRatings: PropTypes.object.isRequired,
+  boardStateCache: PropTypes.object,
 };
 
 LevelPicker.defaultProps = {
   level: null,
+  boardStateCache: null,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -153,6 +157,7 @@ function mapStateToProps(state) {
     level: state.level,
     highestLevel: state.highestLevel,
     levelRatings: state.levelRatings,
+    boardStateCache: state.boardStateCache,
   };
 }
 

@@ -30,7 +30,9 @@ class Leaderboard extends React.Component {
             style={styles.menuButton}
             underlayColor="#f2f2f2"
             activeOpacity={0.5}
-            onPress={() => this.props.setCompleteRoute('menu')}
+            onPress={() =>
+              this.props.setCompleteRoute('menu', this.props.boardStateCache)
+            }
           >
             <View style={styles.menuContainer}>
               <View style={styles.backToMenu}>
@@ -63,6 +65,11 @@ class Leaderboard extends React.Component {
 Leaderboard.propTypes = {
   setCompleteRoute: PropTypes.func.isRequired,
   leaderboard: PropTypes.array.isRequired,
+  boardStateCache: PropTypes.object,
+};
+
+Leaderboard.defaultProps = {
+  boardStateCache: null,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -72,6 +79,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     leaderboard: state.leaderboard,
+    boardStateCache: state.boardStateCache,
   };
 }
 

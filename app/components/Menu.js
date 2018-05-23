@@ -52,7 +52,9 @@ class Menu extends React.Component {
             underlayColor="lightgray"
             activeOpacity={0.5}
             style={styles.startButton}
-            onPress={() => this.props.setCompleteRoute('game')}
+            onPress={() =>
+              this.props.setCompleteRoute('game', this.props.boardStateCache)
+            }
           >
             <Text style={styles.startText}>CONTINUE</Text>
           </TouchableHighlight>
@@ -61,7 +63,9 @@ class Menu extends React.Component {
           underlayColor="lightgray"
           activeOpacity={0.5}
           style={styles.startButton}
-          onPress={() => this.props.setCompleteRoute('picker')}
+          onPress={() =>
+            this.props.setCompleteRoute('picker', this.props.boardStateCache)
+          }
         >
           <Text style={styles.startText}>SELECT LEVEL</Text>
         </TouchableHighlight>
@@ -69,7 +73,12 @@ class Menu extends React.Component {
           underlayColor="lightgray"
           activeOpacity={0.5}
           style={styles.startButton}
-          onPress={() => this.props.setCompleteRoute('instructions')}
+          onPress={() =>
+            this.props.setCompleteRoute(
+              'instructions',
+              this.props.boardStateCache,
+            )
+          }
         >
           <Text style={styles.startText}>INSTRUCTIONS</Text>
         </TouchableHighlight>
@@ -77,7 +86,9 @@ class Menu extends React.Component {
           underlayColor="lightgray"
           activeOpacity={0.5}
           style={styles.startButton}
-          onPress={() => this.props.setCompleteRoute('settings')}
+          onPress={() =>
+            this.props.setCompleteRoute('settings', this.props.boardStateCache)
+          }
         >
           <Text style={styles.startText}>SETTINGS</Text>
         </TouchableHighlight>
@@ -100,10 +111,12 @@ Menu.propTypes = {
   pulseBlack: PropTypes.object.isRequired,
   highestLevel: PropTypes.number.isRequired,
   level: PropTypes.number,
+  boardStateCache: PropTypes.object,
 };
 
 Menu.defaultProps = {
   level: null,
+  boardStateCache: null,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -116,6 +129,7 @@ function mapStateToProps(state) {
     pulseRed: state.pulseRed,
     pulseBlack: state.pulseBlack,
     highestLevel: state.highestLevel,
+    boardStateCache: state.boardStateCache,
   };
 }
 

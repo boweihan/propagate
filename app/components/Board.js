@@ -25,19 +25,20 @@ const Modes = ['SQUARE', 'PLUS', 'CROSS'];
 class Board extends React.Component {
   constructor(props) {
     super();
+    const levelSpec = LevelUtils.getLevelSpecs(props.level);
     this.colors = props.triColorMode ? Colors3 : Colors2;
     this.state = {
       board: props.boardStateCache
         ? props.boardStateCache
         : BoardUtils.buildBoard(
-            props.levelSpec.size,
-            props.levelSpec.moves,
+            levelSpec.size,
+            levelSpec.moves,
             this.colors,
             props.mode.activeMode,
           ),
     };
     if (!props.boardStateCache) {
-      this.setInitialBoardState(props.levelSpec.initialBoard);
+      this.setInitialBoardState(levelSpec.initialBoard);
     }
     this.clickTile = this.clickTile.bind(this);
     this.setBoardMode = this.setBoardMode.bind(this);
@@ -182,11 +183,11 @@ class Board extends React.Component {
       <FadeInView style={styles.game}>
         <View style={styles.boardMenu}>
           <BoardMenu
-            setCompleteRoute={this.props.setCompleteRoute}
             movesLeft={this.state.board.movesLeft}
             level={this.props.level}
             score={this.props.score}
             board={this.state.board}
+            setCompleteRoute={this.props.setCompleteRoute}
           />
         </View>
         <View style={styles.board}>
@@ -207,11 +208,7 @@ class Board extends React.Component {
             setBoardMode={this.setBoardMode}
           />
         </View>
-        <Modal
-          levelUp={this.props.levelUp}
-          setCompleteRoute={this.props.setCompleteRoute}
-          board={this.state.board}
-        />
+        <Modal board={this.state.board} />
       </FadeInView>
     );
   }
@@ -219,14 +216,12 @@ class Board extends React.Component {
 
 Board.propTypes = {
   triColorMode: PropTypes.bool.isRequired,
-  levelSpec: PropTypes.object.isRequired,
   boardStateCache: PropTypes.object,
-  setCompleteRoute: PropTypes.func.isRequired,
   level: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   setModal: PropTypes.func.isRequired,
-  levelUp: PropTypes.func.isRequired,
   mode: PropTypes.object.isRequired,
+  setCompleteRoute: PropTypes.func.isRequired,
 };
 
 Board.defaultProps = {

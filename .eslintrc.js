@@ -7,5 +7,6 @@ module.exports = {
     'arrow-parens': 0,
     'no-mixed-operators': 0,
     'import/prefer-default-export': 0,
+    'react/prefer-stateless-function': 0,
   },
 };
