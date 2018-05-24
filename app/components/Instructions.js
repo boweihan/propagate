@@ -3,103 +3,59 @@ import {
   Text,
   View,
   TouchableHighlight,
-  ScrollView,
+  Dimensions,
   Image,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import * as Animatable from 'react-native-animatable';
+import Carousel from 'react-native-snap-carousel';
 import styles from './styles/InstructionsStyles';
 import { ActionCreators } from '../actions';
 import FadeInView from './wrappers/FadeInView';
+import Colors from '../constants/colors';
 
 const imgStep1 = require('../assets/images/step1.png');
 const imgStep2 = require('../assets/images/step2.png');
 const imgStep3 = require('../assets/images/step3.png');
 const imgStep4 = require('../assets/images/step4.png');
 
+const Width = Dimensions.get('window').width;
+
 class Instructions extends React.Component {
-  static step1() {
-    return (
-      <View style={styles.step}>
-        <View style={styles.stepNumber}>
-          <Text style={styles.stepNumberText}>1</Text>
-        </View>
-        <View style={styles.stepInfo}>
-          <View style={{ height: 100, width: '80%' }}>
-            <Image style={styles.stepImage} source={imgStep1} />
-          </View>
-        </View>
-      </View>
-    );
-  }
-  static step2() {
-    return (
-      <View style={styles.step}>
-        <View style={styles.stepNumber}>
-          <Text style={styles.stepNumberText}>2</Text>
-        </View>
-        <View style={styles.stepInfo}>
-          <Text style={styles.stepInfoText}>
-            Choose a level. Levels will unlock as you level up.
-          </Text>
-          <View style={{ height: 150, width: '80%' }}>
-            <Image style={styles.stepImage} source={imgStep2} />
-          </View>
-        </View>
-      </View>
-    );
+  static getEntries() {
+    return [
+      {
+        imgSource: imgStep1,
+        text: 'Dive in by opening up the level selector.',
+      },
+      {
+        imgSource: imgStep2,
+        text: 'Choose a level. Levels will become available as you level up.',
+      },
+      {
+        imgSource: imgStep3,
+        text:
+          'Select a pattern. Tapping a tile will flip that tile and' +
+          ' surrounding tiles in the shape of the selected flipping mode.',
+      },
+      {
+        imgSource: imgStep4,
+        text:
+          'Level up by flipping all the board tiles to red. You may need to' +
+          ' experiment with different flipping patterns.',
+      },
+    ];
   }
 
-  static step3() {
+  static renderCarouselItem({ item, index }) {
     return (
       <View style={styles.step}>
-        <View style={styles.stepNumber}>
-          <Text style={styles.stepNumberText}>3</Text>
-        </View>
-        <View style={styles.stepInfo}>
-          <Text style={styles.stepInfoText}>
-            Select a pattern. Tapping a tile will flip tiles on the board based
-            on the shape of the selected pattern.
-          </Text>
-          <View style={{ height: 150, width: '80%' }}>
-            <Image style={styles.stepImage} source={imgStep3} />
-          </View>
-        </View>
-      </View>
-    );
-  }
-
-  static step4() {
-    return (
-      <View style={styles.step}>
-        <View style={styles.stepNumber}>
-          <Text style={styles.stepNumberText}>4</Text>
-        </View>
-        <View style={styles.stepInfo}>
-          <Text style={styles.stepInfoText}>
-            Turn all board tiles red! You may need to use various patterns to
-            get there.
-          </Text>
-          <View style={{ height: 250, width: '80%' }}>
-            <Image style={styles.stepImage} source={imgStep4} />
-          </View>
-        </View>
-      </View>
-    );
-  }
-
-  static step5() {
-    return (
-      <View style={styles.step}>
-        <View style={styles.stepNumber}>
-          <Text style={styles.stepNumberText}>5</Text>
-        </View>
-        <View style={styles.stepInfo}>
-          <Text style={[styles.stepInfoText, { marginBottom: 10 }]}>
-            Level up! Can you finish all the levels?
-          </Text>
-        </View>
+        <Text style={styles.stepNumberText}>
+          {index + 1}. {item.text}
+        </Text>
+        <Image style={styles.stepImage} source={item.imgSource} />
       </View>
     );
   }
@@ -107,10 +63,13 @@ class Instructions extends React.Component {
   render() {
     return (
       <FadeInView style={styles.instructions}>
-        <View style={styles.instructions_header}>
+        <Animatable.View
+          animation="bounceIn"
+          style={styles.instructions_header}
+        >
           <TouchableHighlight
             style={styles.menuButton}
-            underlayColor="#f2f2f2"
+            underlayColor={Colors.white}
             activeOpacity={0.5}
             onPress={() =>
               this.props.setCompleteRoute('menu', this.props.boardStateCache)
@@ -131,17 +90,27 @@ class Instructions extends React.Component {
               </View>
             </View>
           </View>
-        </View>
-        <View style={{ flex: 7, marginBottom: 30, width: '90%' }}>
-          <ScrollView style={styles.stepsContainer}>
-            {Instructions.step1()}
-            {Instructions.step2()}
-            {Instructions.step3()}
-            {Instructions.step4()}
-            {Instructions.step5()}
-            <View style={{ marginBottom: 20 }} />
-          </ScrollView>
-        </View>
+        </Animatable.View>
+        <Animatable.View
+          animation="fadeInUp"
+          style={{
+            flex: 7,
+            marginBottom: 30,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Carousel
+            ref={c => {
+              this.carousel = c;
+            }}
+            data={Instructions.getEntries()}
+            renderItem={Instructions.renderCarouselItem}
+            sliderWidth={Width}
+            itemWidth={Width}
+          />
+        </Animatable.View>
+        <Text style={styles.swipe}>...</Text>
       </FadeInView>
     );
   }

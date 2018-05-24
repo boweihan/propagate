@@ -32,7 +32,7 @@ MenuButton.propTypes = {
 };
 
 MenuButton.defaultProps = {
-  underlayColor: 'lightgray',
+  underlayColor: 'gray',
 };
 
 export default MenuButton;

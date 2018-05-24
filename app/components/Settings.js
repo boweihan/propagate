@@ -3,10 +3,12 @@ import { Text, View, TouchableHighlight, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import * as Animatable from 'react-native-animatable';
 import Store from 'react-native-simple-store';
 import styles from './styles/SettingsStyles';
 import { ActionCreators } from '../actions';
 import FadeInView from './wrappers/FadeInView';
+import Colors from '../constants/colors';
 
 class Settings extends React.Component {
   resetLevel() {
@@ -37,34 +39,35 @@ class Settings extends React.Component {
     return (
       <FadeInView style={styles.settings}>
         <View style={styles.settings_header}>
-          <TouchableHighlight
-            style={styles.menuButton}
-            underlayColor="#f2f2f2"
-            activeOpacity={0.5}
-            onPress={() =>
-              this.props.setCompleteRoute('menu', this.props.boardStateCache)
-            }
-          >
-            <View style={styles.menuContainer}>
-              <View style={styles.backToMenu}>
-                <Text style={styles.menuText}>MENU</Text>
+          <Animatable.View animation="bounceIn" style={styles.menuButton}>
+            <TouchableHighlight
+              underlayColor={Colors.white}
+              activeOpacity={0.5}
+              onPress={() =>
+                this.props.setCompleteRoute('menu', this.props.boardStateCache)
+              }
+            >
+              <View style={styles.menuContainer}>
+                <View style={styles.backToMenu}>
+                  <Text style={styles.menuText}>MENU</Text>
+                </View>
               </View>
-            </View>
-          </TouchableHighlight>
+            </TouchableHighlight>
+          </Animatable.View>
           <View style={styles.settingsElement}>
             <View style={styles.menuContainer}>
-              <View style={styles.settingsBox}>
+              <Animatable.View animation="bounceIn" style={styles.settingsBox}>
                 <Text style={[styles.menuText, styles.settingsText]}>
                   SETTINGS
                 </Text>
-              </View>
+              </Animatable.View>
             </View>
           </View>
         </View>
         <View style={{ flex: 7, marginBottom: 30, width: '90%' }}>
-          <View style={styles.menu}>
+          <Animatable.View animation="fadeInUp" style={styles.menu}>
             <TouchableHighlight
-              underlayColor="white"
+              underlayColor={Colors.gray}
               activeOpacity={0.5}
               style={styles.settingsButton}
               onPress={() =>
@@ -77,14 +80,14 @@ class Settings extends React.Component {
               </Text>
             </TouchableHighlight>
             <TouchableHighlight
-              underlayColor="white"
+              underlayColor={Colors.gray}
               activeOpacity={0.5}
               style={styles.settingsButton}
               onPress={() => this.resetLevel()} // todo: add modal
             >
               <Text style={styles.progressText}>CLEAR PROGRESS</Text>
             </TouchableHighlight>
-          </View>
+          </Animatable.View>
         </View>
       </FadeInView>
     );

@@ -1,13 +1,15 @@
 import { Dimensions } from 'react-native';
+import Colors from '../../constants/colors';
 
 const Width = Dimensions.get('window').width;
+const Height = Dimensions.get('window').height;
 
 export default {
   instructions: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f2f2f2',
+    backgroundColor: Colors.white,
   },
   instructions_header: {
     flex: 1,
@@ -30,7 +32,7 @@ export default {
     alignItems: 'center',
   },
   backToMenu: {
-    backgroundColor: '#BE3E2C',
+    backgroundColor: Colors.darkRed,
     padding: 5,
     paddingLeft: 8,
     paddingRight: 8,
@@ -43,7 +45,7 @@ export default {
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 15,
-    color: '#f2f2f2',
+    color: Colors.white,
     fontFamily: 'MontserratBold',
   },
   instructionsText: {
@@ -60,7 +62,7 @@ export default {
     alignItems: 'center',
   },
   instructionsBox: {
-    backgroundColor: '#7AAF29',
+    backgroundColor: Colors.green,
     padding: 5,
     paddingLeft: 8,
     paddingRight: 8,
@@ -71,49 +73,27 @@ export default {
     justifyContent: 'center',
   },
   stepsContainer: {
-    backgroundColor: 'lightgray',
-    padding: 10,
+    backgroundColor: Colors.lightgray,
+    padding: 5,
     borderRadius: 5,
   },
   step: {
-    borderRadius: 5,
-    backgroundColor: '#403837',
-    margin: 10,
     flex: 1,
-    flexDirection: 'row',
-  },
-  stepNumber: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
-  },
-  stepInfo: {
-    flex: 6,
-    backgroundColor: 'white',
-    borderColor: 'lightgray',
-    borderLeftWidth: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
+    padding: 40,
   },
   stepNumberText: {
     fontFamily: 'MontserratBold',
-    fontSize: 30,
-    color: 'black',
-  },
-  stepInfoText: {
-    fontFamily: 'MontserratBold',
-    color: 'black',
-    margin: 10,
-    marginBottom: 0,
+    fontSize: 20,
+    marginVertical: 30,
+    color: Colors.black,
   },
   stepImage: {
-    height: '100%',
-    width: '100%',
+    width: Width * 0.8,
     resizeMode: 'contain',
+  },
+  swipe: {
+    marginBottom: 30,
+    fontSize: 60,
+    color: Colors.black,
   },
 };

@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native';
+import Colors from '../../constants/colors';
 
 const Width = Dimensions.get('window').width;
 
@@ -7,7 +8,7 @@ export default {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f2f2f2',
+    backgroundColor: Colors.white,
   },
   settings_header: {
     flex: 1,
@@ -30,7 +31,7 @@ export default {
     alignItems: 'center',
   },
   backToMenu: {
-    backgroundColor: '#BE3E2C',
+    backgroundColor: Colors.darkRed,
     padding: 5,
     paddingLeft: 8,
     paddingRight: 8,
@@ -43,7 +44,7 @@ export default {
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 15,
-    color: '#f2f2f2',
+    color: Colors.white,
     fontFamily: 'MontserratBold',
   },
   settingsText: {
@@ -60,7 +61,7 @@ export default {
     alignItems: 'center',
   },
   settingsBox: {
-    backgroundColor: '#e68a00',
+    backgroundColor: Colors.orange,
     padding: 5,
     paddingLeft: 8,
     paddingRight: 8,
@@ -76,26 +77,26 @@ export default {
     alignItems: 'center',
   },
   settingsButton: {
-    backgroundColor: '#403837',
-    padding: 10,
-    paddingLeft: 16,
-    paddingRight: 16,
+    backgroundColor: Colors.lightBrown,
+    padding: 16,
     borderRadius: 5,
-    minWidth: 150,
+    width: '80%',
     margin: 5,
   },
   settingsButtonText: {
     fontSize: 15,
-    color: '#f2f2f2',
+    color: Colors.white,
     fontFamily: 'MontserratBold',
+    textAlign: 'center',
   },
   progressText: {
     fontSize: 15,
-    color: 'red',
+    color: Colors.red,
     fontFamily: 'MontserratBold',
+    textAlign: 'center',
   },
   triColorStatus: {
     textDecorationLine: 'underline',
-    color: '#d8695a',
+    color: Colors.white,
   },
 };
