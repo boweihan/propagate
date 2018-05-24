@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styles from './styles/ModeSelectorStyles';
-import ModeUtils from './utils/ModeUtils';
+import ModeUtils from '../utils/ModeUtils';
 import { ActionCreators } from '../actions';
 
 const { width, height } = Dimensions.get('window');

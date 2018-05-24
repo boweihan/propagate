@@ -1,6 +1,6 @@
 import { Audio } from 'expo';
 
-const flipSound = require('../../assets/sounds/flipSoft.mp3');
+const flipSound = require('../assets/sounds/flipSoft.mp3');
 
 const SoundArray = [];
 

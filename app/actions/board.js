@@ -1,6 +1,6 @@
 import Store from 'react-native-simple-store';
 import * as types from './types';
-import LevelUtils from '../components/utils/LevelUtils';
+import LevelUtils from '../utils/LevelUtils';
 
 export function setLevel(level) {
   return {

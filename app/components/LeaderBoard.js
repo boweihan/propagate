@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import styles from './styles/LeaderBoardStyles';
 import { ActionCreators } from '../actions';
-import HelperUtils from './utils/HelperUtils';
+import HelperUtils from '../utils/HelperUtils';
 
 class Leaderboard extends React.Component {
   static getLeaderboardRow(score, key) {
