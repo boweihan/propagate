@@ -1,4 +1,10 @@
+import Colors from '../../constants/colors';
+
 export default {
+  title: {
+    flexDirection: 'row',
+    marginBottom: 30,
+  },
   menu: {
     flex: 1,
     justifyContent: 'center',
@@ -8,45 +14,36 @@ export default {
     flex: 1,
     textAlign: 'center',
     fontWeight: 'bold',
-    color: '#403837',
+    color: Colors.lightBrown,
     fontSize: 35,
     fontFamily: 'MontserratBold',
   },
   agate: {
-    color: '#BE3E2C',
+    color: Colors.darkRed,
     fontFamily: 'MontserratBold',
-  },
-  startButton: {
-    marginTop: 20,
-    backgroundColor: '#403837',
-    padding: 10,
-    paddingLeft: 16,
-    paddingRight: 16,
-    borderRadius: 5,
-    minWidth: 150,
   },
   highestLevel: {
-    marginTop: 70,
-    backgroundColor: 'gray',
+    marginTop: 30,
+    backgroundColor: Colors.gray,
     padding: 10,
     paddingLeft: 16,
     paddingRight: 16,
     borderRadius: 5,
-    minWidth: 150,
-  },
-  startText: {
-    fontWeight: 'bold',
-    fontSize: 15,
-    color: '#f2f2f2',
-    fontFamily: 'MontserratBold',
-    textAlign: 'center',
+    width: 120,
   },
   highestLevelText: {
     fontSize: 15,
-    color: '#f2f2f2',
+    color: Colors.white,
     fontFamily: 'MontserratBold',
+    textAlign: 'center',
   },
   highestLevelStatus: {
-    color: '#BE3E2C',
+    color: Colors.lightRed,
+    fontFamily: 'MontserratBold',
+    fontSize: 40,
+    textAlign: 'center',
+    backgroundColor: Colors.white,
+    marginVertical: 10,
+    marginHorizontal: 10,
   },
 };

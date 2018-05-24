@@ -21,6 +21,17 @@ class FadeInView extends React.Component {
     ).start(); // Starts the animation
   }
 
+  componentWillUnmount() {
+    Animated.timing(
+      // Animate over time
+      this.state.fadeAnim, // The animated value to drive
+      {
+        toValue: 0, // Animate to opacity: 1 (opaque)
+        duration: 2000, // Make it take a while
+      },
+    ).start(); // Starts the animation
+  }
+
   render() {
     const { fadeAnim } = this.state;
 
