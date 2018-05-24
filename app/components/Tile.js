@@ -1,13 +1,16 @@
 import React from 'react';
 import { Animated } from 'react-native';
 import PropTypes from 'prop-types';
+import * as Animatable from 'react-native-animatable';
 
 function Tile(props) {
   return (
-    <Animated.View
-      style={props.style}
-      onStartShouldSetResponder={() => props.clickTile(props.id)}
-    />
+    <Animatable.View animation="zoomIn">
+      <Animated.View
+        style={props.style}
+        onStartShouldSetResponder={() => props.clickTile(props.id)}
+      />
+    </Animatable.View>
   );
 }
 

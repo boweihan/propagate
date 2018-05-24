@@ -3,6 +3,7 @@ import { Text, View, Animated, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as Animatable from 'react-native-animatable';
 import styles from './styles/ModeSelectorStyles';
 import ModeUtils from '../utils/ModeUtils';
 import { ActionCreators } from '../actions';
@@ -46,7 +47,7 @@ class ModeSelector extends React.Component {
             <Text style={styles.selectedModeText}>Pick a flipping pattern</Text>
           </View>
         </View>
-        <View style={styles.modes}>
+        <Animatable.View animation="flipInX" style={styles.modes}>
           <Animated.View
             style={[styles.selectors, this.props.mode.squareStyle]}
             onStartShouldSetResponder={() => this.selectMode('SQUARE')}
@@ -71,7 +72,7 @@ class ModeSelector extends React.Component {
               <View key={tile.key} style={tile.tileStyle} />
             ))}
           </Animated.View>
-        </View>
+        </Animatable.View>
       </View>
     );
   }

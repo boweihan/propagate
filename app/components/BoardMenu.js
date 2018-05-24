@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, TouchableHighlight } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles/BoardMenuStyles';
+import Colors from '../constants/colors';
 
 function BoardMenu(props) {
   return (
@@ -11,7 +12,7 @@ function BoardMenu(props) {
           <View style={styles.btn1}>
             <View style={styles.flex1}>
               <TouchableHighlight
-                underlayColor="#f2f2f2"
+                underlayColor={Colors.white}
                 activeOpacity={0.5}
                 onPress={() => props.setCompleteRoute('menu', props.board)}
               >
@@ -23,7 +24,7 @@ function BoardMenu(props) {
             <View style={styles.flex1}>
               <TouchableHighlight
                 style={styles.btn3_col2}
-                underlayColor="#f2f2f2"
+                underlayColor={Colors.white}
                 activeOpacity={0.5}
                 onPress={() => props.setCompleteRoute('picker', props.board)}
               >

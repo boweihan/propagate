@@ -3,10 +3,12 @@ import { Text, View, TouchableHighlight, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import * as Animatable from 'react-native-animatable';
 import styles from './styles/LevelPickerStyles';
 import { ActionCreators } from '../actions';
 import { Ionicons } from '@expo/vector-icons'; // eslint-disable-line
 import FadeInView from './wrappers/FadeInView';
+import Colors from '../constants/colors';
 
 class LevelPicker extends React.Component {
   static getRatingStar(rating, ratingKey) {
@@ -55,7 +57,7 @@ class LevelPicker extends React.Component {
 
     return level <= this.props.highestLevel ? (
       <TouchableHighlight
-        underlayColor="#f2f2f2"
+        underlayColor={Colors.white}
         activeOpacity={0.5}
         key={key}
         style={styles.cell}
@@ -98,8 +100,7 @@ class LevelPicker extends React.Component {
       <FadeInView style={styles.levelPicker}>
         <View style={styles.levelPickerHeader}>
           <TouchableHighlight
-            style={styles.menuButton}
-            underlayColor="#f2f2f2"
+            underlayColor={Colors.white}
             activeOpacity={0.5}
             onPress={() =>
               this.props.setCompleteRoute('menu', this.props.boardStateCache)
@@ -111,23 +112,28 @@ class LevelPicker extends React.Component {
               </View>
             </View>
           </TouchableHighlight>
-          <View style={styles.levelPickerElement}>
-            <View style={styles.menuContainer}>
-              <View style={styles.levelPickerBox}>
-                <Text style={[styles.menuText, styles.levelPickerText]}>
-                  LEVELS
-                </Text>
+          <Animatable.View animation="bounceIn" style={styles.menuButton}>
+            <View style={styles.levelPickerElement}>
+              <View style={styles.menuContainer}>
+                <View style={styles.levelPickerBox}>
+                  <Text style={[styles.menuText, styles.levelPickerText]}>
+                    LEVELS
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
+          </Animatable.View>
         </View>
-        <View style={{ flex: 7, marginBottom: 30, width: '80%' }}>
+        <Animatable.View
+          animation="fadeInUp"
+          style={{ flex: 7, marginBottom: 30, width: '80%' }}
+        >
           <ScrollView>
             <View style={styles.rows}>
               {levelRows.map((value, key) => this.getLevelRow(value, key))}
             </View>
           </ScrollView>
-        </View>
+        </Animatable.View>
       </FadeInView>
     );
   }

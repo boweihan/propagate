@@ -63,10 +63,7 @@ class Instructions extends React.Component {
   render() {
     return (
       <FadeInView style={styles.instructions}>
-        <Animatable.View
-          animation="bounceIn"
-          style={styles.instructions_header}
-        >
+        <View style={styles.instructions_header}>
           <TouchableHighlight
             style={styles.menuButton}
             underlayColor={Colors.white}
@@ -81,7 +78,10 @@ class Instructions extends React.Component {
               </View>
             </View>
           </TouchableHighlight>
-          <View style={styles.instructionsElement}>
+          <Animatable.View
+            animation="bounceIn"
+            style={styles.instructionsElement}
+          >
             <View style={styles.menuContainer}>
               <View style={styles.instructionsBox}>
                 <Text style={[styles.menuText, styles.instructionsText]}>
@@ -89,8 +89,8 @@ class Instructions extends React.Component {
                 </Text>
               </View>
             </View>
-          </View>
-        </Animatable.View>
+          </Animatable.View>
+        </View>
         <Animatable.View
           animation="fadeInUp"
           style={{

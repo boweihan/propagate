@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native';
+import Colors from '../../constants/colors';
 
 const Width = Dimensions.get('window').width;
 
@@ -7,7 +8,7 @@ export default {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f2f2f2',
+    backgroundColor: Colors.white,
   },
   levelPickerHeader: {
     flex: 1,
@@ -30,7 +31,7 @@ export default {
     alignItems: 'center',
   },
   backToMenu: {
-    backgroundColor: '#BE3E2C',
+    backgroundColor: Colors.darkRed,
     padding: 5,
     paddingLeft: 8,
     paddingRight: 8,
@@ -43,7 +44,7 @@ export default {
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 15,
-    color: '#f2f2f2',
+    color: Colors.white,
     fontFamily: 'MontserratBold',
   },
   levelPickerText: {
@@ -60,7 +61,7 @@ export default {
     alignItems: 'center',
   },
   levelPickerBox: {
-    backgroundColor: '#403837',
+    backgroundColor: Colors.lightBrown,
     padding: 5,
     paddingLeft: 8,
     paddingRight: 8,
@@ -87,9 +88,9 @@ export default {
     borderRadius: 5,
     margin: 5,
     height: Width * 0.8 / 4 - 10 + 20,
-    backgroundColor: '#649122',
+    backgroundColor: Colors.green,
     borderWidth: 5,
-    borderColor: '#d6d7da',
+    borderColor: Colors.lighterGray,
   },
   cellDisabled: {
     flex: 1,
@@ -97,10 +98,10 @@ export default {
     borderRadius: 5,
     margin: 5,
     height: Width * 0.8 / 4 - 10 + 20,
-    backgroundColor: 'gray',
+    backgroundColor: Colors.gray,
     opacity: 0.5,
     borderWidth: 5,
-    borderColor: '#d6d7da',
+    borderColor: Colors.lighterGray,
   },
   innerCell: {
     flex: 1,
@@ -109,7 +110,7 @@ export default {
   },
   cellText: {
     fontSize: Width * 0.1,
-    color: '#f2f2f2',
+    color: Colors.white,
     fontFamily: 'MontserratBold',
   },
   ratingBox: {
@@ -119,7 +120,7 @@ export default {
     alignItems: 'center',
   },
   star: {
-    color: '#f2f2f2',
+    color: Colors.white,
     fontSize: 13,
   },
 };

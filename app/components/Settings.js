@@ -39,21 +39,20 @@ class Settings extends React.Component {
     return (
       <FadeInView style={styles.settings}>
         <View style={styles.settings_header}>
-          <Animatable.View animation="bounceIn" style={styles.menuButton}>
-            <TouchableHighlight
-              underlayColor={Colors.white}
-              activeOpacity={0.5}
-              onPress={() =>
-                this.props.setCompleteRoute('menu', this.props.boardStateCache)
-              }
-            >
-              <View style={styles.menuContainer}>
-                <View style={styles.backToMenu}>
-                  <Text style={styles.menuText}>MENU</Text>
-                </View>
+          <TouchableHighlight
+            underlayColor={Colors.white}
+            activeOpacity={0.5}
+            style={styles.menuButton}
+            onPress={() =>
+              this.props.setCompleteRoute('menu', this.props.boardStateCache)
+            }
+          >
+            <View style={styles.menuContainer}>
+              <View style={styles.backToMenu}>
+                <Text style={styles.menuText}>MENU</Text>
               </View>
-            </TouchableHighlight>
-          </Animatable.View>
+            </View>
+          </TouchableHighlight>
           <View style={styles.settingsElement}>
             <View style={styles.menuContainer}>
               <Animatable.View animation="bounceIn" style={styles.settingsBox}>
