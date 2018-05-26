@@ -52,10 +52,14 @@ class Instructions extends React.Component {
   static renderCarouselItem({ item, index }) {
     return (
       <View style={styles.step}>
-        <Text style={styles.stepNumberText}>
-          {index + 1}. {item.text}
-        </Text>
-        <Image style={styles.stepImage} source={item.imgSource} />
+        <View style={{ flex: 1 }}>
+          <Text style={styles.stepNumberText}>
+            {index + 1}. {item.text}
+          </Text>
+        </View>
+        <View style={{ flex: 3 }}>
+          <Image style={styles.stepImage} source={item.imgSource} />
+        </View>
       </View>
     );
   }
@@ -78,23 +82,23 @@ class Instructions extends React.Component {
               </View>
             </View>
           </TouchableHighlight>
-          <Animatable.View
-            animation="bounceIn"
-            style={styles.instructionsElement}
-          >
+          <View style={styles.instructionsElement}>
             <View style={styles.menuContainer}>
-              <View style={styles.instructionsBox}>
+              <Animatable.View
+                animation="bounceIn"
+                style={styles.instructionsBox}
+              >
                 <Text style={[styles.menuText, styles.instructionsText]}>
                   INSTRUCTIONS
                 </Text>
-              </View>
+              </Animatable.View>
             </View>
-          </Animatable.View>
+          </View>
         </View>
         <Animatable.View
           animation="fadeInUp"
           style={{
-            flex: 7,
+            flex: 5,
             marginBottom: 30,
             alignItems: 'center',
             justifyContent: 'center',

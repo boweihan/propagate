@@ -81,7 +81,10 @@ class Settings extends React.Component {
             <TouchableHighlight
               underlayColor={Colors.gray}
               activeOpacity={0.5}
-              style={styles.settingsButton}
+              style={[
+                styles.settingsButton,
+                { backgroundColor: Colors.darkRed },
+              ]}
               onPress={() => this.resetLevel()} // todo: add modal
             >
               <Text style={styles.progressText}>CLEAR PROGRESS</Text>

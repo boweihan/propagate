@@ -2,7 +2,6 @@ import { Dimensions } from 'react-native';
 import Colors from '../../constants/colors';
 
 const Width = Dimensions.get('window').width;
-const Height = Dimensions.get('window').height;
 
 export default {
   instructions: {
@@ -79,7 +78,10 @@ export default {
   },
   step: {
     flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
     padding: 40,
+    height: '100%',
   },
   stepNumberText: {
     fontFamily: 'MontserratBold',

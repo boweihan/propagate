@@ -91,7 +91,7 @@ export default {
   },
   progressText: {
     fontSize: 15,
-    color: Colors.red,
+    color: Colors.white,
     fontFamily: 'MontserratBold',
     textAlign: 'center',
   },
