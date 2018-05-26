@@ -3,14 +3,14 @@ import {
   Text,
   View,
   TouchableHighlight,
-  Dimensions,
   Image,
+  ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import * as Animatable from 'react-native-animatable';
-import Carousel from 'react-native-snap-carousel';
+// import Carousel from 'react-native-snap-carousel';
 import styles from './styles/InstructionsStyles';
 import { ActionCreators } from '../actions';
 import FadeInView from './wrappers/FadeInView';
@@ -20,47 +20,58 @@ const imgStep1 = require('../assets/images/step1.png');
 const imgStep2 = require('../assets/images/step2.png');
 const imgStep3 = require('../assets/images/step3.png');
 const imgStep4 = require('../assets/images/step4.png');
-
-const Width = Dimensions.get('window').width;
+const imgStep5 = require('../assets/images/step5.png');
 
 class Instructions extends React.Component {
   static getEntries() {
     return [
       {
         imgSource: imgStep1,
-        text: 'Dive in by opening up the level selector.',
+        text: 'Tap to open the level selector.',
+        style: { height: 130, width: '80%' },
       },
       {
         imgSource: imgStep2,
-        text: 'Choose a level. Levels will become available as you level up.',
+        text: 'Choose a level.',
+        style: { height: 200, width: '80%' },
       },
       {
         imgSource: imgStep3,
-        text:
-          'Select a pattern. Tapping a tile will flip that tile and' +
-          ' surrounding tiles in the shape of the selected flipping mode.',
+        text: 'Choose a pattern.',
+        style: { height: 170, width: '80%' },
       },
       {
         imgSource: imgStep4,
-        text:
-          'Level up by flipping all the board tiles to red. You may need to' +
-          ' experiment with different flipping patterns.',
+        text: 'Flip the tiles to red.',
+        style: { height: 300, width: '80%' },
+      },
+      {
+        imgSource: imgStep5,
+        text: 'Level up! Can you beat all the levels?',
+        style: { height: 200, width: '80%' },
       },
     ];
   }
 
   static renderCarouselItem({ item, index }) {
     return (
-      <View style={styles.step}>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.stepNumberText}>
-            {index + 1}. {item.text}
-          </Text>
+      <View style={styles.step} key={index}>
+        <View style={styles.stepNumber}>
+          <Text style={styles.stepNumberText}>{index}</Text>
         </View>
-        <View style={{ flex: 3 }}>
-          <Image style={styles.stepImage} source={item.imgSource} />
+        <View style={styles.stepInfo}>
+          {item.text && <Text style={styles.stepInfoText}>{item.text}</Text>}
+          <View style={item.style}>
+            <Image style={styles.stepImage} source={item.imgSource} />
+          </View>
         </View>
       </View>
+    );
+  }
+
+  static getItems() {
+    return Instructions.getEntries().map((item, index) =>
+      Instructions.renderCarouselItem({ item, index }),
     );
   }
 
@@ -97,14 +108,9 @@ class Instructions extends React.Component {
         </View>
         <Animatable.View
           animation="fadeInUp"
-          style={{
-            flex: 5,
-            marginBottom: 30,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+          style={{ flex: 7, marginBottom: 30, width: '90%' }}
         >
-          <Carousel
+          {/* <Carousel
             ref={c => {
               this.carousel = c;
             }}
@@ -112,9 +118,11 @@ class Instructions extends React.Component {
             renderItem={Instructions.renderCarouselItem}
             sliderWidth={Width}
             itemWidth={Width}
-          />
+          /> */}
+          <ScrollView style={styles.stepsContainer}>
+            {Instructions.getItems()}
+          </ScrollView>
         </Animatable.View>
-        <Text style={styles.swipe}>...</Text>
       </FadeInView>
     );
   }

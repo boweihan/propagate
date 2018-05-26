@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable';
 
 function Tile(props) {
   return (
-    <Animatable.View animation="zoomIn">
+    <Animatable.View animation="fadeIn">
       <Animated.View
         style={props.style}
         onStartShouldSetResponder={() => props.clickTile(props.id)}
