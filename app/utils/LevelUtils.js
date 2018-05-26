@@ -156,7 +156,7 @@ const Levels = {
       34: 't',
     },
   },
-  25: {
+  24: {
     size: 6,
     moves: 30,
     stars: [0, 10, 20],
