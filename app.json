@@ -3,9 +3,9 @@
     "sdkVersion": "27.0.0",
     "orientation": "portrait",
     "name": "Propagate",
-    "description": "Black -> Red",
+    "description": "Tile Flipping Puzzle Game!",
     "icon": "./grid.png",
-    "version": "2.1.0",
+    "version": "3.0.0",
     "slug": "propagate",
     "ios": {
       "bundleIdentifier": "tech.bhan.propagate"
