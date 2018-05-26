@@ -72,14 +72,14 @@ export default {
     justifyContent: 'center',
   },
   stepsContainer: {
-    backgroundColor: 'lightgray',
+    backgroundColor: Colors.lightBrown,
     padding: 10,
     borderRadius: 5,
   },
   step: {
     borderRadius: 5,
-    backgroundColor: Colors.lightBrown,
-    margin: 2,
+    backgroundColor: Colors.lightgray,
+    margin: 5,
     flex: 1,
     flexDirection: 'row',
   },
@@ -89,7 +89,7 @@ export default {
     justifyContent: 'center',
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.darkBrown,
   },
   stepInfo: {
     flex: 6,
@@ -98,14 +98,13 @@ export default {
   stepNumberText: {
     fontFamily: 'MontserratBold',
     fontSize: 30,
-    color: Colors.lightBrown,
+    color: Colors.white,
   },
   stepInfoText: {
     fontFamily: 'MontserratBold',
-    color: Colors.white,
+    color: Colors.darkBrown,
     margin: 10,
-    marginBottom: 0,
-    marginVertical: 30,
+    marginTop: 20,
   },
   stepImage: {
     height: '100%',

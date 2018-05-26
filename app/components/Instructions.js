@@ -28,27 +28,27 @@ class Instructions extends React.Component {
       {
         imgSource: imgStep1,
         text: 'Tap to open the level selector.',
-        style: { height: 130, width: '80%' },
+        style: { height: 90, width: '80%' },
       },
       {
         imgSource: imgStep2,
         text: 'Choose a level.',
-        style: { height: 200, width: '80%' },
+        style: { height: 160, width: '80%' },
       },
       {
         imgSource: imgStep3,
         text: 'Choose a pattern.',
-        style: { height: 170, width: '80%' },
+        style: { height: 130, width: '80%' },
       },
       {
         imgSource: imgStep4,
         text: 'Flip the tiles to red.',
-        style: { height: 300, width: '80%' },
+        style: { height: 260, width: '80%' },
       },
       {
         imgSource: imgStep5,
         text: 'Level up! Can you beat all the levels?',
-        style: { height: 200, width: '80%' },
+        style: { height: 160, width: '80%' },
       },
     ];
   }
@@ -57,7 +57,7 @@ class Instructions extends React.Component {
     return (
       <View style={styles.step} key={index}>
         <View style={styles.stepNumber}>
-          <Text style={styles.stepNumberText}>{index}</Text>
+          <Text style={styles.stepNumberText}>{index + 1}</Text>
         </View>
         <View style={styles.stepInfo}>
           {item.text && <Text style={styles.stepInfoText}>{item.text}</Text>}
@@ -121,6 +121,7 @@ class Instructions extends React.Component {
           /> */}
           <ScrollView style={styles.stepsContainer}>
             {Instructions.getItems()}
+            <View style={{ padding: 50 }} />
           </ScrollView>
         </Animatable.View>
       </FadeInView>

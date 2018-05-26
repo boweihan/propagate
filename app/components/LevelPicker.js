@@ -9,6 +9,7 @@ import { ActionCreators } from '../actions';
 import { Ionicons } from '@expo/vector-icons'; // eslint-disable-line
 import FadeInView from './wrappers/FadeInView';
 import Colors from '../constants/colors';
+import LevelUtils from '../utils/LevelUtils';
 
 class LevelPicker extends React.Component {
   static getRatingStar(rating, ratingKey) {
@@ -95,7 +96,7 @@ class LevelPicker extends React.Component {
   }
 
   render() {
-    const levelRows = Array.from(Array(10).keys());
+    const levelRows = Array.from(Array(6).keys());
     return (
       <FadeInView style={styles.levelPicker}>
         <View style={styles.levelPickerHeader}>

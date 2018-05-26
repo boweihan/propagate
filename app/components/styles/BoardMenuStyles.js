@@ -27,9 +27,9 @@ export default StyleSheet.create({
     paddingLeft: 8,
     paddingRight: 8,
     borderRadius: 5,
-    marginBottom: 5,
     flex: 1,
     justifyContent: 'center',
+    marginBottom: 5,
   },
   backToLeaderboard: {
     backgroundColor: '#ff9900',
