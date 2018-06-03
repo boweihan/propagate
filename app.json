@@ -12,6 +12,9 @@
     },
     "android": {
       "package": "tech.bhan.propagate"
+    },
+    "splash": {
+      "image": "./app/assets/images/splash.png"
     }
   }
 }
