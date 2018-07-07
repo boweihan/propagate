@@ -5,7 +5,7 @@
     "name": "Propagate",
     "description": "Tile Flipping Puzzle Game!",
     "icon": "./grid.png",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "slug": "propagate",
     "ios": {
       "bundleIdentifier": "tech.bhan.propagate"
