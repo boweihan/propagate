@@ -110,15 +110,6 @@ class Instructions extends React.Component {
           animation="fadeInUp"
           style={{ flex: 7, marginBottom: 30, width: '90%' }}
         >
-          {/* <Carousel
-            ref={c => {
-              this.carousel = c;
-            }}
-            data={Instructions.getEntries()}
-            renderItem={Instructions.renderCarouselItem}
-            sliderWidth={Width}
-            itemWidth={Width}
-          /> */}
           <ScrollView style={styles.stepsContainer}>
             {Instructions.getItems()}
             <View style={{ padding: 50 }} />

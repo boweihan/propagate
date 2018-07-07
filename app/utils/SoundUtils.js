@@ -13,8 +13,6 @@ class SoundUtils {
           SoundArray.shift();
         }
       }
-    } else if (status.error) {
-      // TODO
     }
   }
   static async playFlip() {

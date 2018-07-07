@@ -144,7 +144,7 @@ const Levels = {
   23: {
     size: 6,
     moves: 30,
-    stars: [0, 10, 20],
+    stars: [0, 10, 14],
     initialBoard: {
       2: 't',
       4: 't',
@@ -159,7 +159,7 @@ const Levels = {
   24: {
     size: 6,
     moves: 30,
-    stars: [0, 10, 20],
+    stars: [0, 10, 14],
     initialBoard: {
       1: 'd',
       2: 't',

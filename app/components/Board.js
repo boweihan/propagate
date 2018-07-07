@@ -83,7 +83,7 @@ class Board extends React.Component {
         position: 'absolute',
         width: this.state.board.tileSize,
         height: this.state.board.tileSize,
-        borderRadius: 0,
+        borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#403837',
